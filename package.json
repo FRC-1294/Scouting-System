@@ -30,6 +30,7 @@
   "homepage": "https://github.com/theTisch21/2022-Scouting-System#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "page": "^1.11.6",
     "sirv-cli": "^1.0.0"
   }
 }
