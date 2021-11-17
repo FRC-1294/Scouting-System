@@ -1,9 +1,13 @@
+//Boilerplate (NO TOUCHY)
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 const path = require('path')
 
+//Database configs
 
+
+//Routes for database
 
 
 //Svelte and express stuff (NO TOUCHY)
