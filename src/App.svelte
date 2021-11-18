@@ -1,22 +1,29 @@
 <script>
-	export let name;
-	import { onMount } from "svelte";
+
+	import { onMount, getContext, setContext } from "svelte";
 	import router from "page"
 
+	//Imports
 	import Home from './home/Home.svelte'
-	import Control from './scout/Scout.svelte'
+	import Control from './control/Control.svelte'
 	import Scout from './scout/Scout.svelte'
+	import PageNotFound from './oh no/PageNotFound.svelte'
 
+	//Routing
 	let page
 	router('/', () => page = Home)
 	router('/scout', () => page = Scout)
 	router('/control', () => page = Control)
 
+	//No touchy
+	//router('*', () => page = PageNotFound)
+	router.start()
+
+	setContext('router', router)
+
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	<svelte:component this={page} />
 </main>
 
