@@ -7,7 +7,8 @@
 	"settings": {},
 	"extensions": {
 		"recommendations": [
-			"svelte.svelte-vscode"
+			"svelte.svelte-vscode",
+			"esbenp.prettier-vscode"
 		]
 	}
 }
