@@ -2,11 +2,10 @@
 	"name": "2022-scouting-system",
 	"version": "1.0.0",
 	"description": "",
-	"main": "server.js",
 	"scripts": {
 		"build": "rollup -c",
 		"dev": "rollup -c -w",
-		"start": "node server.js",
+		"start": "sirv public --no-clear",
 		"format": "prettier -w ."
 	},
 	"devDependencies": {
@@ -31,8 +30,11 @@
 	},
 	"homepage": "https://github.com/theTisch21/2022-Scouting-System#readme",
 	"dependencies": {
+		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"sirv-cli": "^1.0.0",
+		"socket.io": "^4.4.0",
+		"socket.io-client": "^4.4.0",
 		"svelte-routing": "^1.6.0"
 	}
 }

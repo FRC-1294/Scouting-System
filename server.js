@@ -1,40 +1,18 @@
-//Boilerplate (NO TOUCHY)
-const svelteApp = require("./public/build/App.js");
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var cors = require('cors')
+app.use(cors())
 
-//Database configs
-
-//Routes for database
-
-//Svelte and express stuff (NO TOUCHY)
-app.use(express.static('public'))
-app.get('*', (req, res) => {
-  const { html } = svelteApp.render({ url: req.url })
-
-  res.write(`${html}`)
-
-  res.end()
-})
-app.listen(port, () => {
-	console.log(`Server is up at port ${port}`)
-})
-
-/*
-// server.js
-const { createServer } = require("http");
+io.on('connection', function(client) {
+  console.log('Client connected...');
+  
+  client.on('join', function(data) {
+    console.log(data);
+      client.emit('messages', 'Hello from server');
+  });
+});
 
 
-createServer((req, res) => {
-  const { html } = app.render({ url: req.url });
-
-  res.write(`
-    <!DOCTYPE html>
-    <div id="app">${html}</div>
-    <script src="/dist/bundle.js"></script>
-  `);
-
-  res.end();
-}).listen(3000);
-*/
+server.listen(4000, () => console.log("Listening!"));

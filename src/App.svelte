@@ -1,5 +1,5 @@
 <script>
-	export let url;
+	//export let url;
 	import { onMount, getContext, setContext } from "svelte";
 
 	import { Router, Link, Route } from "svelte-routing"
@@ -25,7 +25,8 @@
 </script>
 
 <main>
-	<Router url="{url}">
+	<h1>Hi</h1>
+	<Router>
 		<nav>
 		  <Link to="/">Home</Link>
 		  <Link to="scout">Scout</Link>
@@ -39,7 +40,7 @@
 	  </Router>
 </main>
 
-<!--
+
 <style>
 	main {
 		text-align: center;
@@ -61,4 +62,3 @@
 		}
 	}
 </style>
--->
