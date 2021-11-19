@@ -1,14 +1,13 @@
 <script>
 	export let url;
 	import { onMount, getContext, setContext } from "svelte";
-	import router from "page"
+
 	import { Router, Link, Route } from "svelte-routing"
 
 	//Imports
 	import Home from './home/Home.svelte'
 	import Control from './control/Control.svelte'
 	import Scout from './scout/Scout.svelte'
-	import PageNotFound from './oh no/PageNotFound.svelte'
 
 	/*
 	//Routing
@@ -34,12 +33,13 @@
 		</nav>
 		<div>
 		  <Route path="scout" component="{Scout}" />
-		  <Route path="blog" component="{Control}" />
+		  <Route path="control" component="{Control}" />
 		  <Route path="/"><Home /></Route>
 		</div>
 	  </Router>
 </main>
 
+<!--
 <style>
 	main {
 		text-align: center;
@@ -61,3 +61,4 @@
 		}
 	}
 </style>
+-->
