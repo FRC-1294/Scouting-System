@@ -32,7 +32,9 @@ function serve() {
 	}
 }
 
-export default {
+export default [
+	//Browser
+	{
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
@@ -77,4 +79,26 @@ export default {
 	watch: {
 		clearScreen: false,
 	},
-}
+},
+//Server
+  {
+    input: "src/App.svelte",
+    output: {
+      exports: "default",
+      sourcemap: false,
+      format: "cjs",
+      name: "app",
+      file: "public/build/App.js"
+    },
+    plugins: [
+      svelte({
+        compilerOptions: {
+          generate: "ssr"
+        }
+      }),
+      resolve(),
+      commonjs(),
+      production && terser()
+    ]
+  }
+]

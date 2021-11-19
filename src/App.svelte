@@ -1,7 +1,8 @@
 <script>
-
+	export let url;
 	import { onMount, getContext, setContext } from "svelte";
 	import router from "page"
+	import { Router, Link, Route } from "svelte-routing"
 
 	//Imports
 	import Home from './home/Home.svelte'
@@ -9,6 +10,7 @@
 	import Scout from './scout/Scout.svelte'
 	import PageNotFound from './oh no/PageNotFound.svelte'
 
+	/*
 	//Routing
 	let page
 	router('/', () => page = Home)
@@ -20,11 +22,22 @@
 	router.start()
 
 	setContext('router', router)
-
+*/
 </script>
 
 <main>
-	<svelte:component this={page} />
+	<Router url="{url}">
+		<nav>
+		  <Link to="/">Home</Link>
+		  <Link to="scout">Scout</Link>
+		  <Link to="control">Control</Link>
+		</nav>
+		<div>
+		  <Route path="scout" component="{Scout}" />
+		  <Route path="blog" component="{Control}" />
+		  <Route path="/"><Home /></Route>
+		</div>
+	  </Router>
 </main>
 
 <style>
