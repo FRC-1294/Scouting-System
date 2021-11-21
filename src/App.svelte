@@ -1,5 +1,4 @@
 <script>
-	//export let url;
 	import { onMount, getContext, setContext } from "svelte";
 
 	import { Router, Link, Route } from "svelte-routing"
@@ -9,19 +8,6 @@
 	import Control from './control/Control.svelte'
 	import Scout from './scout/Scout.svelte'
 
-	/*
-	//Routing
-	let page
-	router('/', () => page = Home)
-	router('/scout', () => page = Scout)
-	router('/control', () => page = Control)
-
-	//No touchy
-	//router('*', () => page = PageNotFound)
-	router.start()
-
-	setContext('router', router)
-*/
 </script>
 
 <main>

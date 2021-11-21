@@ -1,7 +1,5 @@
 <script>
-    import { onMount, getContext, setContext } from "svelte";
     import { io } from 'socket.io-client'
-    import Match from './Match.svelte'
 
     var socket = io.connect('http://localhost:4000', {
       withCredentials: false,
