@@ -12,6 +12,8 @@
     });
     socket.on("messages", data => alert(data))
 
+    let serverMessage
+    socket.on("serverMessage", data => serverMessage = data)
 </script>
 
 <main>
@@ -19,5 +21,8 @@
     <h2>You are scout #123</h2>
     <br>
     <h2>Match:<br>Q12 R1294</h2>
-
+    <br>
+    {#if serverMessage} 
+        <p>Message from server: {serverMessage}</p>
+    {/if}
 </main>
