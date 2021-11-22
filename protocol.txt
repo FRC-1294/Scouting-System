@@ -70,3 +70,29 @@ Server runs "//Match" above
 
 
 //
+//Database
+//
+
+//Match
+//TODO: Figure out structure
+
+
+//Team/Match
+teamNumber: int
+matchNumber: int
+auto: int (0- none, 1- move, 2- score)
+boxesMoved: int
+obstaclesAvoided: bool (true: Avoided well, false: hit many)
+
+
+//Team (aggregation)
+teamNumber:
+matchesScouted: int
+
+averageAuto: double
+maxAuto: int
+minAuto: int
+
+averageBoxesMoved: double
+maxBoxesMoved: int
+minBoxesMoved: int
