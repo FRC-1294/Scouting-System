@@ -1,4 +1,5 @@
 var express = require('express');
+let path = require("path")
 var webApp = express();
 let portWeb = 3000
 let portSocket = 4000
@@ -35,8 +36,8 @@ var io = require('socket.io')(socketServer,{
 });
 
 //Events
-io.on('connection', function(client) {
-  console.log('Client connected...');
+io.on('connection', (client) => {
+  console.log(`Client connected: ${client.id}`);
   
   client.on('join', function(data) {
     console.log(data);
@@ -50,5 +51,5 @@ io.on('connection', function(client) {
 
 
 //Listen apps
-webApp.listen(portWeb, () => {console.log(`Server listening on port ${portWeb}`)})
+webApp.listen(portWeb, () => {console.log(`Website listening on port ${portWeb}`)})
 socketServer.listen(portSocket, () => console.log(`Socket io listening on port ${portSocket}`));
