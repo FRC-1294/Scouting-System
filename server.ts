@@ -44,7 +44,26 @@ io.on('connection', (client) => {
 		client.disconnect()
 	}
 
+	//Client events
+	client.on('data', (data, callback) => {
+		console.log("Client sent data")
+		//TODO: Submit data to database
+		callback({
+			status: "Success"
+		})
+	} )
+})
 
+io.of('/admin').on('connection', client => {
+	console.log(`Admin connected: ${client.id}`)
+	console.log(`Admin auth: ${client.handshake.auth.token}`)
+	if(client.handshake.auth.token != "leToken") {
+		console.log("PERMISSION DENIED")
+		client.emit("alert", "PERMISSION DENIED.")
+		client.disconnect()
+	}
+
+	//Admin events
 })
 
 //Listen apps
