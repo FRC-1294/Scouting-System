@@ -1,17 +1,18 @@
 <script>
     import { io } from 'socket.io-client'
 
-    var socket = io.connect('http://localhost:4000', {
-      withCredentials: false,
-      extraHeaders: {
-          "ThisIsASuperSecretSecureStringForUseToAuthentimicateTheRandomnessOnMyBackendYouSeriouslyShouldNotUseThisHNxQ3VEvbESFVES32423513452BSIUFVHSFD": "secret value"
-      }
-    });
+    var socket = io('http://localhost:4000', {
+        auth: {
+            token: "leToken"
+        }
+    })
 	socket.on('connect', function(data) {
     	socket.emit('join', 'Hello World from client');
     });
     socket.on("messages", data => alert(data))
-
+    socket.on('disconnect', data => {
+        serverMessage = "DISCONNECTED. SADGE"
+    })
     let serverMessage
     socket.on("serverMessage", data => serverMessage = data)
 </script>

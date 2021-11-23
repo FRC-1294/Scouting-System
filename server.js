@@ -29,18 +29,19 @@ var socketServer = require('http').createServer()
 var io = require('socket.io')(socketServer, {
 	cors: {
 		origin: '*',
-		methods: ['PUT', 'GET', 'POST', 'DELETE', 'OPTIONS'],
-		allowedHeaders: [
-			'ThisIsASuperSecretSecureStringForUseToAuthentimicateTheRandomnessOnMyBackendYouSeriouslyShouldNotUseThisHNxQ3VEvbESFVES32423513452BSIUFVHSFD',
-		],
-		credentials: false,
+		methods: ['PUT', 'GET', 'POST', 'DELETE', 'OPTIONS']
 	},
 })
 
 //Events
 io.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
-
+	console.log(`Client auth: ${client.handshake.auth.token}`)
+	if(client.handshake.auth.token != "leToken") {
+		console.log("PERMISSION DENIED")
+		client.emit("messages", "HECC OFF")
+		client.disconnect()
+	}
 	client.on('join', function (data) {
 		console.log(data)
 		client.emit('messages', 'Hello from server')
@@ -58,3 +59,17 @@ webApp.listen(portWeb, () => {
 socketServer.listen(portSocket, () =>
 	console.log(`Socket io listening on port ${portSocket}`)
 )
+
+//Close apps
+function bye() {
+	socketServer.emit("close")
+	webApp.emit("stop")
+	console.log("Stopped. Bye!")
+	process.exit(0)
+}
+process.on("SIGINT", () => {
+	bye()
+})
+process.on("SIGTERM", () => {
+	bye()
+})
