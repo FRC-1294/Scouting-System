@@ -11,13 +11,8 @@
 </script>
 
 <main>
-	<h1>Hi</h1>
+	<p>Pack Of Parts Scouting</p>
 	<Router>
-		<nav>
-		  <Link to="/">Home</Link>
-		  <Link to="scout">Scout</Link>
-		  <Link to="control">Control</Link>
-		</nav>
 		<div>
 		  <Route path="scout" component="{Scout}" />
 		  <Route path="control" component="{Control}" />
