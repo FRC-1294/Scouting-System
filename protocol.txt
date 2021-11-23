@@ -1,4 +1,13 @@
 //
+//General
+//
+
+//Alerts
+Used to send an urgent alert to either side.
+event "alert"
+
+
+//
 //Scout
 //
 

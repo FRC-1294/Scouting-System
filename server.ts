@@ -40,17 +40,11 @@ io.on('connection', (client) => {
 	console.log(`Client auth: ${client.handshake.auth.token}`)
 	if(client.handshake.auth.token != "leToken") {
 		console.log("PERMISSION DENIED")
-		client.emit("messages", "HECC OFF")
+		client.emit("alert", "PERMISSION DENIED.")
 		client.disconnect()
 	}
-	client.on('join', function (data) {
-		console.log(data)
-		client.emit('messages', 'Hello from server')
 
-		setTimeout(() => {
-			client.emit('serverMessage', 'AA')
-		}, 2000)
-	})
+
 })
 
 //Listen apps
