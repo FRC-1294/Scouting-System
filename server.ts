@@ -1,4 +1,4 @@
-var express = require('express')
+import express from "express"
 let path = require('path')
 var webApp = express()
 let portWeb = 3000
