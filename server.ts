@@ -26,7 +26,8 @@ webApp.get('*', (req, res) => {
 //
 //Setup server
 var socketServer = require('http').createServer()
-var io = require('socket.io')(socketServer, {
+import {Server} from "socket.io"
+var io = new Server(socketServer, {
 	cors: {
 		origin: '*',
 		methods: ['PUT', 'GET', 'POST', 'DELETE', 'OPTIONS']
