@@ -12,6 +12,8 @@
 	socket.on('alert', (data) => alert(data))
 
 	//Scouting and match logic
+    let hasSumbitted = false
+    let needToSubmit = false
 	let currentScoutData = {
 		isScout: false,
 		robotScouting: -1,
@@ -29,13 +31,44 @@
 	socket.on('match', (matchData) => {
 		currentMatchData = matchData
 		currentScoutData.isScout = false
+        hasSumbitted = false
+        needToSubmit = false
 	})
 	socket.on('scout', (newScoutData) => {
 		currentScoutData = newScoutData
 	})
+    
+    function submit() {
+
+        hasSumbitted = true
+        needToSubmit = false
+    }
+    socket.on('end', () => {
+        if(!hasSumbitted && currentScoutData.isScout) {
+            alert("The match has ended. Please submit your data.")
+            needToSubmit = true
+        }
+    })
 </script>
 
 <main>
+    {#if needToSubmit}
+        <div id="warning">
+            <header>
+                <h1 id="warningText">MATCH OVER. PLEASE SUBMIT DATA.</h1>
+            </header>            
+        </div>       
+        <style>
+            #warning {
+                background-color: #ff0000
+            }
+            #warningText {
+                color: #ffffff
+            }
+        </style>
+
+    {/if}
+
 	{#if currentMatchData.matchNumber != -1}
 		<p>Current match: Q{currentMatchData.matchNumber}</p>
 		<br />

@@ -96,6 +96,10 @@ io.of('/admin').on('connection', (client) => {
 		}, 500)
 		//End debug
 	})
+
+	client.on("endMatch", () => {
+		io.emit("end")
+	})
 })
 
 //Listen apps
