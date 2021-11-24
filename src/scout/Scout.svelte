@@ -12,6 +12,12 @@
 	//Used for urgent alerts
     socket.on("alert", data => alert(data))
     
+    //Scouting and match logic
+    let currentScoutData = {
+        isScout: false,
+        robotScouting: -1,
+        isRed: false
+    }
     let currentMatchData = {
         matchNumber: -1,
         r1: -1,
@@ -24,6 +30,9 @@
     socket.on("match", matchData => {
         currentMatchData = matchData
     })
+    socket.on("scout", newScoutData => {
+        currentScoutData = newScoutData
+    })
 
 </script>
 
@@ -33,7 +42,20 @@
         <p>Current match: Q{currentMatchData.matchNumber}</p> 
         <br>
     {/if}
-    <Router baseUrl="/scout">
-        <Route path="/match"><p>Red 1:{currentMatchData.r1}</p> <style>p: {color: #FF0000;}</style></Route>
-    </Router>
+    {#if currentScoutData.isScout}
+        <p>You are scouting robot {currentScoutData.robotScouting}</p>        
+    {/if}
 </main>
+
+
+{#if currentScoutData.isRed && currentScoutData.isScout}
+        <style>
+            body {background-color: #ff9999;}
+    
+        </style>
+    {:else}
+        <style>
+            body {background-color: #9999ff;}
+    
+        </style>
+    {/if}
