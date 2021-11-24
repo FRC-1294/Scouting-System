@@ -29,6 +29,7 @@
     }
     socket.on("match", matchData => {
         currentMatchData = matchData
+        currentScoutData.isScout = false
     })
     socket.on("scout", newScoutData => {
         currentScoutData = newScoutData
@@ -53,7 +54,7 @@
             body {background-color: #ff9999;}
     
         </style>
-    {:else}
+    {:else if currentScoutData.isScout}
         <style>
             body {background-color: #9999ff;}
     

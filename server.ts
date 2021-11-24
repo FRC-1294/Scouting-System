@@ -52,6 +52,37 @@ io.on('connection', (client) => {
 			status: "Success"
 		})
 	} )
+
+
+	setTimeout(() => {
+		client.emit("match", {
+			matchNumber: 2,
+			r1: 1,
+			r2: 2,
+			r3: 3,
+			b1: 4,
+			b2: 24,
+			b3: 1294
+		})
+		setTimeout(() => {
+			client.emit("match", {
+				matchNumber: 5,
+				r1: 2,
+				r2: 3,
+				r3: 4,
+				b1: 1,
+				b2: 1294,
+				b3: 7
+			})
+			setTimeout(() => {
+				client.emit("scout", {
+					isScout: true,
+					robotScouting: 1294,
+					isRed: true
+				})
+			}, 2000)
+		}, 2000)
+	}, 1000)
 })
 
 io.of('/admin').on('connection', client => {
