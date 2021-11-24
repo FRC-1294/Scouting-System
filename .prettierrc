@@ -16,5 +16,6 @@
 	"trailingComma": "es5",
 	"useTabs": true,
 	"vueIndentScriptAndStyle": false,
-	"endOfLine": "crlf"
+	"endOfLine": "crlf",
+	"pluginSearchDirs": ["."]
 }
