@@ -37,12 +37,13 @@
 
 </script>
 
-<main>
-    <h1>Welcome!</h1>
+<main>    
     {#if currentMatchData.matchNumber != -1}
         <p>Current match: Q{currentMatchData.matchNumber}</p> 
         <br>
-    {/if}
+    {:else }
+    <h1>Welcome! Waiting for data from server.</h1>
+        {/if}
     {#if currentScoutData.isScout}
         <p>You are scouting robot {currentScoutData.robotScouting}</p>        
     {/if}
