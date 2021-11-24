@@ -5,6 +5,15 @@ let portWeb = 3000
 let portSocket = 4000
 
 //
+//Utility
+//
+function randomNumber(min: number, max: number) {  
+	return Math.floor(
+		Math.random() * (max - min + 1) + min
+	)
+}
+
+//
 //WEB
 //
 //Static directory
@@ -52,36 +61,6 @@ io.on('connection', (client) => {
 			status: 'Success',
 		})
 	})
-
-	setTimeout(() => {
-		client.emit('match', {
-			matchNumber: 2,
-			r1: 1,
-			r2: 2,
-			r3: 3,
-			b1: 4,
-			b2: 24,
-			b3: 1294,
-		})
-		setTimeout(() => {
-			client.emit('match', {
-				matchNumber: 5,
-				r1: 2,
-				r2: 3,
-				r3: 4,
-				b1: 1,
-				b2: 1294,
-				b3: 7,
-			})
-			setTimeout(() => {
-				client.emit('scout', {
-					isScout: true,
-					robotScouting: 1294,
-					isRed: true,
-				})
-			}, 2000)
-		}, 2000)
-	}, 1000)
 })
 
 io.of('/admin').on('connection', (client) => {
@@ -94,6 +73,29 @@ io.of('/admin').on('connection', (client) => {
 	}
 
 	//Admin events
+	client.on("setupMatch", newMatchNumber => {
+		console.log(`Setting up match ${newMatchNumber}`)
+		let newMatchData = {
+			matchNumber: newMatchNumber,
+			r1: randomNumber(1, 9999),
+			r2: randomNumber(1, 9999),
+			r3: randomNumber(1, 9999),
+			b1: randomNumber(1, 9999),
+			b2: randomNumber(1, 9999),
+			b3: randomNumber(1, 9999),
+		}
+		io.emit("match", newMatchData)
+
+		//Debug
+		setTimeout(() => {
+			io.emit("scout", {
+				isScout: true,
+				robotScouting: randomNumber(1, 9999),
+				isRed: Math.random() > .5
+			})
+		}, 500)
+		//End debug
+	})
 })
 
 //Listen apps
