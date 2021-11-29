@@ -36,15 +36,17 @@ webApp.get('*', (req, res) => {
 //Setup server
 var socketServer = require('http').createServer()
 import { Server } from 'socket.io'
-var io = new Server(socketServer, {
+var ioScout = new Server(socketServer, {
 	cors: {
 		origin: '*',
 		methods: ['PUT', 'GET', 'POST', 'DELETE', 'OPTIONS'],
 	},
 })
 
+var ioAdmin = ioScout.of("/admin")
+
 //Events
-io.on('connection', (client) => {
+ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
 	console.log(`Client auth: ${client.handshake.auth.token}`)
 	if (client.handshake.auth.token != 'leToken') {
@@ -63,7 +65,7 @@ io.on('connection', (client) => {
 	})
 })
 
-io.of('/admin').on('connection', (client) => {
+ioAdmin.on('connection', (client) => {
 	console.log(`Admin connected: ${client.id}`)
 	console.log(`Admin auth: ${client.handshake.auth.token}`)
 	if (client.handshake.auth.token != 'leToken') {
@@ -84,11 +86,11 @@ io.of('/admin').on('connection', (client) => {
 			b2: randomNumber(1, 9999),
 			b3: randomNumber(1, 9999),
 		}
-		io.emit("match", newMatchData)
+		ioScout.emit("match", newMatchData)
 
 		//Debug
 		setTimeout(() => {
-			io.emit("scout", {
+			ioScout.emit("scout", {
 				isScout: true,
 				robotScouting: randomNumber(1, 9999),
 				isRed: Math.random() > .5
@@ -98,7 +100,7 @@ io.of('/admin').on('connection', (client) => {
 	})
 
 	client.on("endMatch", () => {
-		io.emit("end")
+		ioScout.emit("end")
 	})
 })
 
