@@ -1,4 +1,5 @@
 import express from 'express'
+import mongoose from 'mongoose'
 let path = require('path')
 var webApp = express()
 let portWeb = 3000
@@ -12,6 +13,45 @@ function randomNumber(min: number, max: number) {
 		Math.random() * (max - min + 1) + min
 	)
 }
+
+//
+//DATABASE
+//
+const SCOUTINGSCHEMA = {
+	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+	boxesMovedAuto: Number, 
+	boxesMovedTeleop: Number,
+	efficient: Boolean //Whether the robot navigated "Efficiently"
+}
+
+//A record for each scout
+const scoutSchema = new mongoose.Schema({
+	name: String,
+	id: Number //An ID
+})
+const SCOUT = mongoose.model('scout', scoutSchema)
+
+const matchSchema = new mongoose.Schema({
+	matchNumber: Number,
+	redBots: [Number],
+	blueBots: [Number]
+})
+const MATCH = mongoose.model('match', matchSchema)
+
+//The idea here is that the scouts would send data to the server, and the server would create a document for each match/team combo.
+//To get data on a team, I'll setup an aggregation to merge all these match/team documents into a single team document.
+const robotDataSchema = new mongoose.Schema({
+	teamNumber: Number,
+	matchNumber: Number,
+	scoutingData: SCOUTINGSCHEMA
+})
+const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
+
+
+//BIG QUESTION:
+//Do I make it stateless?
+//Pro: If this crashes, no loss of data
+//Con: Lots of database read/writes
 
 //
 //WEB
@@ -89,7 +129,7 @@ io.of('/admin').on('connection', (client) => {
 		//Debug
 		setTimeout(() => {
 			io.emit("scout", {
-				isScout: true,
+				isScout: Math.random() > .5,
 				robotScouting: randomNumber(1, 9999),
 				isRed: Math.random() > .5
 			})
