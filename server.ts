@@ -24,13 +24,6 @@ const SCOUTINGSCHEMA = {
 	efficient: Boolean //Whether the robot navigated "Efficiently"
 }
 
-//A record for each scout
-const scoutSchema = new mongoose.Schema({
-	name: String,
-	id: Number //An ID
-})
-const SCOUT = mongoose.model('scout', scoutSchema)
-
 const matchSchema = new mongoose.Schema({
 	matchNumber: Number,
 	redBots: [Number],
@@ -48,10 +41,6 @@ const robotDataSchema = new mongoose.Schema({
 const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 
 
-//BIG QUESTION:
-//Do I make it stateless?
-//Pro: If this crashes, no loss of data
-//Con: Lots of database read/writes
 
 //
 //WEB
@@ -88,12 +77,31 @@ var ioAdmin = ioScout.of("/admin")
 //Events
 ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
-	console.log(`Client auth: ${client.handshake.auth.token}`)
-	if (client.handshake.auth.token != 'leToken') {
+	let clientAuth = client.handshake.auth
+	console.log(`Client auth: ${clientAuth}`)
+	
+	//AUTH
+	let auth = false;
+	//ID
+	if(clientAuth.id ?? false) {
+		
+	}
+
+	//Password
+	if(clientAuth.password ?? false) {
+		if(clientAuth.password == "12941294") {
+			auth = true;
+
+		}
+	}
+
+
+	if(!auth) {
 		console.log('PERMISSION DENIED')
 		client.emit('alert', 'PERMISSION DENIED.')
 		client.disconnect()
 	}
+	//Beyond this point, assume client is authenticated
 
 	//Client events
 	client.on('data', (data, callback) => {
@@ -143,6 +151,21 @@ ioAdmin.on('connection', (client) => {
 		ioScout.emit("end")
 	})
 })
+
+//
+//State
+//
+let scouts: {
+	name: String,
+	id: String,
+	status: String,
+	isScouting: Boolean,
+	robotScouting: Number
+}[] = []
+setInterval(() => {
+	ioAdmin.emit("scouts", scouts)
+}, 200)
+
 
 //Listen apps
 webApp.listen(portWeb, () => {
