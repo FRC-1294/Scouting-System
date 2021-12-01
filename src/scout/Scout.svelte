@@ -2,11 +2,22 @@
 	import { Router, Link, Route } from 'svelte-routing'
 	import { io } from 'socket.io-client'
 
-	var socket = io('http://localhost:4000', {
+	var socket
+
+	//Login
+	let isLoggedIn = false
+	let name
+	let password
+	function login() {
+		socket = io('http://localhost:4000', {
 		auth: {
 			token: 'leToken',
+			name: name,
+			password: password,
 		},
 	})
+	}
+	
 
 	//Used for urgent alerts
 	socket.on('alert', (data) => alert(data))
@@ -52,6 +63,7 @@
 </script>
 
 <main>
+	<!--Need to sumbit warning-->
     {#if needToSubmit}
         <div id="warning">
             <header>
@@ -69,6 +81,15 @@
 
     {/if}
 
+	<!--Login-->
+
+	{#if !isLoggedIn}
+		<h1>LOGIN</h1>
+		<input bind:value={name} title="Name">
+		<input bind:value={password} title="Password">
+	{/if}
+
+	<!--Scouting-->
 	{#if currentMatchData.matchNumber != -1}
 		<p>Current match: Q{currentMatchData.matchNumber}</p>
 		<br />
@@ -77,6 +98,13 @@
 	{/if}
 	{#if currentScoutData.isScout}
 		<p>You are scouting robot {currentScoutData.robotScouting}</p>
+		<!--Data collection here-->
+
+
+
+
+	{:else}
+		<p>You are not scouting this match</p>
 	{/if}
 </main>
 
@@ -90,6 +118,12 @@
 	<style>
 		body {
 			background-color: #9999ff;
+		}
+	</style>
+{:else}
+	<style>
+		body {
+			background-color: #ffffff;
 		}
 	</style>
 {/if}
