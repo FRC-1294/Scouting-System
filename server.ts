@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 let path = require('path')
+import crypto from 'crypto'
 var webApp = express()
 let portWeb = 3000
 let portSocket = 4000
@@ -13,6 +14,25 @@ function randomNumber(min: number, max: number) {
 		Math.random() * (max - min + 1) + min
 	)
 }
+
+function getId(): string {
+	return crypto.randomBytes(20).toString('hex')
+}
+
+//
+//State
+//
+export type SCOUT = {
+	name: String;
+	id: String;
+	status: "connected" | "disconnected" | "scouting" | "submit";
+	isScouting: Boolean;
+	robotScouting: Number;
+}
+let scouts: SCOUT[] = []
+setInterval(() => {
+	ioAdmin.emit("scouts", scouts)
+}, 200)
 
 //
 //DATABASE
@@ -103,6 +123,14 @@ ioScout.on('connection', (client) => {
 	}
 	//Beyond this point, assume client is authenticated
 
+	scouts.push({
+		name: clientAuth.name,
+		id: getId(),
+		status: "connected",
+		isScouting: false,
+		robotScouting: null
+	})
+
 	//Client events
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
@@ -151,20 +179,6 @@ ioAdmin.on('connection', (client) => {
 		ioScout.emit("end")
 	})
 })
-
-//
-//State
-//
-let scouts: {
-	name: String,
-	id: String,
-	status: String,
-	isScouting: Boolean,
-	robotScouting: Number
-}[] = []
-setInterval(() => {
-	ioAdmin.emit("scouts", scouts)
-}, 200)
 
 
 //Listen apps
