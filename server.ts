@@ -25,6 +25,7 @@ function getId(): string {
 export type SCOUT = {
 	name: String;
 	id: String;
+	socketId: String;
 	status: "connected" | "disconnected" | "scouting" | "submit";
 	isScouting: Boolean;
 	robotScouting: Number;
@@ -33,6 +34,14 @@ let scouts: SCOUT[] = []
 setInterval(() => {
 	ioAdmin.emit("scouts", scouts)
 }, 200)
+function findScout(id: string): SCOUT {
+	scouts.forEach(thisScout => {
+		if(thisScout.id == id || thisScout.socketId == id) {
+			return thisScout
+		}
+	})
+	return undefined
+}
 
 //
 //DATABASE
@@ -104,14 +113,24 @@ ioScout.on('connection', (client) => {
 	let auth = false;
 	//ID
 	if(clientAuth.id ?? false) {
-		
+		if(findScout(clientAuth.id) ?? false) {
+			findScout(clientAuth.id).status = "connected"
+			auth = true;
+		}
 	}
 
 	//Password
 	if(clientAuth.password ?? false) {
 		if(clientAuth.password == "12941294") {
 			auth = true;
-
+			scouts.push({
+				name: clientAuth.name,
+				id: getId(),
+				socketId: client.id,
+				status: "connected",
+				isScouting: false,
+				robotScouting: null
+			})
 		}
 	}
 
@@ -123,13 +142,9 @@ ioScout.on('connection', (client) => {
 	}
 	//Beyond this point, assume client is authenticated
 
-	scouts.push({
-		name: clientAuth.name,
-		id: getId(),
-		status: "connected",
-		isScouting: false,
-		robotScouting: null
-	})
+	
+	
+
 
 	//Client events
 	client.on('data', (data, callback) => {
@@ -138,6 +153,10 @@ ioScout.on('connection', (client) => {
 		callback({
 			status: 'Success',
 		})
+	})
+
+	client.on('disconnect', () => {
+		findScout(client.id).status = "disconnected"
 	})
 })
 
