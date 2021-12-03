@@ -8,6 +8,7 @@
 	let isLoggedIn = false
 	let name
 	let password
+	//TODO: Figure out if it's possible to have events outside the login function
 	function login() {
 		socket = io('http://localhost:4000', {
 		auth: {
@@ -16,11 +17,28 @@
 			password: password,
 		},
 	})
+	//TODO: Add access granted logic
+	socket.on('alert', (data) => alert(data))
+	socket.on('match', (matchData) => {
+		currentMatchData = matchData
+		currentScoutData.isScout = false
+        hasSumbitted = false
+        needToSubmit = false
+	})
+	socket.on('scout', (newScoutData) => {
+		currentScoutData = newScoutData
+	})
+	socket.on('end', () => {
+        if(!hasSumbitted && currentScoutData.isScout) {
+            alert("The match has ended. Please submit your data.")
+            needToSubmit = true
+        }
+    })
 	}
 	
 
 	//Used for urgent alerts
-	socket.on('alert', (data) => alert(data))
+	
 
 	//Scouting and match logic
     let hasSumbitted = false
@@ -39,27 +57,14 @@
 		b2: -1,
 		b3: -1,
 	}
-	socket.on('match', (matchData) => {
-		currentMatchData = matchData
-		currentScoutData.isScout = false
-        hasSumbitted = false
-        needToSubmit = false
-	})
-	socket.on('scout', (newScoutData) => {
-		currentScoutData = newScoutData
-	})
+	
     
     function submit() {
 
         hasSumbitted = true
         needToSubmit = false
     }
-    socket.on('end', () => {
-        if(!hasSumbitted && currentScoutData.isScout) {
-            alert("The match has ended. Please submit your data.")
-            needToSubmit = true
-        }
-    })
+   
 </script>
 
 <main>
@@ -87,6 +92,7 @@
 		<h1>LOGIN</h1>
 		<input bind:value={name} title="Name">
 		<input bind:value={password} title="Password">
+		<button on:click={login} >Login</button>
 	{/if}
 
 	<!--Scouting-->
