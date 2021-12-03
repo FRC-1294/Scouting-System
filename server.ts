@@ -106,49 +106,50 @@ var ioAdmin = ioScout.of("/admin")
 //Events
 ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
-	let clientAuth = client.handshake.auth
-	console.log(`Client auth: ${clientAuth}`)
 	
 	//AUTH
-	let auth = false;
-	//ID
-	if(clientAuth.id ?? false) {
-		if(findScout(clientAuth.id) ?? false) {
-			findScout(clientAuth.id).status = "connected"
-			auth = true;
+	client.on("login", (clientAuth) => {
+		//ID
+		if(clientAuth.id ?? false) {
+			if(findScout(clientAuth.id) ?? false) {
+				findScout(clientAuth.id).status = "connected"
+			}
 		}
-	}
+	
+		//Password
+		if(clientAuth.password ?? false) {
+			if(clientAuth.password == "12941294") {
+				let foundAScout = false
+				scouts.forEach(thisScout => {
+					if(thisScout.name == clientAuth.name) {
+						foundAScout = true
+						thisScout.status = "connected"
+						thisScout.isScouting = false
+					}
+				})
 
-	//Password
-	if(clientAuth.password ?? false) {
-		if(clientAuth.password == "12941294") {
-			auth = true;
-			scouts.push({
-				name: clientAuth.name,
-				id: getId(),
-				socketId: client.id,
-				status: "connected",
-				isScouting: false,
-				robotScouting: null
-			})
+				if(!foundAScout) {
+					scouts.push({
+						name: clientAuth.name,
+						id: getId(),
+						socketId: client.id,
+						status: "connected",
+						isScouting: false,
+						robotScouting: null
+					})					
+				}
+			}
 		}
-	}
-
-
-	if(!auth) {
-		console.log('PERMISSION DENIED')
-		client.emit('alert', 'PERMISSION DENIED.')
-		client.disconnect()
-	}
+	})
+	
 	//Beyond this point, assume client is authenticated
-
-	
-	
-
-
 	//Client events
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
+		if(!findScout(client.id)) {
+			console.log("Someone's trying to submit data without being logged in.")
+			client.disconnect()
+		}
 		//TODO: Submit data to database
 		callback({
 			status: 'Success',
@@ -183,15 +184,7 @@ ioAdmin.on('connection', (client) => {
 		}
 		ioScout.emit("match", newMatchData)
 
-		//Debug
-		setTimeout(() => {
-			ioScout.emit("scout", {
-				isScout: Math.random() > .5,
-				robotScouting: randomNumber(1, 9999),
-				isRed: Math.random() > .5
-			})
-		}, 500)
-		//End debug
+		
 	})
 
 	client.on("endMatch", () => {

@@ -6,7 +6,7 @@
 
 	//Login
 	let isLoggedIn = false
-	let name
+	let name = localStorage.getItem("name") ?? ""
 	let password
 	//TODO: Figure out if it's possible to have events outside the login function
 	function login() {
