@@ -142,7 +142,14 @@ ioScout.on('connection', (client) => {
 		}
 	})
 	
-	//Beyond this point, assume client is authenticated
+	//Use this function to test for auth
+	/*
+		if(!findScout(client.id)) {
+			console.log("Someone's trying to do stuff without being logged in.")
+			//There's no way the client would do this stuff without getting the ack from the server, so we assume something malicious is happening and disconnect them
+			client.disconnect()
+		}
+	*/
 	//Client events
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
