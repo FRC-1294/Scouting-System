@@ -42,11 +42,14 @@
 	socket.on('scout', (newScoutData) => {
 		currentScoutData = newScoutData
 	})
-	socket.on('end', () => {
-        if(!hasSumbitted && currentScoutData.isScout) {
+	socket.on('end', subtle => {
+		//TODO unlock submit button
+		if(!subtle) {
+			if(!hasSumbitted && currentScoutData.isScout) {
             alert("The match has ended. Please submit your data.")
             needToSubmit = true
         }
+		}        
     })
 
 	//Used for urgent alerts
