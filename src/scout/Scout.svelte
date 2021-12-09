@@ -91,19 +91,11 @@
 <main>
 	<!--Need to sumbit warning-->
     {#if needToSubmit}
-        <div id="warning">
-            <header>
-                <h1 id="warningText">MATCH OVER. PLEASE SUBMIT DATA.</h1>
-            </header>            
-        </div>       
-        <style>
-            #warning {
-                background-color: #ff0000
-            }
-            #warningText {
-                color: #ffffff
-            }
-        </style>
+	<header class="warningHeader">
+        <div class="warningHeaderDiv">
+                <h1 class="warningHeaderText">MATCH OVER. PLEASE SUBMIT DATA.</h1>  
+        </div>
+	</header>
 
     {/if}
 
@@ -135,6 +127,17 @@
 		<p>You are not scouting this match</p>
 	{/if}
 </main>
+
+<style>
+	.warningHeader {
+		background-color: #ff0000;
+		width: 100%;
+		height: 100px;
+	}
+	.warningHeaderText {
+		color: #ffffff;
+	}
+</style>
 
 {#if currentScoutData.isRed && currentScoutData.isScout}
 	<style>
