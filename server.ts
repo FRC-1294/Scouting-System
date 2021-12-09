@@ -23,9 +23,9 @@ function getId(): string {
 //State
 //
 export type SCOUT = {
-	name: String;
-	id: String;
-	socketId: String;
+	name: string;
+	id: string;
+	socketId: string;
 	status: "connected" | "disconnected" | "scouting" | "submit";
 	isScouting: Boolean;
 	robotScouting: Number;
@@ -35,12 +35,13 @@ setInterval(() => {
 	ioAdmin.emit("scouts", scouts)
 }, 200)
 function findScout(id: string): SCOUT {
+	let toReturn = undefined
 	scouts.forEach(thisScout => {
 		if(thisScout.id == id || thisScout.socketId == id) {
-			return thisScout
+			toReturn = thisScout			
 		}
 	})
-	return undefined
+	return toReturn
 }
 
 //
@@ -108,12 +109,15 @@ ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
 	
 	//AUTH
-	client.on("login", (clientAuth) => {
+	client.on("login", (clientAuth, ack) => {
+		let response = {loggedIn: false,id: ""}
 		//ID
 		if(clientAuth.id ?? false) {
 			if(findScout(clientAuth.id) ?? false) {
 				findScout(clientAuth.id).status = "connected"
-			}
+				response.loggedIn = true
+				response.id = findScout(clientAuth.id).id
+			} 
 		}
 	
 		//Password
@@ -125,21 +129,28 @@ ioScout.on('connection', (client) => {
 						foundAScout = true
 						thisScout.status = "connected"
 						thisScout.isScouting = false
+						response.loggedIn = true
+						response.id = thisScout.id
 					}
 				})
 
 				if(!foundAScout) {
+					let newId = getId()
 					scouts.push({
 						name: clientAuth.name,
-						id: getId(),
+						id: newId,
 						socketId: client.id,
 						status: "connected",
 						isScouting: false,
 						robotScouting: null
-					})					
+					})
+					response.loggedIn = true
+					response.id = newId					
 				}
 			}
 		}
+		ack(response)
+		console.log(scouts)
 	})
 	
 	//Use this function to test for auth
@@ -164,7 +175,13 @@ ioScout.on('connection', (client) => {
 	})
 
 	client.on('disconnect', () => {
-		findScout(client.id).status = "disconnected"
+		console.log(client.id + " Disconnected")
+		let thisScout = findScout(client.id)
+		if(thisScout) {
+			thisScout.status = "disconnected"
+		}
+		console.log("DISCONNECTED")
+		console.log(scouts)
 	})
 })
 

@@ -1,23 +1,35 @@
 <script>
 	import { Router, Link, Route } from 'svelte-routing'
 	import { io } from 'socket.io-client'
-
-	var socket
-
+	import { writable } from 'svelte/store'
+	
+	var socket = io('http://localhost:4000')
 	//Login
 	let isLoggedIn = false
 	let name = localStorage.getItem("name") ?? ""
+	let id = localStorage.getItem("id") ?? undefined
 	let password
+	
+	if(id) {
+		login()
+	}
+
 	//TODO: Figure out if it's possible to have events outside the login function
 	function login() {
-		socket = io('http://localhost:4000', {
-		auth: {
-			token: 'leToken',
+		socket.emit("login", {
+			id: id,
 			name: name,
-			password: password,
-		},
-	})
-	//TODO: Add access granted logic
+			password: password
+		}, (ack) => {
+			alert(JSON.stringify(ack))
+			if(ack.loggedIn) {
+				id = ack.id
+				localStorage.setItem("id", ack.id)
+			}
+		})
+	
+	}
+	
 	socket.on('alert', (data) => alert(data))
 	socket.on('match', (matchData) => {
 		currentMatchData = matchData
@@ -34,8 +46,6 @@
             needToSubmit = true
         }
     })
-	}
-	
 
 	//Used for urgent alerts
 	
