@@ -168,6 +168,7 @@ ioScout.on('connection', (client) => {
 			console.log("Someone's trying to submit data without being logged in.")
 			client.disconnect()
 		}
+		console.log(data)
 		//TODO: Submit data to database
 		callback({
 			status: 'Success',

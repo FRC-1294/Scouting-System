@@ -16,6 +16,7 @@
 
 	//TODO: Figure out if it's possible to have events outside the login function
 	function login() {
+		localStorage.setItem("name", name)
 		socket.emit("login", {
 			id: id,
 			name: name,
@@ -25,6 +26,7 @@
 			if(ack.loggedIn) {
 				id = ack.id
 				localStorage.setItem("id", ack.id)
+				isLoggedIn = true
 			}
 		})
 	
@@ -60,6 +62,7 @@
 	}
 	let currentMatchData = {
 		matchNumber: -1,
+		//TODO do I really need to send all the robots to each scout?
 		r1: -1,
 		r2: -1,
 		r3: -1,
@@ -68,9 +71,14 @@
 		b3: -1,
 	}
 	
-    
+	//DATA
+    let leTestData
     function submit() {
-
+		socket.emit("data", {
+			teamNumber: currentScoutData.robotScouting,
+			matchNumber: currentMatchData.matchNumber,
+			leUberFunTEstingData: leTestData
+		})
         hasSumbitted = true
         needToSubmit = false
     }
@@ -100,8 +108,8 @@
 
 	{#if !isLoggedIn}
 		<h1>LOGIN</h1>
-		<input bind:value={name} title="Name">
-		<input bind:value={password} title="Password">
+		<label for="nameInput">Name:</label><input bind:value={name} id="nameInput" placeholder="Name" title="Name" type="text">
+		<label for="passwordInput">Password:</label><input bind:value={password} id="passwordInput" placeholder="Password" title="Password" type="password">
 		<button on:click={login} >Login</button>
 	{/if}
 
@@ -115,10 +123,11 @@
 	{#if currentScoutData.isScout}
 		<p>You are scouting robot {currentScoutData.robotScouting}</p>
 		<!--Data collection here-->
-
-
-
-
+		{#if !hasSumbitted}
+			<input bind:value={leTestData} placeholder="DATA LEL">
+			<!--TODO add safety for submitting data-->
+			<button on:click={submit}>Submit data</button>
+		{/if}
 	{:else}
 		<p>You are not scouting this match</p>
 	{/if}
