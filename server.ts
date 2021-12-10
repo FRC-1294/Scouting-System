@@ -231,9 +231,9 @@ ioAdmin.on('connection', (client) => {
 		scouts.forEach((thisScout) => {
 			if (
 				thisScout.status == 'connected' ||
-				(thisScout.status == 'submit'
-				)
+				thisScout.status == 'submit'
 			) {
+				thisScout.status = 'scouting'
 				ioScout.to(thisScout.socketId).emit('scout', {
 					isScout: true,
 					robotScouting: 1294,

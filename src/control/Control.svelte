@@ -56,11 +56,11 @@
 
 	<h1>ADMIN</h1>
 	{#if !isLoggedIn}
-		<input bind:value={password} placeholder="Password" type="password"/>
+		<input bind:value={password} placeholder="Password" type="password" />
 		<button on:click={login}>Login</button>
 	{:else}
 		<!--<input bind:value={matchNumberToSetUp} />-->
-		<button on:click={setupMatch}>Scout us!</button> <br>
+		<button on:click={setupMatch}>Scout us!</button> <br />
 		<button
 			on:click={() => {
 				socket.emit('endMatch')

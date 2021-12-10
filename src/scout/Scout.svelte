@@ -121,31 +121,27 @@
 			type="password"
 		/>
 		<button on:click={login}>Login</button>
-
 	{:else}
-<!--Scouting-->
-	
-{#if currentMatchData.matchNumber != -1}
-<p>Current match: Q{currentMatchData.matchNumber}</p>
-<br />
-{:else}
-<h1>Welcome! Waiting for data from server.</h1>
-{/if}
-{#if currentScoutData.isScout}
-<p>You are scouting robot {currentScoutData.robotScouting}</p>
-<!--Data collection here-->
-{#if !hasSumbitted}
-	<input bind:value={leTestData} placeholder="DATA LEL" />
-	<!--TODOCOMP add safety for submitting data-->
-	<button on:click={submit}>Submit data</button>
-{/if}
-{:else}
-<p>You are not scouting this match</p>
-{/if}
+		<!--Scouting-->
 
+		{#if currentMatchData.matchNumber != -1}
+			<p>Current match: Q{currentMatchData.matchNumber}</p>
+			<br />
+		{:else}
+			<h1>Welcome! Waiting for data from server.</h1>
+		{/if}
+		{#if currentScoutData.isScout}
+			<p>You are scouting robot {currentScoutData.robotScouting}</p>
+			<!--Data collection here-->
+			{#if !hasSumbitted}
+				<input bind:value={leTestData} placeholder="DATA LEL" />
+				<!--TODOCOMP add safety for submitting data-->
+				<button on:click={submit}>Submit data</button>
+			{/if}
+		{:else}
+			<p>You are not scouting this match</p>
+		{/if}
 	{/if}
-
-	
 </main>
 
 {#if currentScoutData.isRed && currentScoutData.isScout}
