@@ -25,7 +25,6 @@
 				password: password,
 			},
 			(ack) => {
-				alert(JSON.stringify(ack))
 				if (ack.loggedIn) {
 					id = ack.id
 					localStorage.setItem('id', ack.id)

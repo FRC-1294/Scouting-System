@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import mongoose from 'mongoose'
 let path = require('path')
 import crypto from 'crypto'
@@ -190,17 +190,37 @@ ioScout.on('connection', (client) => {
 	})
 })
 
+let theAdmin: { socket: string; token: string } = {
+	socket: '',
+	token: '',
+}
 ioAdmin.on('connection', (client) => {
 	console.log(`Admin connected: ${client.id}`)
-	console.log(`Admin auth: ${client.handshake.auth.token}`)
-	if (client.handshake.auth.token != 'leToken') {
-		console.log('PERMISSION DENIED')
-		client.emit('alert', 'PERMISSION DENIED.')
-		client.disconnect()
-	}
+
+	//TODOCOMP this is hacky, fix
+	client.on('login', (token, ack) => {
+		if (token == '12941294' || token == theAdmin.token) {
+			console.log('Admin logged in')
+			let response = {
+				loggedIn: true,
+				token: getId(),
+			}
+			theAdmin = {
+				socket: client.id,
+				token: response.token,
+			}
+			ack(response)
+		} else {
+			ack({ loggedIn: false })
+		}
+
+		console.log(theAdmin)
+	})
 
 	//Admin events
 	client.on('setupMatch', (newMatchNumber) => {
+		//Boot off the admin if they're not authenticated
+		if (client.id != theAdmin.socket) client.disconnect()
 		console.log(`Setting up match ${newMatchNumber}`)
 		let newMatchData = {
 			matchNumber: newMatchNumber,
@@ -229,11 +249,15 @@ ioAdmin.on('connection', (client) => {
 	})
 
 	client.on('endMatch', () => {
+		//Boot off the admin if they're not authenticated
+		if (client.id != theAdmin.socket) client.disconnect()
 		console.log('Ending Match')
 		ioScout.emit('end')
 	})
 
 	client.on('boot', (id) => {
+		//Boot off the admin if they're not authenticated
+		if (client.id != theAdmin.socket) client.disconnect()
 		let thisScout = findScout(id)
 		ioScout
 			.to(thisScout.socketId)
