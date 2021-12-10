@@ -7,7 +7,7 @@
 	//Login
 	let isLoggedIn = false
 	let name = localStorage.getItem("name") ?? ""
-	let id = localStorage.getItem("id") ?? undefined
+	let id = localStorage.getItem("aid") ?? undefined
 	let password
 	
 	if(id) {
