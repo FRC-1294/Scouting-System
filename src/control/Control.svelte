@@ -23,7 +23,7 @@
 
 	//Kick a scout off
 	function kickOff(id) {
-		alert(id)
+		socket.emit("boot", id)
 	}
 </script>
 

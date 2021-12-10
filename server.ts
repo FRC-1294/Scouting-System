@@ -110,13 +110,16 @@ ioScout.on('connection', (client) => {
 	
 	//AUTH
 	client.on("login", (clientAuth, ack) => {
+		console.log(clientAuth)
 		let response = {loggedIn: false,id: ""}
 		//ID
 		if(clientAuth.id ?? false) {
-			if(findScout(clientAuth.id) ?? false) {
-				findScout(clientAuth.id).status = "connected"
+			let thisScout = findScout(clientAuth.id)
+			if(thisScout ?? false) {
+				thisScout.status = "connected"
+				thisScout.socketId = client.id
 				response.loggedIn = true
-				response.id = findScout(clientAuth.id).id
+				response.id = thisScout.id
 			} 
 		}
 	
@@ -128,6 +131,7 @@ ioScout.on('connection', (client) => {
 					if(thisScout.name == clientAuth.name) {
 						foundAScout = true
 						thisScout.status = "connected"
+						thisScout.socketId = client.id
 						thisScout.isScouting = false
 						response.loggedIn = true
 						response.id = thisScout.id
@@ -164,10 +168,12 @@ ioScout.on('connection', (client) => {
 	//Client events
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
-		if(!findScout(client.id)) {
+		let thisScout = findScout(client.id)
+		if(!thisScout) {
 			console.log("Someone's trying to submit data without being logged in.")
 			client.disconnect()
 		}
+		thisScout.status = "submit"
 		console.log(data)
 		//TODO: Submit data to database
 		callback({
@@ -200,20 +206,38 @@ ioAdmin.on('connection', (client) => {
 		console.log(`Setting up match ${newMatchNumber}`)
 		let newMatchData = {
 			matchNumber: newMatchNumber,
-			r1: randomNumber(1, 9999),
-			r2: randomNumber(1, 9999),
-			r3: randomNumber(1, 9999),
-			b1: randomNumber(1, 9999),
-			b2: randomNumber(1, 9999),
-			b3: randomNumber(1, 9999),
+		}
+
+		//TODO improve randomized scouts
+		let robotsThatNeedScouting = []
+		for (let i = 0; i < 1; i++) {
+			robotsThatNeedScouting.push(randomNumber(1, 9999))
 		}
 		ioScout.emit("match", newMatchData)
 
-		
+		scouts.forEach(thisScout => {
+			if(thisScout.status == "connected" || thisScout.status == "submit" && robotsThatNeedScouting.length > 0) {
+				ioScout.to(thisScout.socketId).emit("scout", {
+					isScout: true,
+					robotScouting: robotsThatNeedScouting.pop(),
+					isRed: randomNumber(0,1) == 1
+				})
+			}
+		})
 	})
 
 	client.on("endMatch", () => {
+		console.log("Ending Match")
 		ioScout.emit("end")
+	})
+
+	client.on("boot", id => {
+		let thisScout = findScout(id)
+		ioScout.to(thisScout.socketId).emit("alert", "You've been disconnected. Please refresh the page and try again.")
+		let index = scouts.indexOf(thisScout)
+		if (index > -1) {
+			scouts.splice(index, 1);
+		}
 	})
 })
 
