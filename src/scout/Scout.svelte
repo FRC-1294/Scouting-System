@@ -11,7 +11,7 @@
 	let password
 	
 	if(id) {
-		login()
+		login(true)
 	}
 
 	//TODO: Figure out if it's possible to have events outside the login function
@@ -27,6 +27,9 @@
 				id = ack.id
 				localStorage.setItem("id", ack.id)
 				isLoggedIn = true
+			} else {
+				//Clear the ID from storage if it's invalid
+				localStorage.setItem("id", "")
 			}
 		})
 	
@@ -64,14 +67,7 @@
 		isRed: false,
 	}
 	let currentMatchData = {
-		matchNumber: -1,
-		//TODO do I really need to send all the robots to each scout?
-		r1: -1,
-		r2: -1,
-		r3: -1,
-		b1: -1,
-		b2: -1,
-		b3: -1,
+		matchNumber: -1
 	}
 	
 	//DATA
@@ -81,6 +77,8 @@
 			teamNumber: currentScoutData.robotScouting,
 			matchNumber: currentMatchData.matchNumber,
 			leUberFunTEstingData: leTestData
+		}, () => {
+			alert("Data submitted successfully!")
 		})
         hasSumbitted = true
         needToSubmit = false
