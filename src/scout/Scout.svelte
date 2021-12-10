@@ -7,7 +7,7 @@
 	//Login
 	let isLoggedIn = false
 	let name = localStorage.getItem('name') ?? ''
-	let id = localStorage.getItem('aid') ?? undefined
+	let id = localStorage.getItem('id') ?? undefined
 	let password
 
 	if (id) {
@@ -72,14 +72,30 @@
 	}
 
 	//DATA
-	let leTestData
+	let data = {
+	auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+	boxesMovedAuto: 0,
+	boxesMovedTeleop: 0,
+	efficient: false, //Whether the robot navigated "Efficiently"
+}
 	function submit() {
+
+		if(document.getElementById("auto0").checked) {
+			data.auto = 0
+		} else if(document.getElementById("auto1").checked) {
+			data.auto = 1
+		} else if(document.getElementById("auto2").checked) {
+			data.auto = 2
+		}
+
+		data.efficient = document.getElementById("dataEfficient").checked
+
 		socket.emit(
 			'data',
 			{
 				teamNumber: currentScoutData.robotScouting,
 				matchNumber: currentMatchData.matchNumber,
-				leUberFunTEstingData: leTestData,
+				data: data,
 			},
 			() => {
 				alert('Data submitted successfully!')
@@ -133,10 +149,29 @@
 		{#if currentScoutData.isScout}
 			<p>You are scouting robot {currentScoutData.robotScouting}</p>
 			<!--Data collection here-->
-			{#if !hasSumbitted}
-				<input bind:value={leTestData} placeholder="DATA LEL" />
+			{#if !hasSumbitted}				
+				<input bind:value={data.boxesMovedAuto} placeholder="DATA LEL" />
+
+				<br><h3>AUTO</h3>
+
+				<br><input type="radio" id="auto0" name="auto">
+				<label for="auto0">Robot did not move</label>
+
+				<br><input type="radio" id="auto1" name="auto">
+				<label for="auto1">Robot moved</label>
+
+				<br><input type="radio" id="auto2" name="auto">
+				<label for="auto2">Robot scored points</label>
+
+				<br><h3>BOXES</h3>
+				
+
+
+				<br><h3>OTHER</h3>
+				<br><input type="checkbox" id="dataEfficient" name="dataEfficient">
+				<label for="dataEfficient">Was the robot Efficient?</label>
 				<!--TODOCOMP add safety for submitting data-->
-				<button on:click={submit}>Submit data</button>
+				<br><button on:click={submit}>Submit data</button>
 			{/if}
 		{:else}
 			<p>You are not scouting this match</p>
