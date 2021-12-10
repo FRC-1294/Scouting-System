@@ -226,22 +226,17 @@ ioAdmin.on('connection', (client) => {
 			matchNumber: newMatchNumber,
 		}
 
-		//TODO improve randomized scouts
-		let robotsThatNeedScouting = []
-		for (let i = 0; i < 1; i++) {
-			robotsThatNeedScouting.push(randomNumber(1, 9999))
-		}
 		ioScout.emit('match', newMatchData)
-
+		//TODOCOMP Make this use actual robots, not just our robot
 		scouts.forEach((thisScout) => {
 			if (
 				thisScout.status == 'connected' ||
-				(thisScout.status == 'submit' &&
-					robotsThatNeedScouting.length > 0)
+				(thisScout.status == 'submit'
+				)
 			) {
 				ioScout.to(thisScout.socketId).emit('scout', {
 					isScout: true,
-					robotScouting: robotsThatNeedScouting.pop(),
+					robotScouting: 1294,
 					isRed: randomNumber(0, 1) == 1,
 				})
 			}
