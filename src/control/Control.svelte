@@ -59,8 +59,8 @@
 		<input bind:value={password} placeholder="Password" type="password"/>
 		<button on:click={login}>Login</button>
 	{:else}
-		<input bind:value={matchNumberToSetUp} />
-		<button on:click={setupMatch}>Setup Match with this robot</button>
+		<!--<input bind:value={matchNumberToSetUp} />-->
+		<button on:click={setupMatch}>Scout us!</button> <br>
 		<button
 			on:click={() => {
 				socket.emit('endMatch')
