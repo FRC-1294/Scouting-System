@@ -9,10 +9,8 @@ let portSocket = 4000
 //
 //Utility
 //
-function randomNumber(min: number, max: number) {  
-	return Math.floor(
-		Math.random() * (max - min + 1) + min
-	)
+function randomNumber(min: number, max: number) {
+	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 function getId(): string {
@@ -23,22 +21,22 @@ function getId(): string {
 //State
 //
 export type SCOUT = {
-	name: string;
-	id: string;
-	socketId: string;
-	status: "connected" | "disconnected" | "scouting" | "submit";
-	isScouting: Boolean;
-	robotScouting: Number;
+	name: string
+	id: string
+	socketId: string
+	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
+	isScouting: Boolean
+	robotScouting: Number
 }
 let scouts: SCOUT[] = []
 setInterval(() => {
-	ioAdmin.emit("scouts", scouts)
+	ioAdmin.emit('scouts', scouts)
 }, 200)
 function findScout(id: string): SCOUT {
 	let toReturn = undefined
-	scouts.forEach(thisScout => {
-		if(thisScout.id == id || thisScout.socketId == id) {
-			toReturn = thisScout			
+	scouts.forEach((thisScout) => {
+		if (thisScout.id == id || thisScout.socketId == id) {
+			toReturn = thisScout
 		}
 	})
 	return toReturn
@@ -49,15 +47,15 @@ function findScout(id: string): SCOUT {
 //
 const SCOUTINGSCHEMA = {
 	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-	boxesMovedAuto: Number, 
+	boxesMovedAuto: Number,
 	boxesMovedTeleop: Number,
-	efficient: Boolean //Whether the robot navigated "Efficiently"
+	efficient: Boolean, //Whether the robot navigated "Efficiently"
 }
 
 const matchSchema = new mongoose.Schema({
 	matchNumber: Number,
 	redBots: [Number],
-	blueBots: [Number]
+	blueBots: [Number],
 })
 const MATCH = mongoose.model('match', matchSchema)
 
@@ -66,11 +64,9 @@ const MATCH = mongoose.model('match', matchSchema)
 const robotDataSchema = new mongoose.Schema({
 	teamNumber: Number,
 	matchNumber: Number,
-	scoutingData: SCOUTINGSCHEMA
+	scoutingData: SCOUTINGSCHEMA,
 })
 const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
-
-
 
 //
 //WEB
@@ -102,35 +98,35 @@ var ioScout = new Server(socketServer, {
 	},
 })
 
-var ioAdmin = ioScout.of("/admin")
+var ioAdmin = ioScout.of('/admin')
 
 //Events
 ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
-	
+
 	//AUTH
-	client.on("login", (clientAuth, ack) => {
+	client.on('login', (clientAuth, ack) => {
 		console.log(clientAuth)
-		let response = {loggedIn: false,id: ""}
+		let response = { loggedIn: false, id: '' }
 		//ID
-		if(clientAuth.id ?? false) {
+		if (clientAuth.id ?? false) {
 			let thisScout = findScout(clientAuth.id)
-			if(thisScout ?? false) {
-				thisScout.status = "connected"
+			if (thisScout ?? false) {
+				thisScout.status = 'connected'
 				thisScout.socketId = client.id
 				response.loggedIn = true
 				response.id = thisScout.id
-			} 
+			}
 		}
-	
+
 		//Password
-		if(clientAuth.password ?? false) {
-			if(clientAuth.password == "12941294") {
+		if (clientAuth.password ?? false) {
+			if (clientAuth.password == '12941294') {
 				let foundAScout = false
-				scouts.forEach(thisScout => {
-					if(thisScout.name == clientAuth.name) {
+				scouts.forEach((thisScout) => {
+					if (thisScout.name == clientAuth.name) {
 						foundAScout = true
-						thisScout.status = "connected"
+						thisScout.status = 'connected'
 						thisScout.socketId = client.id
 						thisScout.isScouting = false
 						response.loggedIn = true
@@ -138,25 +134,25 @@ ioScout.on('connection', (client) => {
 					}
 				})
 
-				if(!foundAScout) {
+				if (!foundAScout) {
 					let newId = getId()
 					scouts.push({
 						name: clientAuth.name,
 						id: newId,
 						socketId: client.id,
-						status: "connected",
+						status: 'connected',
 						isScouting: false,
-						robotScouting: null
+						robotScouting: null,
 					})
 					response.loggedIn = true
-					response.id = newId					
+					response.id = newId
 				}
 			}
 		}
 		ack(response)
 		console.log(scouts)
 	})
-	
+
 	//Use this function to test for auth
 	/*
 		if(!findScout(client.id)) {
@@ -169,11 +165,13 @@ ioScout.on('connection', (client) => {
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
 		let thisScout = findScout(client.id)
-		if(!thisScout) {
-			console.log("Someone's trying to submit data without being logged in.")
+		if (!thisScout) {
+			console.log(
+				"Someone's trying to submit data without being logged in."
+			)
 			client.disconnect()
 		}
-		thisScout.status = "submit"
+		thisScout.status = 'submit'
 		console.log(data)
 		//TODO: Submit data to database
 		callback({
@@ -182,12 +180,12 @@ ioScout.on('connection', (client) => {
 	})
 
 	client.on('disconnect', () => {
-		console.log(client.id + " Disconnected")
+		console.log(client.id + ' Disconnected')
 		let thisScout = findScout(client.id)
-		if(thisScout) {
-			thisScout.status = "disconnected"
+		if (thisScout) {
+			thisScout.status = 'disconnected'
 		}
-		console.log("DISCONNECTED")
+		console.log('DISCONNECTED')
 		console.log(scouts)
 	})
 })
@@ -202,7 +200,7 @@ ioAdmin.on('connection', (client) => {
 	}
 
 	//Admin events
-	client.on("setupMatch", newMatchNumber => {
+	client.on('setupMatch', (newMatchNumber) => {
 		console.log(`Setting up match ${newMatchNumber}`)
 		let newMatchData = {
 			matchNumber: newMatchNumber,
@@ -213,34 +211,42 @@ ioAdmin.on('connection', (client) => {
 		for (let i = 0; i < 1; i++) {
 			robotsThatNeedScouting.push(randomNumber(1, 9999))
 		}
-		ioScout.emit("match", newMatchData)
+		ioScout.emit('match', newMatchData)
 
-		scouts.forEach(thisScout => {
-			if(thisScout.status == "connected" || thisScout.status == "submit" && robotsThatNeedScouting.length > 0) {
-				ioScout.to(thisScout.socketId).emit("scout", {
+		scouts.forEach((thisScout) => {
+			if (
+				thisScout.status == 'connected' ||
+				(thisScout.status == 'submit' &&
+					robotsThatNeedScouting.length > 0)
+			) {
+				ioScout.to(thisScout.socketId).emit('scout', {
 					isScout: true,
 					robotScouting: robotsThatNeedScouting.pop(),
-					isRed: randomNumber(0,1) == 1
+					isRed: randomNumber(0, 1) == 1,
 				})
 			}
 		})
 	})
 
-	client.on("endMatch", () => {
-		console.log("Ending Match")
-		ioScout.emit("end")
+	client.on('endMatch', () => {
+		console.log('Ending Match')
+		ioScout.emit('end')
 	})
 
-	client.on("boot", id => {
+	client.on('boot', (id) => {
 		let thisScout = findScout(id)
-		ioScout.to(thisScout.socketId).emit("alert", "You've been disconnected. Please refresh the page and try again.")
+		ioScout
+			.to(thisScout.socketId)
+			.emit(
+				'alert',
+				"You've been disconnected. Please refresh the page and try again."
+			)
 		let index = scouts.indexOf(thisScout)
 		if (index > -1) {
-			scouts.splice(index, 1);
+			scouts.splice(index, 1)
 		}
 	})
 })
-
 
 //Listen apps
 webApp.listen(portWeb, () => {
