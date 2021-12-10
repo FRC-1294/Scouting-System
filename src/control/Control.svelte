@@ -6,6 +6,10 @@
 			token: 'leToken',
 		},
 	})
+	let scouts = []
+	socket.on("scouts", newScouts => {
+		scouts = newScouts
+	})
 	let isAdmin = false
 	socket.on("connect", () => {
 		isAdmin = true
@@ -15,11 +19,7 @@
 	function leClicc() {
 		socket.emit("setupMatch", matchNumberToSetUp)
 	}
-	let scouttt = ["A", "B"]
-	function leClicc2() {
-		scouttt.push("aaa")
-		scouttt = scouttt
-	}
+	
 
 	//Kick a scout off
 	function kickOff(id) {
@@ -37,12 +37,9 @@
 	<h1>ADMIN</h1>
 	<input bind:value={matchNumberToSetUp} />
 	<button on:click={leClicc}>Clicc</button>
-	<button on:click={leClicc2}>AAAAAAAAAAAA</button>	
 	<button on:click={() => {socket.emit("endMatch")}}>End Match</button>
 	<br>
-	<ScoutWidget name="h" id="1234" robot="1294" status="scouting" boot={kickOff}/>
-	<ScoutWidget name="b" id="8888" robot="2941" status="disconnected" boot={kickOff}/>
-	{#each scouttt as newScoutName, newScout}		
-		<ScoutWidget name={newScoutName} id={newScout} robot="123" status="disconnected" boot={kickOff}/>
+	{#each scouts as thisScout}
+		<ScoutWidget scout={thisScout} boot={kickOff}/>
 	{/each}
 </main>

@@ -1,34 +1,29 @@
 <script>
-    export let name
-    export let id
-    export let robot
-    //Status: disconnected, connected, scouting, submit
-    export let status
+    export let scout
     export let boot
     const defaultStyle = "width:23%; height:400px; margin: auto; float:left; border: 5px solid #000000; padding: 10px; background-color:"
     let divStyle
-    if(status == "disconnected") {
+    if(scout.status == "disconnected") {
         divStyle = defaultStyle + "#ff9999"
     }
-    if (status == "connected") {
+    if (scout.status == "connected") {
         divStyle = defaultStyle + "#99c2ff"
     }
-    if (status == "scouting") {
+    if (scout.status == "scouting") {
         divStyle = defaultStyle + "#80ff80"
     }
-    if (status == "submit") {
+    if (scout.status == "submit") {
         divStyle = defaultStyle + "#ff66ff"
     }
 </script>
 
 <main>
     <div class="a" style={divStyle}>
-        <h1>{name}</h1>
-        <h2>{id}</h2>
-        <h2>R{robot}</h2>
-        <h2>{status}</h2>
-        {#if status == "disconnected"}
-            <button on:click={() => {boot(id)}}>BOOT</button>
-        {/if}
+        <h1>{scout.name}</h1>
+        <h2>{scout.id}</h2>
+        <h2>R{scout.robotScouting}</h2>
+        <h2>{scout.status}</h2>
+        <button on:click={() => {scout.boot(scout.id)}}>BOOT</button>
+        
     </div>    
 </main>
