@@ -2,7 +2,7 @@
 	import { io } from 'socket.io-client'
 	import ScoutWtokenget from './ScoutWidget.svelte'
 
-	var socket = io('http://localhost:4000/admin')
+	var socket = io('https://scouting.tisch.network/admin')
 
 	//AUTH
 	let isLoggedIn
