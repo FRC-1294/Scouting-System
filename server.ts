@@ -1,9 +1,10 @@
 import express, { response } from 'express'
+var http = require('http')
 import mongoose from 'mongoose'
 let path = require('path')
 import crypto from 'crypto'
 var webApp = express()
-let portWeb = 3000
+let portWeb = 80
 let portSocket = 4000
 
 //
@@ -69,6 +70,14 @@ const robotDataSchema = new mongoose.Schema({
 const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 
 //
+//Server
+//
+var server = http.createServer(webApp)
+// Pass a http.Server instance to the listen method
+
+
+
+//
 //WEB
 //
 //Static directory
@@ -81,17 +90,23 @@ webApp.use((req, res, next) => {
 })
 
 //Let Svelte handle all requests
-webApp.get('*', (req, res) => {
+webApp.get('/', (req, res) => {
 	res.sendFile('public/main.html', { root: __dirname })
 })
+webApp.get('/scout', (req, res) => {
+	res.sendFile('public/main.html', { root: __dirname })
+})
+webApp.get('/control', (req, res) => {
+	res.sendFile('public/main.html', { root: __dirname })
+})
+webApp.use('/static', express.static('node_modules'))
 
 //
 //SOCKET
 //
 //Setup server
-var socketServer = require('http').createServer()
 import { Server } from 'socket.io'
-var ioScout = new Server(socketServer, {
+var ioScout = new Server(server, {
 	cors: {
 		origin: '*',
 		methods: ['PUT', 'GET', 'POST', 'DELETE', 'OPTIONS'],
@@ -106,7 +121,7 @@ ioScout.on('connection', (client) => {
 
 	//AUTH
 	client.on('login', (clientAuth, ack) => {
-		console.log(clientAuth)
+		//console.log(clientAuth)
 		let response = { loggedIn: false, id: '' }
 		//ID
 		if (clientAuth.id ?? false) {
@@ -150,7 +165,7 @@ ioScout.on('connection', (client) => {
 			}
 		}
 		ack(response)
-		console.log(scouts)
+		//console.log(scouts)
 	})
 
 	//Use this function to test for auth
@@ -185,8 +200,8 @@ ioScout.on('connection', (client) => {
 		if (thisScout) {
 			thisScout.status = 'disconnected'
 		}
-		console.log('DISCONNECTED')
-		console.log(scouts)
+		//console.log('DISCONNECTED')
+		//console.log(scouts)
 	})
 })
 
@@ -200,7 +215,7 @@ ioAdmin.on('connection', (client) => {
 	//TODOCOMP this is hacky, fix
 	client.on('login', (token, ack) => {
 		if (token == '12941294' || token == theAdmin.token) {
-			console.log('Admin logged in')
+			//console.log('Admin logged in')
 			let response = {
 				loggedIn: true,
 				token: getId(),
@@ -214,7 +229,7 @@ ioAdmin.on('connection', (client) => {
 			ack({ loggedIn: false })
 		}
 
-		console.log(theAdmin)
+		//console.log(theAdmin)
 	})
 
 	//Admin events
@@ -268,16 +283,12 @@ ioAdmin.on('connection', (client) => {
 })
 
 //Listen apps
-webApp.listen(portWeb, () => {
-	console.log(`Website listening on port ${portWeb}`)
+server.listen(portWeb, () => {
+	console.log(`Stuff listening on port ${portWeb}`)
 })
-socketServer.listen(portSocket, () =>
-	console.log(`Socket io listening on port ${portSocket}`)
-)
 
 //Close apps
 function bye() {
-	socketServer.emit('close')
 	webApp.emit('stop')
 	console.log('Stopped. Bye!')
 	process.exit(0)

@@ -1,9 +1,10 @@
+
 <script>
 	import { Router, Link, Route } from 'svelte-routing'
 	import { io } from 'socket.io-client'
 	import { writable } from 'svelte/store'
 
-	var socket = io('http://localhost:4000')
+	var socket = io('https://scouting.tisch.network')
 	//Login
 	let isLoggedIn = false
 	let name = localStorage.getItem('name') ?? ''
@@ -45,6 +46,7 @@
 		needToSubmit = false
 	})
 	socket.on('scout', (newScoutData) => {
+		//TODO deal with this event overriding current scout
 		currentScoutData = newScoutData
 	})
 	socket.on('end', (subtle) => {
