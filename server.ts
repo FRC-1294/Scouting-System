@@ -197,13 +197,14 @@ const robotDataSchema = new mongoose.Schema({
 	efficient: Boolean, //Whether the robot navigated "Efficiently"
 })
 		*/
+		//TODOCOMP fix data.data.
 		let thisData: mongoose.Document = new ROBOTDATA({
 			teamNumber: data.teamNumber,
 			matchNumber: data.matchNumber,
-			auto: data.auto,
-			boxesMovedAuto: data.boxesMovedAuto,
-			boxesMovedTeleop: data.boxesMovedTeleop,
-			efficient: data.efficient
+			auto: data.data.auto,
+			boxesMovedAuto: data.data.boxesMovedAuto,
+			boxesMovedTeleop: data.data.boxesMovedTeleop,
+			efficient: data.data.efficient
 		})
 
 		thisData.save()
@@ -303,7 +304,7 @@ ioAdmin.on('connection', (client) => {
 //Listen apps
 server.listen(portWeb, async () => {
 	console.log(`Web listening on port ${portWeb}`)
-	await mongoose.connect('mongodb://scouting.tisch.network:27017/robotics')
+	await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Database listening on port 27017`)
 })
 
