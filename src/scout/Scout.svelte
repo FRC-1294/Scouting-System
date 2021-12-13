@@ -75,6 +75,8 @@
 
 	//DATA
 	let data = {
+	teamNumber: currentScoutData.robotScouting,
+	matchNumber: currentMatchData.matchNumber,
 	auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 	boxesMovedAuto: 0,
 	boxesMovedTeleop: 0,

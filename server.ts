@@ -46,13 +46,6 @@ function findScout(id: string): SCOUT {
 //
 //DATABASE
 //
-const SCOUTINGSCHEMA = {
-	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-	boxesMovedAuto: Number,
-	boxesMovedTeleop: Number,
-	efficient: Boolean, //Whether the robot navigated "Efficiently"
-}
-
 const matchSchema = new mongoose.Schema({
 	matchNumber: Number,
 	redBots: [Number],
@@ -65,7 +58,11 @@ const MATCH = mongoose.model('match', matchSchema)
 const robotDataSchema = new mongoose.Schema({
 	teamNumber: Number,
 	matchNumber: Number,
-	scoutingData: SCOUTINGSCHEMA,
+	
+	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+	boxesMovedAuto: Number,
+	boxesMovedTeleop: Number,
+	efficient: Boolean, //Whether the robot navigated "Efficiently"
 })
 const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 
@@ -188,7 +185,28 @@ ioScout.on('connection', (client) => {
 		}
 		thisScout.status = 'submit'
 		console.log(data)
-		//TODO: Submit data to database
+
+		/*
+const robotDataSchema = new mongoose.Schema({
+	teamNumber: Number,
+	matchNumber: Number,
+	
+	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+	boxesMovedAuto: Number,
+	boxesMovedTeleop: Number,
+	efficient: Boolean, //Whether the robot navigated "Efficiently"
+})
+		*/
+		let thisData: mongoose.Document = new ROBOTDATA({
+			teamNumber: data.teamNumber,
+			matchNumber: data.matchNumber,
+			auto: data.auto,
+			boxesMovedAuto: data.boxesMovedAuto,
+			boxesMovedTeleop: data.boxesMovedTeleop,
+			efficient: data.efficient
+		})
+
+		thisData.save()
 		callback({
 			status: 'Success',
 		})
@@ -283,8 +301,10 @@ ioAdmin.on('connection', (client) => {
 })
 
 //Listen apps
-server.listen(portWeb, () => {
-	console.log(`Stuff listening on port ${portWeb}`)
+server.listen(portWeb, async () => {
+	console.log(`Web listening on port ${portWeb}`)
+	await mongoose.connect('mongodb://scouting.tisch.network:27017/robotics')
+	console.log(`Database listening on port 27017`)
 })
 
 //Close apps
