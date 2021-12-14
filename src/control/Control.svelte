@@ -37,8 +37,9 @@
 
 	//Match setup
 	let matchNumberToSetUp = 0
+	let robotNumberToSetup = 0
 	function setupMatch() {
-		socket.emit('setupMatch', matchNumberToSetUp)
+		socket.emit('setupMatch', matchNumberToSetUp, robotNumberToSetup)
 	}
 
 	//Kick a scout off
@@ -71,7 +72,8 @@
 		<input bind:value={password} placeholder="Password" type="password" />
 		<button on:click={login}>Login</button>
 	{:else}
-		<input bind:value={matchNumberToSetUp} />
+		<input bind:value={matchNumberToSetUp} placeholder="Match"/>
+		<input bind:value={robotNumberToSetup} placeholder="Robot"/>
 		<button on:click={setupMatch}>Scout us!</button> <br>
 		
 		<br>

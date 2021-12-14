@@ -252,7 +252,7 @@ ioAdmin.on('connection', (client) => {
 	})
 
 	//Admin events
-	client.on('setupMatch', (newMatchNumber) => {
+	client.on('setupMatch', (newMatchNumber, newRobotNumber) => {
 		//Boot off the admin if they're not authenticated
 		if (client.id != theAdmin.socket) client.disconnect()
 		console.log(`Setting up match ${newMatchNumber}`)
@@ -270,7 +270,7 @@ ioAdmin.on('connection', (client) => {
 				thisScout.status = 'scouting'
 				ioScout.to(thisScout.socketId).emit('scout', {
 					isScout: true,
-					robotScouting: 1294,
+					robotScouting: newRobotNumber,
 					isRed: randomNumber(0, 1) == 1,
 				})
 			}
