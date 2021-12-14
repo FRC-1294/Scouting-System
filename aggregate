@@ -1,0 +1,24 @@
+{
+    _id: "$teamNumber",
+    MaxAuto: {
+        $max: "$auto"
+    },
+    AvgAuto: {
+        $avg: "$auto"
+    },
+    MinAuto: {
+        $min: "$auto"
+    },
+    AvgBoxesMovedAuto: {
+        $avg: "$boxesMovedAuto"
+    },
+    AvgBoxesMovedTeleop: {
+        $avg: "$boxesMovedTeleop"
+    },
+    MaxBoxesMovedAuto: {
+        $max: "$boxesMovedAuto"
+    },
+    MaxBoxesMovedTeleop: {
+        $max: "$boxesMovedTeleop"
+    }
+}
