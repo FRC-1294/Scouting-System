@@ -51,6 +51,12 @@
 		alert("You got disconnected. Oh no!")
 		//TODOCOMP Deal with disconnect
 	})
+
+	//Aggregate
+	let aggResult
+	function aggregateData() {
+		//TODO add
+	}
 </script>
 
 <main>
@@ -66,7 +72,13 @@
 		<button on:click={login}>Login</button>
 	{:else}
 		<input bind:value={matchNumberToSetUp} />
-		<button on:click={setupMatch}>Scout us!</button> <br />
+		<button on:click={setupMatch}>Scout us!</button> <br>
+		
+		<br>
+		<button on:click={aggregateData}>Aggregate data </button> <br>
+		<p>{aggResult}</p>
+		<br>
+
 		<button
 			on:click={() => {
 				socket.emit('endMatch')
