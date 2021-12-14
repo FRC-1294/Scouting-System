@@ -59,6 +59,12 @@
 		}
 	})
 
+	//Disconnect
+	socket.on("disconnect", () => {
+		alert("You got disconnected. Oh no!")
+		//TODOCOMP Deal with disconnect
+	})
+
 	//Used for urgent alerts
 
 	//Scouting and match logic

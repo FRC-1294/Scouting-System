@@ -45,6 +45,12 @@
 	function kickOff(token) {
 		socket.emit('boot', token)
 	}
+
+	//Disconnect
+	socket.on("disconnect", () => {
+		alert("You got disconnected. Oh no!")
+		//TODOCOMP Deal with disconnect
+	})
 </script>
 
 <main>
