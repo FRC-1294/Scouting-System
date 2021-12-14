@@ -4,11 +4,11 @@
 	import { io } from 'socket.io-client'
 	import { writable } from 'svelte/store'
 
-	var socket = io('https://scouting.tisch.network')
+	var socket = io()
 	//Login
 	let isLoggedIn = false
 	let name = localStorage.getItem('name') ?? ''
-	let id = localStorage.getItem('id') ?? undefined
+	let id = localStorage.getItem('aid') ?? undefined
 	let password
 
 	if (id) {
@@ -81,6 +81,8 @@
 
 	//DATA
 	let data = {
+	teamNumber: currentScoutData.robotScouting,
+	matchNumber: currentMatchData.matchNumber,
 	auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 	boxesMovedAuto: 0,
 	boxesMovedTeleop: 0,
@@ -157,9 +159,7 @@
 		{#if currentScoutData.isScout}
 			<p>You are scouting robot {currentScoutData.robotScouting}</p>
 			<!--Data collection here-->
-			{#if !hasSumbitted}				
-				<input bind:value={data.boxesMovedAuto} placeholder="DATA LEL" />
-
+			{#if !hasSumbitted}
 				<br><h3>AUTO</h3>
 
 				<br><input type="radio" id="auto0" name="auto">
@@ -173,7 +173,12 @@
 
 				<br><h3>BOXES</h3>
 				
-
+				<label for="boxesAuto">Boxes Auto:</label>
+				<input id="boxesAuto" bind:value={data.boxesMovedAuto} placeholder="Boxes Moved Auto" />
+				<br>
+				<label for="boxesTele">Boxes Teleop:</label>
+				<input id="boxesTele" bind:value={data.boxesMovedTeleop} placeholder="Boxes Moved Teleop" />
+				<br>
 
 				<br><h3>OTHER</h3>
 				<br><input type="checkbox" id="dataEfficient" name="dataEfficient">

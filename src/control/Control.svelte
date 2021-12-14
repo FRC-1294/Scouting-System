@@ -2,7 +2,7 @@
 	import { io } from 'socket.io-client'
 	import ScoutWtokenget from './ScoutWidget.svelte'
 
-	var socket = io('https://scouting.tisch.network/admin')
+	var socket = io('/admin')
 
 	//AUTH
 	let isLoggedIn
@@ -65,7 +65,7 @@
 		<input bind:value={password} placeholder="Password" type="password" />
 		<button on:click={login}>Login</button>
 	{:else}
-		<!--<input bind:value={matchNumberToSetUp} />-->
+		<input bind:value={matchNumberToSetUp} />
 		<button on:click={setupMatch}>Scout us!</button> <br />
 		<button
 			on:click={() => {
