@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "rollup -c",
 		"dev": "rollup -c -w",
-		"start": "npx tsc && node ./server.js",
+		"start": "rollup -c && npx tsc && node ./server.js",
 		"format": "prettier -w ."
 	},
 	"devDependencies": {
