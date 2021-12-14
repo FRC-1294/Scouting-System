@@ -56,7 +56,9 @@
 	//Aggregate
 	let aggResult
 	function aggregateData() {
-		//TODO add
+		socket.emit('aggregate', (result) => {
+			aggResult = JSON.stringify(result)
+		})
 	}
 </script>
 

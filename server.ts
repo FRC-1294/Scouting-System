@@ -299,6 +299,48 @@ ioAdmin.on('connection', (client) => {
 			scouts.splice(index, 1)
 		}
 	})
+
+	client.on('aggregate', async (sendResult) => {
+		let pipeline = [
+			{
+			  '$group': {
+				'_id': '$teamNumber', 
+				'MaxAuto': {
+				  '$max': '$auto'
+				}, 
+				'AvgAuto': {
+				  '$avg': '$auto'
+				}, 
+				'MinAuto': {
+				  '$min': '$auto'
+				}, 
+				'AvgBoxesMovedAuto': {
+				  '$avg': '$boxesMovedAuto'
+				}, 
+				'AvgBoxesMovedTeleop': {
+				  '$avg': '$boxesMovedTeleop'
+				}, 
+				'MaxBoxesMovedAuto': {
+				  '$max': '$boxesMovedAuto'
+				}, 
+				'MaxBoxesMovedTeleop': {
+				  '$max': '$boxesMovedTeleop'
+				}
+			  }
+			}, {
+			  '$sort': {
+				'AvgBoxesMovedTeleop': -1, 
+				'AvgBoxesMovedAuto': -1, 
+				'MaxAuto': -1, 
+				'AvgAuto': -1
+			  }
+			}
+		]
+		console.log("Aggregation requested")
+		let result = await ROBOTDATA.aggregate(pipeline).exec()
+		console.log(result)
+		sendResult(result)
+	})
 })
 
 //Listen apps
