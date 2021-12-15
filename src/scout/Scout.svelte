@@ -114,6 +114,26 @@
 		hasSumbitted = true
 		needToSubmit = false
 	}
+
+	//Counters
+	function incAuto() {
+		data.boxesMovedAuto++
+	}
+	function decAuto() {
+		if(data.boxesMovedAuto > 0) {
+		data.boxesMovedAuto--
+		}
+	}
+
+	function incTele() {
+		data.boxesMovedTeleop++
+	}
+	function decTele() {
+		if(data.boxesMovedTeleop > 0) {
+			data.boxesMovedTeleop--
+		}
+	}
+
 </script>
 
 <main>
@@ -173,9 +193,13 @@
 
 				<br><h3>BOXES</h3>
 				
+				<button class="counter" on:click={incAuto}>+</button> 
+				<button class="counter" on:click={decAuto}>-</button>
 				<label for="boxesAuto">Boxes Auto:</label>
 				<input id="boxesAuto" bind:value={data.boxesMovedAuto} placeholder="Boxes Moved Auto" />
 				<br>
+				<button class="counter" on:click={incTele}>+</button> 
+				<button class="counter" on:click={decTele}>-</button>
 				<label for="boxesTele">Boxes Teleop:</label>
 				<input id="boxesTele" bind:value={data.boxesMovedTeleop} placeholder="Boxes Moved Teleop" />
 				<br>
@@ -220,5 +244,9 @@
 	}
 	.warningHeaderText {
 		color: #ffffff;
+	}
+	.counter {
+		font-size: large;
+		background-color: orange;
 	}
 </style>
