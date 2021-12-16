@@ -345,6 +345,7 @@ ioAdmin.on('connection', (client) => {
 
 //Listen apps
 server.listen(portWeb, async () => {
+	console.log("Welcome to the scouting system!")
 	await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Web listening on port ${portWeb}`)
 	console.log(`Database connected`)

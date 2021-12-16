@@ -193,13 +193,13 @@
 
 				<br><h3>BOXES</h3>
 				
-				<!--<button class="counter" on:click={incAuto}>+</button> 
-				<button class="counter" on:click={decAuto}>-</button>-->
+				<button class="counter" on:click={incAuto}>+</button> 
+				<button class="counter" on:click={decAuto}>-</button>
 				<label for="boxesAuto">Boxes Auto:</label>
 				<input id="boxesAuto" bind:value={data.boxesMovedAuto} placeholder="Boxes Moved Auto" />
 				<br>
-				<!--<button class="counter" on:click={incTele}>+</button> 
-				<button class="counter" on:click={decTele}>-</button>-->
+				<button class="counter" on:click={incTele}>+</button> 
+				<button class="counter" on:click={decTele}>-</button>
 				<label for="boxesTele">Boxes Teleop:</label>
 				<input id="boxesTele" bind:value={data.boxesMovedTeleop} placeholder="Boxes Moved Teleop" />
 				<br>
@@ -248,5 +248,7 @@
 	.counter {
 		font-size: large;
 		background-color: orange;
+		width: 50px;
+		height: 50px;
 	}
 </style>
