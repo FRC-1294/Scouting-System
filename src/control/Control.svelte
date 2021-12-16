@@ -22,7 +22,7 @@
 			} else {
 				//Clear the token from storage if it's invalid
 				localStorage.setItem('token', '')
-				password = ""
+				password = ''
 			}
 		})
 	}
@@ -49,8 +49,8 @@
 	}
 
 	//Disconnect
-	socket.on("disconnect", () => {
-		alert("You got disconnected. Oh no!")
+	socket.on('disconnect', () => {
+		alert('You got disconnected. Oh no!')
 		//TODOCOMP Deal with disconnect
 	})
 
@@ -75,14 +75,14 @@
 		<input bind:value={password} placeholder="Password" type="password" />
 		<button on:click={login}>Login</button>
 	{:else}
-		<input bind:value={matchNumberToSetUp} placeholder="Match"/>
-		<input bind:value={robotNumberToSetup} placeholder="Robot"/>
-		<button on:click={setupMatch}>Scout us!</button> <br>
-		
-		<br>
-		<button on:click={aggregateData}>Aggregate data </button> <br>
+		<input bind:value={matchNumberToSetUp} placeholder="Match" />
+		<input bind:value={robotNumberToSetup} placeholder="Robot" />
+		<button on:click={setupMatch}>Scout us!</button> <br />
+
+		<br />
+		<button on:click={aggregateData}>Aggregate data </button> <br />
 		<p>{aggResult}</p>
-		<br>
+		<br />
 
 		<button
 			on:click={() => {

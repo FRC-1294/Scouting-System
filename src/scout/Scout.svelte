@@ -1,4 +1,3 @@
-
 <script>
 	import { Router, Link, Route } from 'svelte-routing'
 	import { io } from 'socket.io-client'
@@ -60,8 +59,8 @@
 	})
 
 	//Disconnect
-	socket.on("disconnect", () => {
-		alert("You got disconnected. Oh no!")
+	socket.on('disconnect', () => {
+		alert('You got disconnected. Oh no!')
 		//TODOCOMP Deal with disconnect
 	})
 
@@ -81,24 +80,23 @@
 
 	//DATA
 	let data = {
-	teamNumber: currentScoutData.robotScouting,
-	matchNumber: currentMatchData.matchNumber,
-	auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-	boxesMovedAuto: 0,
-	boxesMovedTeleop: 0,
-	efficient: false, //Whether the robot navigated "Efficiently"
-}
+		teamNumber: currentScoutData.robotScouting,
+		matchNumber: currentMatchData.matchNumber,
+		auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+		boxesMovedAuto: 0,
+		boxesMovedTeleop: 0,
+		efficient: false, //Whether the robot navigated "Efficiently"
+	}
 	function submit() {
-
-		if(document.getElementById("auto0").checked) {
+		if (document.getElementById('auto0').checked) {
 			data.auto = 0
-		} else if(document.getElementById("auto1").checked) {
+		} else if (document.getElementById('auto1').checked) {
 			data.auto = 1
-		} else if(document.getElementById("auto2").checked) {
+		} else if (document.getElementById('auto2').checked) {
 			data.auto = 2
 		}
 
-		data.efficient = document.getElementById("dataEfficient").checked
+		data.efficient = document.getElementById('dataEfficient').checked
 
 		socket.emit(
 			'data',
@@ -120,8 +118,8 @@
 		data.boxesMovedAuto++
 	}
 	function decAuto() {
-		if(data.boxesMovedAuto > 0) {
-		data.boxesMovedAuto--
+		if (data.boxesMovedAuto > 0) {
+			data.boxesMovedAuto--
 		}
 	}
 
@@ -129,11 +127,10 @@
 		data.boxesMovedTeleop++
 	}
 	function decTele() {
-		if(data.boxesMovedTeleop > 0) {
+		if (data.boxesMovedTeleop > 0) {
 			data.boxesMovedTeleop--
 		}
 	}
-
 </script>
 
 <main>
@@ -180,35 +177,50 @@
 			<p>You are scouting robot {currentScoutData.robotScouting}</p>
 			<!--Data collection here-->
 			{#if !hasSumbitted}
-				<br><h3>AUTO</h3>
+				<br />
+				<h3>AUTO</h3>
 
-				<br><input type="radio" id="auto0" name="auto">
+				<br /><input type="radio" id="auto0" name="auto" />
 				<label for="auto0">Robot did not move</label>
 
-				<br><input type="radio" id="auto1" name="auto">
+				<br /><input type="radio" id="auto1" name="auto" />
 				<label for="auto1">Robot moved</label>
 
-				<br><input type="radio" id="auto2" name="auto">
+				<br /><input type="radio" id="auto2" name="auto" />
 				<label for="auto2">Robot scored points</label>
 
-				<br><h3>BOXES</h3>
-				
-				<button class="counter" on:click={incAuto}>+</button> 
+				<br />
+				<h3>BOXES</h3>
+
+				<button class="counter" on:click={incAuto}>+</button>
 				<button class="counter" on:click={decAuto}>-</button>
 				<label for="boxesAuto">Boxes Auto:</label>
-				<input id="boxesAuto" bind:value={data.boxesMovedAuto} placeholder="Boxes Moved Auto" />
-				<br>
-				<button class="counter" on:click={incTele}>+</button> 
+				<input
+					id="boxesAuto"
+					bind:value={data.boxesMovedAuto}
+					placeholder="Boxes Moved Auto"
+				/>
+				<br />
+				<button class="counter" on:click={incTele}>+</button>
 				<button class="counter" on:click={decTele}>-</button>
 				<label for="boxesTele">Boxes Teleop:</label>
-				<input id="boxesTele" bind:value={data.boxesMovedTeleop} placeholder="Boxes Moved Teleop" />
-				<br>
+				<input
+					id="boxesTele"
+					bind:value={data.boxesMovedTeleop}
+					placeholder="Boxes Moved Teleop"
+				/>
+				<br />
 
-				<br><h3>OTHER</h3>
-				<br><input type="checkbox" id="dataEfficient" name="dataEfficient">
+				<br />
+				<h3>OTHER</h3>
+				<br /><input
+					type="checkbox"
+					id="dataEfficient"
+					name="dataEfficient"
+				/>
 				<label for="dataEfficient">Was the robot Efficient?</label>
 				<!--TODOCOMP add safety for submitting data-->
-				<br><button on:click={submit}>Submit data</button>
+				<br /><button on:click={submit}>Submit data</button>
 			{/if}
 		{:else}
 			<p>You are not scouting this match</p>
