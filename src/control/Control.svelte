@@ -22,6 +22,7 @@
 			} else {
 				//Clear the token from storage if it's invalid
 				localStorage.setItem('token', '')
+				password = ""
 			}
 		})
 	}
