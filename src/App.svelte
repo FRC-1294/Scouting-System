@@ -10,6 +10,11 @@
 </script>
 
 <main>
+	<div style="height: 100px; width: 100%;">
+		<header>
+			<image src="/logo.png" height="100px" width="100px" align="center"/>
+		</header>
+	</div>
 	<p>Pack Of Parts Scouting</p>
 	<Router>
 		<div>
