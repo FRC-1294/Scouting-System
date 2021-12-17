@@ -1,5 +1,7 @@
 import express, { response } from 'express'
-var http = require('http')
+import http from 'http'
+import https from 'https'
+import fs from 'fs'
 import mongoose from 'mongoose'
 let path = require('path')
 import crypto from 'crypto'
@@ -58,7 +60,7 @@ const MATCH = mongoose.model('match', matchSchema)
 const robotDataSchema = new mongoose.Schema({
 	teamNumber: Number,
 	matchNumber: Number,
-	
+
 	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 	boxesMovedAuto: Number,
 	boxesMovedTeleop: Number,
@@ -69,10 +71,21 @@ const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 //
 //Server
 //
-var server = http.createServer(webApp)
+//SSL  TLS
+var server: http.Server | https.Server
+if (false) { //disabled until I get stuff working
+	console.log("SECURE MODE ENABLED")
+	const keys = {	
+		key: fs.readFileSync('./keys/key.pem'),
+		cert: fs.readFileSync('./keys/cert.pem')	  
+	}
+	server = https.createServer(keys, webApp)
+} else {
+	console.log("SECURE MODE DISABLED")
+	server = http.createServer(webApp)
+}
+
 // Pass a http.Server instance to the listen method
-
-
 
 //
 //WEB
@@ -204,7 +217,7 @@ const robotDataSchema = new mongoose.Schema({
 			auto: data.data.auto,
 			boxesMovedAuto: data.data.boxesMovedAuto,
 			boxesMovedTeleop: data.data.boxesMovedTeleop,
-			efficient: data.data.efficient
+			efficient: data.data.efficient,
 		})
 
 		thisData.save()
@@ -303,40 +316,41 @@ ioAdmin.on('connection', (client) => {
 	client.on('aggregate', async (sendResult) => {
 		let pipeline = [
 			{
-			  '$group': {
-				'_id': '$teamNumber', 
-				'MaxAuto': {
-				  '$max': '$auto'
-				}, 
-				'AvgAuto': {
-				  '$avg': '$auto'
-				}, 
-				'MinAuto': {
-				  '$min': '$auto'
-				}, 
-				'AvgBoxesMovedAuto': {
-				  '$avg': '$boxesMovedAuto'
-				}, 
-				'AvgBoxesMovedTeleop': {
-				  '$avg': '$boxesMovedTeleop'
-				}, 
-				'MaxBoxesMovedAuto': {
-				  '$max': '$boxesMovedAuto'
-				}, 
-				'MaxBoxesMovedTeleop': {
-				  '$max': '$boxesMovedTeleop'
-				}
-			  }
-			}, {
-			  '$sort': {
-				'AvgBoxesMovedTeleop': -1, 
-				'AvgBoxesMovedAuto': -1, 
-				'MaxAuto': -1, 
-				'AvgAuto': -1
-			  }
-			}
+				$group: {
+					_id: '$teamNumber',
+					MaxAuto: {
+						$max: '$auto',
+					},
+					AvgAuto: {
+						$avg: '$auto',
+					},
+					MinAuto: {
+						$min: '$auto',
+					},
+					AvgBoxesMovedAuto: {
+						$avg: '$boxesMovedAuto',
+					},
+					AvgBoxesMovedTeleop: {
+						$avg: '$boxesMovedTeleop',
+					},
+					MaxBoxesMovedAuto: {
+						$max: '$boxesMovedAuto',
+					},
+					MaxBoxesMovedTeleop: {
+						$max: '$boxesMovedTeleop',
+					},
+				},
+			},
+			{
+				$sort: {
+					AvgBoxesMovedTeleop: -1,
+					AvgBoxesMovedAuto: -1,
+					MaxAuto: -1,
+					AvgAuto: -1,
+				},
+			},
 		]
-		console.log("Aggregation requested")
+		console.log('Aggregation requested')
 		let result = await ROBOTDATA.aggregate(pipeline).exec()
 		console.log(result)
 		sendResult(result)
@@ -345,8 +359,9 @@ ioAdmin.on('connection', (client) => {
 
 //Listen apps
 server.listen(portWeb, async () => {
+	console.log('Welcome to the scouting system!')
+	await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Web listening on port ${portWeb}`)
-	//await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Database connected`)
 })
 

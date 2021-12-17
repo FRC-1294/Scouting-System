@@ -2,7 +2,7 @@
 	export let scout
 	export let boot
 	const defaultStyle =
-		'width:23%; height:400px; margin: auto; float:left; border: 5px solid #000000; padding: 10px; background-color:'
+		'width:180px; height:400px; margin: auto; float:left; border: 5px solid #000000; padding: 10px; background-color:'
 	let divStyle
 
 	function updateColor() {

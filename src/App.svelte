@@ -10,12 +10,17 @@
 </script>
 
 <main>
+	<div style="height: 100px; width: 100%;">
+		<header>
+			<image src="/logo.png" height="100px" width="100px" align="center"/>
+		</header>
+	</div>
 	<p>Pack Of Parts Scouting</p>
 	<Router>
 		<div>
-			<Route path="scout" component={Scout} />
+			<Route path="/" component={Scout} />
 			<Route path="control" component={Control} />
-			<Route path="/"><Home /></Route>
+			<Route path="/home"><Home /></Route>
 		</div>
 	</Router>
 </main>
@@ -27,8 +32,6 @@
 		max-width: 240px;
 		margin: 0 auto;
 	}
-
-
 
 	@media (min-width: 640px) {
 		main {
