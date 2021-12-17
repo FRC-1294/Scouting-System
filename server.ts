@@ -73,7 +73,7 @@ const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 //
 //SSL  TLS
 var server: http.Server | https.Server
-if (process.env.secure) {
+if (false) { //disabled until I get stuff working
 	console.log("SECURE MODE ENABLED")
 	const keys = {	
 		key: fs.readFileSync('./keys/key.pem'),
