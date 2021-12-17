@@ -1,5 +1,7 @@
 import express, { response } from 'express'
-var http = require('http')
+import http from 'http'
+import https from 'https'
+import fs from 'fs'
 import mongoose from 'mongoose'
 let path = require('path')
 import crypto from 'crypto'
@@ -69,7 +71,20 @@ const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
 //
 //Server
 //
-var server = http.createServer(webApp)
+//SSL  TLS
+var server: http.Server | https.Server
+if (process.env.secure) {
+	console.log("SECURE MODE ENABLED")
+	const keys = {	
+		key: fs.readFileSync('./keys/key.pem'),
+		cert: fs.readFileSync('./keys/cert.pem')	  
+	}
+	server = https.createServer(keys, webApp)
+} else {
+	console.log("SECURE MODE DISABLED")
+	server = http.createServer(webApp)
+}
+
 // Pass a http.Server instance to the listen method
 
 
