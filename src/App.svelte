@@ -18,9 +18,9 @@
 	<p>Pack Of Parts Scouting</p>
 	<Router>
 		<div>
-			<Route path="scout" component={Scout} />
+			<Route path="/" component={Scout} />
 			<Route path="control" component={Control} />
-			<Route path="/"><Home /></Route>
+			<Route path="/home"><Home /></Route>
 		</div>
 	</Router>
 </main>
