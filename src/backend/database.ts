@@ -34,4 +34,49 @@ export class DatabaseManager {
        let dataObject: mongoose.Document = new this.ROBOTDATA(dataToSumbit)
        dataObject.save()
    }
+
+   /**
+    * aggregateTeams
+    */
+   public async aggregateTeams() {
+    let pipeline = [
+        {
+            $group: {
+                _id: '$teamNumber',
+                MaxAuto: {
+                    $max: '$auto',
+                },
+                AvgAuto: {
+                    $avg: '$auto',
+                },
+                MinAuto: {
+                    $min: '$auto',
+                },
+                AvgBoxesMovedAuto: {
+                    $avg: '$boxesMovedAuto',
+                },
+                AvgBoxesMovedTeleop: {
+                    $avg: '$boxesMovedTeleop',
+                },
+                MaxBoxesMovedAuto: {
+                    $max: '$boxesMovedAuto',
+                },
+                MaxBoxesMovedTeleop: {
+                    $max: '$boxesMovedTeleop',
+                },
+            },
+        },
+        {
+            $sort: {
+                AvgBoxesMovedTeleop: -1,
+                AvgBoxesMovedAuto: -1,
+                MaxAuto: -1,
+                AvgAuto: -1,
+            },
+        },
+    ]
+    console.log('Aggregation requested')
+    let result = await this.ROBOTDATA.aggregate(pipeline).exec()
+    return result
+   }
 }
