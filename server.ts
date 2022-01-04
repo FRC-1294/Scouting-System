@@ -43,25 +43,7 @@ function findScout(id: string): Scout {
 //
 //DATABASE
 //
-const matchSchema = new mongoose.Schema({
-	matchNumber: Number,
-	redBots: [Number],
-	blueBots: [Number],
-})
-const MATCH = mongoose.model('match', matchSchema)
-
-//The idea here is that the scouts would send data to the server, and the server would create a document for each match/team combo.
-//To get data on a team, I'll setup an aggregation to merge all these match/team documents into a single team document.
-const robotDataSchema = new mongoose.Schema({
-	teamNumber: Number,
-	matchNumber: Number,
-
-	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-	boxesMovedAuto: Number,
-	boxesMovedTeleop: Number,
-	efficient: Boolean, //Whether the robot navigated "Efficiently"
-})
-const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
+let DBManager = new DatabaseManager("mongodb://localhost:27017/robotics")
 
 //
 //Server
@@ -194,7 +176,7 @@ ioScout.on('connection', (client) => {
 		thisScout.status = 'submit'
 		console.log(data)
 
-		/*
+		/* TODO remove this comment
 const robotDataSchema = new mongoose.Schema({
 	teamNumber: Number,
 	matchNumber: Number,
@@ -206,7 +188,7 @@ const robotDataSchema = new mongoose.Schema({
 })
 		*/
 		//TODOCOMP fix data.data.
-		let thisData: mongoose.Document = new ROBOTDATA({
+		DBManager.submitData({ //TODO
 			teamNumber: data.teamNumber,
 			matchNumber: data.matchNumber,
 			auto: data.data.auto,
@@ -215,7 +197,6 @@ const robotDataSchema = new mongoose.Schema({
 			efficient: data.data.efficient,
 		})
 
-		thisData.save()
 		callback({
 			status: 'Success',
 		})
@@ -346,7 +327,7 @@ ioAdmin.on('connection', (client) => {
 			},
 		]
 		console.log('Aggregation requested')
-		let result = await ROBOTDATA.aggregate(pipeline).exec()
+		let result = await DBManager.ROBOTDATA.aggregate(pipeline).exec() //TODO
 		console.log(result)
 		sendResult(result)
 	})
@@ -355,7 +336,6 @@ ioAdmin.on('connection', (client) => {
 //Listen apps
 server.listen(portWeb, async () => {
 	console.log('Welcome to the scouting system!')
-	await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Web listening on port ${portWeb}`)
 	console.log(`Database connected`)
 })
