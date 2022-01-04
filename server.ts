@@ -8,6 +8,9 @@ import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
 let portSocket = 4000
+import { DatabaseManager } from './src/backend/database'
+import { DiscordManager } from './src/backend/discord'
+import { ScoutManager, ScoutType } from './src/backend/scouts'
 
 //
 //Utility
@@ -23,22 +26,14 @@ function getId(): string {
 //
 //State
 //
-export type SCOUT = {
-	name: string
-	id: string
-	socketId: string
-	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
-	isScouting: Boolean
-	robotScouting: Number
-}
-let scouts: SCOUT[] = []
+let scouts: ScoutType[] = []
 setInterval(() => {
 	ioAdmin.emit('scouts', scouts)
 }, 200)
-function findScout(id: string): SCOUT {
+function findScout(id: string): ScoutType {
 	let toReturn = undefined
 	scouts.forEach((thisScout) => {
-		if (thisScout.id == id || thisScout.socketId == id) {
+		if (thisScout.token == id || thisScout.socketId == id) {
 			toReturn = thisScout
 		}
 	})
@@ -48,25 +43,7 @@ function findScout(id: string): SCOUT {
 //
 //DATABASE
 //
-const matchSchema = new mongoose.Schema({
-	matchNumber: Number,
-	redBots: [Number],
-	blueBots: [Number],
-})
-const MATCH = mongoose.model('match', matchSchema)
-
-//The idea here is that the scouts would send data to the server, and the server would create a document for each match/team combo.
-//To get data on a team, I'll setup an aggregation to merge all these match/team documents into a single team document.
-const robotDataSchema = new mongoose.Schema({
-	teamNumber: Number,
-	matchNumber: Number,
-
-	auto: Number, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-	boxesMovedAuto: Number,
-	boxesMovedTeleop: Number,
-	efficient: Boolean, //Whether the robot navigated "Efficiently"
-})
-const ROBOTDATA = mongoose.model('robotdata', robotDataSchema)
+let DBManager = new DatabaseManager("mongodb://localhost:27017/robotics")
 
 //
 //Server
@@ -140,7 +117,7 @@ ioScout.on('connection', (client) => {
 				thisScout.status = 'connected'
 				thisScout.socketId = client.id
 				response.loggedIn = true
-				response.id = thisScout.id
+				response.id = thisScout.token
 			}
 		}
 
@@ -155,7 +132,7 @@ ioScout.on('connection', (client) => {
 						thisScout.socketId = client.id
 						thisScout.isScouting = false
 						response.loggedIn = true
-						response.id = thisScout.id
+						response.id = thisScout.token
 					}
 				})
 
@@ -163,7 +140,7 @@ ioScout.on('connection', (client) => {
 					let newId = getId()
 					scouts.push({
 						name: clientAuth.name,
-						id: newId,
+						token: newId,
 						socketId: client.id,
 						status: 'connected',
 						isScouting: false,
@@ -199,7 +176,7 @@ ioScout.on('connection', (client) => {
 		thisScout.status = 'submit'
 		console.log(data)
 
-		/*
+		/* TODO remove this comment
 const robotDataSchema = new mongoose.Schema({
 	teamNumber: Number,
 	matchNumber: Number,
@@ -211,7 +188,7 @@ const robotDataSchema = new mongoose.Schema({
 })
 		*/
 		//TODOCOMP fix data.data.
-		let thisData: mongoose.Document = new ROBOTDATA({
+		DBManager.submitData({ //TODO
 			teamNumber: data.teamNumber,
 			matchNumber: data.matchNumber,
 			auto: data.data.auto,
@@ -220,7 +197,6 @@ const robotDataSchema = new mongoose.Schema({
 			efficient: data.data.efficient,
 		})
 
-		thisData.save()
 		callback({
 			status: 'Success',
 		})
@@ -314,44 +290,7 @@ ioAdmin.on('connection', (client) => {
 	})
 
 	client.on('aggregate', async (sendResult) => {
-		let pipeline = [
-			{
-				$group: {
-					_id: '$teamNumber',
-					MaxAuto: {
-						$max: '$auto',
-					},
-					AvgAuto: {
-						$avg: '$auto',
-					},
-					MinAuto: {
-						$min: '$auto',
-					},
-					AvgBoxesMovedAuto: {
-						$avg: '$boxesMovedAuto',
-					},
-					AvgBoxesMovedTeleop: {
-						$avg: '$boxesMovedTeleop',
-					},
-					MaxBoxesMovedAuto: {
-						$max: '$boxesMovedAuto',
-					},
-					MaxBoxesMovedTeleop: {
-						$max: '$boxesMovedTeleop',
-					},
-				},
-			},
-			{
-				$sort: {
-					AvgBoxesMovedTeleop: -1,
-					AvgBoxesMovedAuto: -1,
-					MaxAuto: -1,
-					AvgAuto: -1,
-				},
-			},
-		]
-		console.log('Aggregation requested')
-		let result = await ROBOTDATA.aggregate(pipeline).exec()
+		let result = DBManager.aggregateTeams()
 		console.log(result)
 		sendResult(result)
 	})
@@ -360,7 +299,6 @@ ioAdmin.on('connection', (client) => {
 //Listen apps
 server.listen(portWeb, async () => {
 	console.log('Welcome to the scouting system!')
-	await mongoose.connect('mongodb://localhost:27017/robotics')
 	console.log(`Web listening on port ${portWeb}`)
 	console.log(`Database connected`)
 })
