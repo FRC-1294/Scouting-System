@@ -7,9 +7,9 @@ export class ScoutManager {
     }
 }
 
-export class Scout {
+export type Scout = {
     name: string
-	id: string
+	token: string
 	socketId: string
 	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
 	isScouting: Boolean

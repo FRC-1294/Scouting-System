@@ -33,7 +33,7 @@ setInterval(() => {
 function findScout(id: string): Scout {
 	let toReturn = undefined
 	scouts.forEach((thisScout) => {
-		if (thisScout.id == id || thisScout.socketId == id) {
+		if (thisScout.token == id || thisScout.socketId == id) {
 			toReturn = thisScout
 		}
 	})
@@ -135,7 +135,7 @@ ioScout.on('connection', (client) => {
 				thisScout.status = 'connected'
 				thisScout.socketId = client.id
 				response.loggedIn = true
-				response.id = thisScout.id
+				response.id = thisScout.token
 			}
 		}
 
@@ -150,7 +150,7 @@ ioScout.on('connection', (client) => {
 						thisScout.socketId = client.id
 						thisScout.isScouting = false
 						response.loggedIn = true
-						response.id = thisScout.id
+						response.id = thisScout.token
 					}
 				})
 
@@ -158,7 +158,7 @@ ioScout.on('connection', (client) => {
 					let newId = getId()
 					scouts.push({
 						name: clientAuth.name,
-						id: newId,
+						token: newId,
 						socketId: client.id,
 						status: 'connected',
 						isScouting: false,
