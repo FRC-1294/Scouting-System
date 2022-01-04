@@ -8,6 +8,9 @@ import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
 let portSocket = 4000
+import { DatabaseManager } from './src/backend/database'
+import { DiscordManager } from './src/backend/discord'
+import { ScoutManager, Scout } from './src/backend/scouts'
 
 //
 //Utility
@@ -23,19 +26,11 @@ function getId(): string {
 //
 //State
 //
-export type SCOUT = {
-	name: string
-	id: string
-	socketId: string
-	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
-	isScouting: Boolean
-	robotScouting: Number
-}
-let scouts: SCOUT[] = []
+let scouts: Scout[] = []
 setInterval(() => {
 	ioAdmin.emit('scouts', scouts)
 }, 200)
-function findScout(id: string): SCOUT {
+function findScout(id: string): Scout {
 	let toReturn = undefined
 	scouts.forEach((thisScout) => {
 		if (thisScout.id == id || thisScout.socketId == id) {
