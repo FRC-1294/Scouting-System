@@ -10,7 +10,7 @@ let portWeb = 80
 let portSocket = 4000
 import { DatabaseManager } from './src/backend/database'
 import { DiscordManager } from './src/backend/discord'
-import { ScoutManager, Scout } from './src/backend/scouts'
+import { ScoutManager, ScoutType } from './src/backend/scouts'
 
 //
 //Utility
@@ -26,11 +26,11 @@ function getId(): string {
 //
 //State
 //
-let scouts: Scout[] = []
+let scouts: ScoutType[] = []
 setInterval(() => {
 	ioAdmin.emit('scouts', scouts)
 }, 200)
-function findScout(id: string): Scout {
+function findScout(id: string): ScoutType {
 	let toReturn = undefined
 	scouts.forEach((thisScout) => {
 		if (thisScout.token == id || thisScout.socketId == id) {

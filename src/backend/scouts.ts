@@ -1,14 +1,24 @@
 export class ScoutManager {
-    /**
-     *
-     */
-    constructor() {
-        
+    
+}
+
+export class Scout {
+    name: string
+	token: string
+	socketId: string
+	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
+	isScouting: Boolean
+	robotScouting: Number
+	/**
+	 * Pings this scout, or shows an alert on the control screen
+	 */
+	public ping() {
+
     }
 }
 
-export type Scout = {
-    name: string
+export type ScoutType = {
+	name: string
 	token: string
 	socketId: string
 	status: 'connected' | 'disconnected' | 'scouting' | 'submit'

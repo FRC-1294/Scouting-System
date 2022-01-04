@@ -1,0 +1,2 @@
+TO HECC WITH SESSION MANAGEMENT ON THE SCOUT PAGE
+Restrict access to the scout and control pages unless logged in. Use the main page for login and OAuth. Figure out how to pull the cookie from Svelte and find out who is logged in.
