@@ -8,6 +8,20 @@ import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
 
+//
+//IMPORT CONFIG
+//
+type configFile = {
+	client_id: string,
+	client_secret: string,
+	bot_token: string
+}
+
+let config: configFile = <configFile>JSON.parse(fs.readFileSync("./config.json").toString())
+if(!config.client_id || !config.bot_token || !config.client_secret) {
+	throw new Error("Config file did not have required parameters");
+}
+console.log(config)
 
 //
 //MANAGERS
