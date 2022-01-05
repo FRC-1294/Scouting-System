@@ -16,10 +16,8 @@ import { DatabaseManager } from './src/backend/database'
 import { DiscordManager } from './src/backend/discord'
 import { ScoutManager, ScoutType } from './src/backend/scouts'
 import { SessionManager } from './src/backend/sessionManager'
-import { ErrorWrangler } from './src/backend/errors'
 
 //ORDER MATTERS, some of these depend on the other
-export let errorMan = new ErrorWrangler()
 export let databaseMan = new DatabaseManager("mongodb://localhost:27017/robotics")
 export let discordMan = new DiscordManager()
 export let sessionMan = new SessionManager()
