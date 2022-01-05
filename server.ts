@@ -197,7 +197,7 @@ const robotDataSchema = new mongoose.Schema({
 })
 		*/
 		//TODOCOMP fix data.data.
-		DBManager.submitData({ //TODO
+		databaseMan.submitData({ //TODO
 			teamNumber: data.teamNumber,
 			matchNumber: data.matchNumber,
 			auto: data.data.auto,
@@ -299,7 +299,7 @@ ioAdmin.on('connection', (client) => {
 	})
 
 	client.on('aggregate', async (sendResult) => {
-		let result = DBManager.aggregateTeams()
+		let result = databaseMan.aggregateTeams()
 		console.log(result)
 		sendResult(result)
 	})
