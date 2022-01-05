@@ -8,9 +8,23 @@ import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
 let portSocket = 4000
+
+
+//
+//MANAGERS
+//
 import { DatabaseManager } from './src/backend/database'
 import { DiscordManager } from './src/backend/discord'
 import { ScoutManager, ScoutType } from './src/backend/scouts'
+import { SessionManager } from './src/backend/sessionManager'
+import { ErrorWrangler } from './src/backend/errors'
+
+//ORDER MATTERS, some of these depend on the other
+export let errorMan = new ErrorWrangler()
+export let databaseMan = new DatabaseManager("mongodb://localhost:27017/robotics")
+export let discordMan = new DiscordManager()
+export let sessionMan = new SessionManager()
+export let scoutMan = new ScoutManager()
 
 //
 //Utility
@@ -39,11 +53,6 @@ function findScout(id: string): ScoutType {
 	})
 	return toReturn
 }
-
-//
-//DATABASE
-//
-let DBManager = new DatabaseManager("mongodb://localhost:27017/robotics")
 
 //
 //Server
