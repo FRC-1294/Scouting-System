@@ -2,7 +2,7 @@ export class ScoutManager {
     
 }
 
-export class Scout {
+export class User {
     name: string
 	token: string
 	socketId: string
