@@ -7,7 +7,6 @@ let path = require('path')
 import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
-let portSocket = 4000
 
 
 //
