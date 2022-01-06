@@ -33,6 +33,7 @@
 	"homepage": "https://github.com/theTisch21/2022-Scouting-System#readme",
 	"dependencies": {
 		"@types/socket.io": "^3.0.2",
+		"connect-mongodb-session": "^3.1.1",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"mongoose": "^6.0.14",

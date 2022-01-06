@@ -99,48 +99,4 @@ export class DatabaseManager {
 	public createUser(user: Object) {
 		//TODO
 	}
-
-    //
-	//Everything related to sessions
-    //
-	sessionSchema = new mongoose.Schema({
-		userId: Number,
-		token: String,
-		expiry: Number, //The UNIX epoch when the session expires (Tested <= to current)
-	})
-	SESSION = mongoose.model('session', this.sessionSchema)
-
-	/**
-	 * createSession
-	 * Creates a session and saves it to the database
-	 * @param {Number} userId the ID of the user to create a session for
-	 * @returns {string} The token of the user
-	 */
-	public createSession(userId: Number) {
-		let token = crypto.randomBytes(20).toString('hex')
-		var date = new Date()
-		let newSession: mongoose.Document = new this.SESSION({
-			userId: userId,
-			token: token,
-			expiry: date.getTime() + 1000 * 60 * 60 * 24 * 2, //1000 ms * 60 sec * 60 min * 24 hr * 2 day = 2 days from now
-		})
-		newSession.save()
-		return token
-	}
-
-	/**
-	 * getSession
-	 * Gets the session object from the database. Returns { userId: -1 } if there's no sesion
-	 * @param {Number} id The ID of the user
-	 * @param {string} token The Token to check
-	 */
-	public async getSession(id: Number, token: string) { //TODO this may not work
-		let foundDocument = await this.SESSION.findOne(
-			{
-				userId: id,
-				token: token,
-			}
-		).exec()
-        return foundDocument ?? {userId: -1}
-	}
 }

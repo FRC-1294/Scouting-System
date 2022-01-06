@@ -7,6 +7,7 @@
 	import Home from './home/Home.svelte'
 	import Control from './control/Control.svelte'
 	import Scout from './scout/Scout.svelte'
+	import Email from './email login/Email.svelte'
 </script>
 
 <main>
@@ -18,9 +19,10 @@
 	<p>Pack Of Parts Scouting</p>
 	<Router>
 		<div>
-			<Route path="/" component={Scout} />
+			<Route path="/" component={Home} />
 			<Route path="control" component={Control} />
-			<Route path="/home"><Home /></Route>
+			<Route path="/scout"><Scout /></Route>
+			<Route path='/email'><Email /></Route>
 		</div>
 	</Router>
 </main>

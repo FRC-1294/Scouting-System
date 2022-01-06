@@ -7,6 +7,9 @@ let path = require('path')
 import crypto from 'crypto'
 var webApp = express()
 let portWeb = 80
+var session = require('express-session')
+var cookieParser = require('cookie-parser')
+var MongoDBStore = require('connect-mongodb-session')(session)
 
 //
 //IMPORT CONFIG
@@ -15,11 +18,12 @@ type configFile = {
 	client_id: string,
 	client_secret: string,
 	bot_token: string,
-	database_url: string
+	database_url: string,
+	cookie_secret: string
 }
 
 let config: configFile = <configFile>JSON.parse(fs.readFileSync("./config.json").toString())
-if(!config.client_id || !config.bot_token || !config.client_secret || !config.database_url) {
+if(!config.client_id || !config.bot_token || !config.client_secret || !config.database_url || !config.cookie_secret) {
 	throw new Error("Config file did not have required parameters");
 }
 
@@ -96,15 +100,57 @@ webApp.use((req, res, next) => {
 	next()
 })
 
-//Let Svelte handle all requests
+//Middleware
+//cookies
+webApp.use(cookieParser(config.cookie_secret, {}))
+
+//sessions
+webApp.use(session({
+	secret: config.cookie_secret,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 2 //1000ms * 60s * 60m * 24h * 2d
+	}
+}))
+var store = new MongoDBStore({
+	uri: config.database_url,
+	collection: 'sessions',
+	expires: 1000 * 60 * 60 * 24 * 2, // 2 days in milliseconds
+  })
+
+
+//Auth
+webApp.get('/loginWithDiscord', (req, res) => {
+	res.redirect('') //TODO specify OAuth URL based on environment variable
+})
+
+webApp.get('/discordCallback', (req: any, res) => {
+	console.log(req.params.code)
+	//TODO
+	//Session must implement userId, isAdmin
+})
+
+webApp.get('/logout', (req: any, res) => {
+	req.session.destroy()
+})
+
+//Let Svelte handle all page requests
 webApp.get('/', (req, res) => {
 	res.sendFile('public/main.html', { root: __dirname })
 })
-webApp.get('/scout', (req, res) => {
-	res.sendFile('public/main.html', { root: __dirname })
+webApp.get('/scout', (req: any, res) => {
+	if(!req.session.userId) {
+		res.redirect('/')
+	} else {
+		res.sendFile('public/main.html', { root: __dirname })
+	}
 })
-webApp.get('/control', (req, res) => {
-	res.sendFile('public/main.html', { root: __dirname })
+webApp.get('/email')
+webApp.get('/control', (req: any, res) => {
+	if(req.session.isAdmin) {
+		res.sendFile('public/main.html', { root: __dirname })
+	} else {
+		res.redirect('/')
+	}
 })
 webApp.use('/static', express.static('node_modules'))
 
@@ -126,72 +172,14 @@ var ioAdmin = ioScout.of('/admin')
 ioScout.on('connection', (client) => {
 	console.log(`Client connected: ${client.id}`)
 
-	//AUTH
-	client.on('login', (clientAuth, ack) => {
-		//console.log(clientAuth)
-		let response = { loggedIn: false, id: '' }
-		//ID
-		if (clientAuth.id ?? false) {
-			let thisScout = findScout(clientAuth.id)
-			if (thisScout ?? false) {
-				thisScout.status = 'connected'
-				thisScout.socketId = client.id
-				response.loggedIn = true
-				response.id = thisScout.token
-			}
-		}
+	
 
-		//Password
-		if (clientAuth.password ?? false) {
-			if (clientAuth.password == '12941294') {
-				let foundAScout = false
-				scouts.forEach((thisScout) => {
-					if (thisScout.name == clientAuth.name) {
-						foundAScout = true
-						thisScout.status = 'connected'
-						thisScout.socketId = client.id
-						thisScout.isScouting = false
-						response.loggedIn = true
-						response.id = thisScout.token
-					}
-				})
-
-				if (!foundAScout) {
-					let newId = getId()
-					scouts.push({
-						name: clientAuth.name,
-						token: newId,
-						socketId: client.id,
-						status: 'connected',
-						isScouting: false,
-						robotScouting: null,
-					})
-					response.loggedIn = true
-					response.id = newId
-				}
-			}
-		}
-		ack(response)
-		//console.log(scouts)
-	})
-
-	//Use this function to test for auth
-	/*
-		if(!findScout(client.id)) {
-			console.log("Someone's trying to do stuff without being logged in.")
-			//There's no way the client would do this stuff without getting the ack from the server, so we assume something malicious is happening and disconnect them
-			client.disconnect()
-		}
-	*/
 	//Client events
 	client.on('data', (data, callback) => {
 		console.log('Client sent data')
 		let thisScout = findScout(client.id)
 		if (!thisScout) {
-			console.log(
-				"Someone's trying to submit data without being logged in."
-			)
-			client.disconnect()
+			throw new Error() //TODO document this error
 		}
 		thisScout.status = 'submit'
 		console.log(data)
@@ -240,30 +228,9 @@ let theAdmin: { socket: string; token: string } = {
 ioAdmin.on('connection', (client) => {
 	console.log(`Admin connected: ${client.id}`)
 
-	//TODOCOMP this is hacky, fix
-	client.on('login', (token, ack) => {
-		if (token == '12941294' || token == theAdmin.token) {
-			//console.log('Admin logged in')
-			let response = {
-				loggedIn: true,
-				token: getId(),
-			}
-			theAdmin = {
-				socket: client.id,
-				token: response.token,
-			}
-			ack(response)
-		} else {
-			ack({ loggedIn: false })
-		}
-
-		//console.log(theAdmin)
-	})
-
+	
 	//Admin events
 	client.on('setupMatch', (newMatchNumber, newRobotNumber) => {
-		//Boot off the admin if they're not authenticated
-		if (client.id != theAdmin.socket) client.disconnect()
 		console.log(`Setting up match ${newMatchNumber}`)
 		let newMatchData = {
 			matchNumber: newMatchNumber,
@@ -287,15 +254,11 @@ ioAdmin.on('connection', (client) => {
 	})
 
 	client.on('endMatch', () => {
-		//Boot off the admin if they're not authenticated
-		if (client.id != theAdmin.socket) client.disconnect()
 		console.log('Ending Match')
 		ioScout.emit('end')
 	})
 
 	client.on('boot', (id) => {
-		//Boot off the admin if they're not authenticated
-		if (client.id != theAdmin.socket) client.disconnect()
 		let thisScout = findScout(id)
 		ioScout
 			.to(thisScout.socketId)

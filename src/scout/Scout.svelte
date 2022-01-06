@@ -4,38 +4,7 @@
 	import { writable } from 'svelte/store'
 
 	var socket = io()
-	//Login
-	let isLoggedIn = false
-	let name = localStorage.getItem('name') ?? ''
-	let id = localStorage.getItem('id') ?? undefined
-	let password
 
-	if (id) {
-		login(true)
-	}
-
-	//TODO: Figure out if it's possible to have events outside the login function
-	function login() {
-		localStorage.setItem('name', name)
-		socket.emit(
-			'login',
-			{
-				id: id,
-				name: name,
-				password: password,
-			},
-			(ack) => {
-				if (ack.loggedIn) {
-					id = ack.id
-					localStorage.setItem('id', ack.id)
-					isLoggedIn = true
-				} else {
-					//Clear the ID from storage if it's invalid
-					localStorage.setItem('id', '')
-				}
-			}
-		)
-	}
 
 	socket.on('alert', (data) => alert(data))
 	socket.on('match', (matchData) => {
@@ -147,24 +116,6 @@
 
 	<!--Login-->
 
-	{#if !isLoggedIn}
-		<h1>LOGIN</h1>
-		<label for="nameInput">Name:</label><input
-			bind:value={name}
-			id="nameInput"
-			placeholder="Name"
-			title="Name"
-			type="text"
-		/>
-		<label for="passwordInput">Password:</label><input
-			bind:value={password}
-			id="passwordInput"
-			placeholder="Password"
-			title="Password"
-			type="password"
-		/>
-		<button on:click={login}>Login</button>
-	{:else}
 		<!--Scouting-->
 
 		{#if currentMatchData.matchNumber != -1}
@@ -225,7 +176,7 @@
 		{:else}
 			<p>You are not scouting this match</p>
 		{/if}
-	{/if}
+
 </main>
 
 {#if currentScoutData.isRed && currentScoutData.isScout}
