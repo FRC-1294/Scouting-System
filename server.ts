@@ -14,14 +14,14 @@ let portWeb = 80
 type configFile = {
 	client_id: string,
 	client_secret: string,
-	bot_token: string
+	bot_token: string,
+	database_url: string
 }
 
 let config: configFile = <configFile>JSON.parse(fs.readFileSync("./config.json").toString())
-if(!config.client_id || !config.bot_token || !config.client_secret) {
+if(!config.client_id || !config.bot_token || !config.client_secret || !config.database_url) {
 	throw new Error("Config file did not have required parameters");
 }
-console.log(config)
 
 //
 //MANAGERS
@@ -32,8 +32,8 @@ import { ScoutManager, ScoutType } from './src/backend/scouts'
 import { SessionManager } from './src/backend/sessionManager'
 
 //ORDER MATTERS, some of these depend on the other
-export let databaseMan = new DatabaseManager("mongodb://localhost:27017/robotics")
-export let discordMan = new DiscordManager()
+export let databaseMan = new DatabaseManager(config.database_url)
+export let discordMan = new DiscordManager(config.bot_token)
 export let sessionMan = new SessionManager()
 export let scoutMan = new ScoutManager()
 
