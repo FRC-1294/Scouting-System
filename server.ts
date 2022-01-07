@@ -123,6 +123,11 @@ webApp.get('/loginWithDiscord', (req, res) => {
 	res.redirect('') //TODO specify OAuth URL based on environment variable
 })
 
+webApp.post('/email', (req,res) => {
+
+	res.redirect('/scout')
+})
+
 webApp.get('/discordCallback', (req: any, res) => {
 	console.log(req.params.code)
 	//TODO
@@ -144,7 +149,9 @@ webApp.get('/scout', (req: any, res) => {
 		res.sendFile('public/main.html', { root: __dirname })
 	}
 })
-webApp.get('/email')
+webApp.get('/email', (req, res) => {
+	res.sendFile('public/main.html', { root: __dirname })
+})
 webApp.get('/control', (req: any, res) => {
 	if(req.session.isAdmin) {
 		res.sendFile('public/main.html', { root: __dirname })
