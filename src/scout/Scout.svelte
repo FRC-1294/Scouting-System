@@ -29,8 +29,7 @@
 
 	//Disconnect
 	socket.on('disconnect', () => {
-		alert('You got disconnected. Oh no!')
-		//TODOCOMP Deal with disconnect
+		window.location.reload()
 	})
 
 	//Used for urgent alerts
