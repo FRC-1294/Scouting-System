@@ -23,7 +23,7 @@ type configFile = {
 }
 
 let config: configFile = <configFile>JSON.parse(fs.readFileSync("./config.json").toString())
-if(!config.client_id || !config.bot_token || !config.client_secret || !config.database_url || !config.cookie_secret) {
+if(!config.client_id || !config.bot_token || !config.client_secret || !config.cookie_secret) {
 	throw new Error("Config file did not have required parameters");
 }
 
@@ -120,7 +120,7 @@ var store = new MongoDBStore({
 
 //Auth
 webApp.get('/loginWithDiscord', (req, res) => {
-	res.redirect('') //TODO specify OAuth URL based on environment variable
+	res.redirect('https://discord.com/api/oauth2/authorize?client_id=927729747717419028&redirect_uri=http%3A%2F%2Flocalhost%2Fdiscord&response_type=code&scope=identify') //TODO specify OAuth URL based on environment variable
 })
 
 webApp.post('/email', (req,res) => {
@@ -128,8 +128,9 @@ webApp.post('/email', (req,res) => {
 	res.redirect('/scout')
 })
 
-webApp.get('/discordCallback', (req: any, res) => {
-	console.log(req.params.code)
+webApp.get('/discord', (req: any, res) => {
+	console.log("I GOT ONE LEL: " + req.query.code)
+	res.redirect('/scout')
 	//TODO
 	//Session must implement userId, isAdmin
 })

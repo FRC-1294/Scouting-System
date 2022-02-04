@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
+import { spawn } from "child_process"
+import path from "path"
+import fs from 'fs'
 export class DatabaseManager {
 	matchSchema = new mongoose.Schema({
 		matchNumber: Number,
@@ -24,8 +27,30 @@ export class DatabaseManager {
 	/**
 	 * @param {string} url - The URL of the database as mongo://{username}:{password}@{IP}/
 	 */
-	constructor(url: string) {
-		mongoose.connect(url)
+	constructor(url?: string) {
+		if(true) {
+			console.log("spawning database")
+			let dataPath = path.join(process.cwd(), "./mongo/data")
+			try {
+				fs.mkdirSync(dataPath)				
+			} catch (e) {
+				console.log("Folder already exists")
+			}
+			let databaseProcess = spawn(path.join(process.cwd(), "./mongo/bin/mongod.exe"), ["--dbpath", dataPath])
+			databaseProcess.on("message", m => {
+				console.log("DB: " + m)
+			})
+			databaseProcess.on("error", e => {
+				console.log("DB error: " + e)
+			})
+			process.on("SIGINT", () => {
+				databaseProcess.kill()
+			})
+			process.on("SIGTERM", () => {
+				databaseProcess.kill()
+			})
+		}
+		mongoose.connect(url ?? "mongodb://localhost")
 	}
 
 	/**
@@ -96,7 +121,19 @@ export class DatabaseManager {
 	 * Creates a user and adds them to the database
 	 * @param {Object} user The user object to create and add
 	 */
-	public createUser(user: Object) {
-		//TODO
+	public createUser(user: {id: number, isDiscord: boolean}) {
+		let newUserDoc: mongoose.Document = new this.USER({
+			id: user.id,
+			isDiscord: user.isDiscord
+		})
+		newUserDoc.save()
+	}
+
+	/**
+	 * doesUserExist
+	 */
+	public async doesUserExist(id: number) {
+		let docs = await this.USER.find({id: id}).exec()
+		return docs.length > 0
 	}
 }

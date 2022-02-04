@@ -5,3 +5,4 @@ server.js
 keys
 /src/backend/*.js
 config.json
+/mongo/data

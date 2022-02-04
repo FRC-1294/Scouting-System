@@ -1,5 +1,16 @@
+import { databaseMan } from "../../server"
+
 export class ScoutManager {
-    
+    /**
+	 * logs in a user, creating them if they don't exist
+	 */
+	public login(id: number, isDiscord: boolean) {
+		if(databaseMan.doesUserExist(id)) {
+			//TODO
+		} else {
+			databaseMan.createUser({id: id, isDiscord: isDiscord})
+		}
+	}
 }
 
 export class User {
