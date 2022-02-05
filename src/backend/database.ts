@@ -113,24 +113,28 @@ export class DatabaseManager {
 	userSchema = new mongoose.Schema({
 		id: Number, //The ID of the user. Positive if discord, negative if email
 		isDiscord: Boolean, //Is the user registered through Discord?
+		name: String, //The name of the user
+		lastMatchScouted: Number, //The last match this user scouted, -1 if they haven't scouted yet
+		socketId: String, //The socket ID of the user
 	})
 	USER = mongoose.model('user', this.userSchema)
 
 	/**
-	 * createUser
 	 * Creates a user and adds them to the database
 	 * @param {Object} user The user object to create and add
 	 */
-	public createUser(user: {id: number, isDiscord: boolean}) {
+	public createUser(user: {id: number, isDiscord: boolean, name: string}) {
 		let newUserDoc: mongoose.Document = new this.USER({
 			id: user.id,
-			isDiscord: user.isDiscord
+			isDiscord: user.isDiscord,
+			name: user.name,
+			lastMatchScouted: -1
 		})
 		newUserDoc.save()
 	}
 
 	/**
-	 * doesUserExist
+	 * Checks if a user with the specified ID exists
 	 */
 	public async doesUserExist(id: number) {
 		let docs = await this.USER.find({id: id}).exec()

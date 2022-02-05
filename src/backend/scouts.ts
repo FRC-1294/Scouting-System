@@ -15,7 +15,6 @@ export class ScoutManager {
 
 export class User {
     name: string
-	token: string
 	socketId: string
 	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
 	isScouting: Boolean
@@ -42,7 +41,6 @@ export class User {
 
 export type ScoutType = {
 	name: string
-	token: string
 	socketId: string
 	status: 'connected' | 'disconnected' | 'scouting' | 'submit'
 	isScouting: Boolean
