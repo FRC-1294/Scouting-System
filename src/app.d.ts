@@ -12,4 +12,20 @@ declare namespace App {
 	interface Session {}
 
 	interface Stuff {}
+
+	interface ScoutData {
+		teamNumber: number,
+		matchNumber: number,
+		auto: boolean,
+		cargo: {
+			auto: number,
+			teleop: number
+		},
+		hub: {
+			upper: boolean,
+			lower: boolean
+		}
+		efficient: boolean,
+		notes: string
+	}
 }

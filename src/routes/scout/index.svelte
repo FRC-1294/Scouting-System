@@ -41,13 +41,20 @@
 	};
 
 	//DATA
-	let data = {
+	let data: App.ScoutData = {
 		teamNumber: currentScoutData.robotScouting,
 		matchNumber: currentMatchData.matchNumber,
-		auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-		CargoScoredAuto: 0,
-		CargoScoredTeleop: 0,
-		efficient: false //Whether the robot navigated "Efficiently"
+		auto: false, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+		cargo: {
+			auto: 0,
+			teleop: 0
+		},
+		hub: {
+			upper: false,
+			lower: false
+		},
+		efficient: false, //Whether the robot navigated "Efficiently"
+		notes: ""
 	};
 
 
@@ -58,20 +65,20 @@
 
 	//Counters
 	function incAuto() {
-		data.CargoScoredAuto++;
+		data.cargo.auto++;
 	}
 	function decAuto() {
-		if (data.CargoScoredAuto > 0) {
-			data.CargoScoredAuto--;
+		if (data.cargo.auto > 0) {
+			data.cargo.auto--;
 		}
 	}
 
 	function incTele() {
-		data.CargoScoredTeleop++;
+		data.cargo.teleop++;
 	}
 	function decTele() {
-		if (data.CargoScoredTeleop > 0) {
-			data.CargoScoredTeleop--;
+		if (data.cargo.teleop > 0) {
+			data.cargo.teleop--;
 		}
 	}
 	currentScoutData = {
@@ -118,17 +125,17 @@
 
 				<p>Did the robot have a functioning auto?</p>
 				<label class="switch">
-					<input id="auto" type="checkbox" />
+					<input bind:checked={data.auto} id="auto" type="checkbox" />
 					<span class="slider round" />
 				</label>
 			</div>
 			<div id="cargo">
 				<h3>Cargo</h3>
 				<p>Cargo Auto:</p>
-				<Counter bind:count={data.CargoScoredAuto}></Counter>
+				<Counter bind:count={data.cargo.auto}></Counter>
 				<br />			
 				<p>Cargo Teleop:</p>
-				<Counter bind:count={data.CargoScoredTeleop}></Counter>
+				<Counter bind:count={data.cargo.teleop}></Counter>
 			</div>
 			<div id="hub">
 				<h3>HUB</h3>
@@ -136,14 +143,14 @@
 	
 				<p>Upper:</p>
 				<label class="switch">
-					<input id="upper" type="checkbox" />
+					<input bind:checked={data.hub.upper} id="upper" type="checkbox" />
 					<span class="slider" />
 				</label>
 	
 				<br />
 				<p>Lower:</p>
 				<label class="switch">
-					<input id="lower" type="checkbox" />
+					<input bind:checked={data.hub.lower} id="lower" type="checkbox" />
 					<span class="slider" />
 				</label>			
 			</div>
@@ -151,7 +158,7 @@
 				<h3>OTHER</h3>
 				<p>Was the robot efficient?</p>
 				<label class="switch">
-					<input id="efficient" type="checkbox" />
+					<input bind:checked={data.efficient} id="efficient" type="checkbox" />
 					<span class="slider round" />
 				</label>
 				<br />
@@ -159,7 +166,7 @@
 				<label for="notes">Additional notes:</label>
 				<input type="text" id="notes" />
 			</div>
-
+			<p>{JSON.stringify(data)}</p>
 			<!--TODOCOMP add safety for submitting data-->
 			<br /><button on:click={submit}>Submit data</button>
 		{/if}
