@@ -121,19 +121,16 @@
 					<input id="auto" type="checkbox" />
 					<span class="slider round" />
 				</label>
-				<br />
-	
-				<br />
 			</div>
-			<div id="Cargo">
+			<div id="cargo">
 				<h3>Cargo</h3>
 				<p>Cargo Auto:</p>
 				<Counter bind:count={data.CargoScoredAuto}></Counter>
 				<br />			
 				<p>Cargo Teleop:</p>
 				<Counter bind:count={data.CargoScoredTeleop}></Counter>
-				<br />
-				<br />
+			</div>
+			<div id="hub">
 				<h3>HUB</h3>
 				<h4>Which hub(s) did the robot use?</h4>
 	
@@ -149,10 +146,7 @@
 					<input id="lower" type="checkbox" />
 					<span class="slider" />
 				</label>			
-				<br />
-				<br />
 			</div>
-
 			<div id="other">
 				<h3>OTHER</h3>
 				<p>Was the robot efficient?</p>
@@ -164,7 +158,6 @@
 				<br>
 				<label for="notes">Additional notes:</label>
 				<input type="text" id="notes" />
-				<br>				
 			</div>
 
 			<!--TODOCOMP add safety for submitting data-->
@@ -196,6 +189,27 @@
 {/if}
 
 <style>
+	#auto {
+		width:300px;
+		height: 130px;
+	}
+	#cargo {
+		width: 170px;
+		height: 320px;
+		margin-right: 30px;
+	}
+	#hub {
+		width: 200px;
+		height: 300px;
+	}
+	#other {
+		width: 200px;
+		height: 200px;
+	}
+	div {
+		float: left;
+	}
+
 	.warningHeader {
 		background-color: #ff0000;
 		width: 100%;
