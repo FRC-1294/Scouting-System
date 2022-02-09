@@ -164,7 +164,7 @@
 				<br />
 				<br>
 				<label for="notes">Additional notes:</label>
-				<input type="text" id="notes" />
+				<input bind:value={data.notes} type="text" id="notes" />
 			</div>
 			<p>{JSON.stringify(data)}</p>
 			<!--TODOCOMP add safety for submitting data-->
