@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { spring } from 'svelte/motion';
 
-	let count = 0;
+	export let count = 0;
 
 	const displayed_count = spring();
 	$: displayed_count.set(count);
@@ -50,7 +50,7 @@
 		justify-content: center;
 		border: 0;
 		background-color: transparent;
-		color: var(--text-color);
+		color: var(--Robot-Color);
 		font-size: 2rem;
 	}
 
@@ -66,7 +66,7 @@
 	path {
 		vector-effect: non-scaling-stroke;
 		stroke-width: 2px;
-		stroke: var(--text-color);
+		stroke: var(--Robot-Color);
 	}
 
 	.counter-viewport {
@@ -83,7 +83,7 @@
 		width: 100%;
 		height: 100%;
 		font-weight: 400;
-		color: var(--accent-color);
+		color: var(--Robot-Color);
 		font-size: 4rem;
 		align-items: center;
 		justify-content: center;

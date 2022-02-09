@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Counter from '$lib/Counter.svelte';
 	import { writable } from 'svelte/store';
 
 	/*
@@ -44,10 +45,12 @@
 		teamNumber: currentScoutData.robotScouting,
 		matchNumber: currentMatchData.matchNumber,
 		auto: 0, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-		CargoMovedAuto: 0,
-		CargoMovedTeleop: 0,
+		CargoScoredAuto: 0,
+		CargoScoredTeleop: 0,
 		efficient: false //Whether the robot navigated "Efficiently"
 	};
+
+
 	function submit() {
 		hasSumbitted = true;
 		needToSubmit = false;
@@ -55,23 +58,27 @@
 
 	//Counters
 	function incAuto() {
-		data.CargoMovedAuto++;
+		data.CargoScoredAuto++;
 	}
 	function decAuto() {
-		if (data.CargoMovedAuto > 0) {
-			data.CargoMovedAuto--;
+		if (data.CargoScoredAuto > 0) {
+			data.CargoScoredAuto--;
 		}
 	}
 
 	function incTele() {
-		data.CargoMovedTeleop++;
+		data.CargoScoredTeleop++;
 	}
 	function decTele() {
-		if (data.CargoMovedTeleop > 0) {
-			data.CargoMovedTeleop--;
+		if (data.CargoScoredTeleop > 0) {
+			data.CargoScoredTeleop--;
 		}
 	}
-
+	currentScoutData = {
+			isScout: true,
+			robotScouting: 1294,
+			isRed: true
+		};
 	setInterval(() => {
 		currentScoutData = {
 			isScout: true,
@@ -106,58 +113,60 @@
 		<!--Data collection here-->
 		{#if !hasSumbitted}
 			<br />
-			<h3>AUTO</h3>
+			<div id="auto">
+				<h3>AUTO</h3>
 
-			<p>Did the robot have a functioning auto?</p>
-			<label class="switch">
-				<input id="auto" type="checkbox" />
-				<span class="slider round" />
-			</label>
-			<br />
+				<p>Did the robot have a functioning auto?</p>
+				<label class="switch">
+					<input id="auto" type="checkbox" />
+					<span class="slider round" />
+				</label>
+				<br />
+	
+				<br />
+			</div>
+			<div id="Cargo">
+				<h3>Cargo</h3>
+				<p>Cargo Auto:</p>
+				<Counter bind:count={data.CargoScoredAuto}></Counter>
+				<br />			
+				<p>Cargo Teleop:</p>
+				<Counter bind:count={data.CargoScoredTeleop}></Counter>
+				<br />
+				<br />
+				<h3>HUB</h3>
+				<h4>Which hub(s) did the robot use?</h4>
+	
+				<p>Upper:</p>
+				<label class="switch">
+					<input id="upper" type="checkbox" />
+					<span class="slider" />
+				</label>
+	
+				<br />
+				<p>Lower:</p>
+				<label class="switch">
+					<input id="lower" type="checkbox" />
+					<span class="slider" />
+				</label>			
+				<br />
+				<br />
+			</div>
 
-			<br />
-			<h3>Cargo</h3>
+			<div id="other">
+				<h3>OTHER</h3>
+				<p>Was the robot efficient?</p>
+				<label class="switch">
+					<input id="efficient" type="checkbox" />
+					<span class="slider round" />
+				</label>
+				<br />
+				<br>
+				<label for="notes">Additional notes:</label>
+				<input type="text" id="notes" />
+				<br>				
+			</div>
 
-			<button class="counter" on:click={incAuto}>+</button>
-			<button class="counter" on:click={decAuto}>-</button>
-			<label for="CargoAuto">Cargo Auto:</label>
-			<input id="CargoAuto" bind:value={data.CargoMovedAuto} placeholder="Cargo Moved Auto" />
-			<br />
-			<button class="counter" on:click={incTele}>+</button>
-			<button class="counter" on:click={decTele}>-</button>
-			<label for="CargoTele">Cargo Teleop:</label>
-			<input id="CargoTele" bind:value={data.CargoMovedTeleop} placeholder="Cargo Moved Teleop" />
-			<br />
-			<br />
-			<h3>HUB</h3>
-			<h4>Which hub(s) did the robot use?</h4>
-
-			<p>Upper:</p>
-			<label class="switch">
-				<input id="upper" type="checkbox" />
-				<span class="slider" />
-			</label>
-
-			<br />
-			<p>Lower:</p>
-			<label class="switch">
-				<input id="lower" type="checkbox" />
-				<span class="slider" />
-			</label>
-
-			<br />
-			<br />
-			<h3>OTHER</h3>
-			<p>Was the robot efficient?</p>
-			<label class="switch">
-				<input id="efficient" type="checkbox" />
-				<span class="slider round" />
-			</label>
-			<br />
-			<br>
-			<label for="notes">Additional notes:</label>
-			<input type="text" id="notes" />
-			<br>
 			<!--TODOCOMP add safety for submitting data-->
 			<br /><button on:click={submit}>Submit data</button>
 		{/if}
@@ -194,12 +203,6 @@
 	}
 	.warningHeaderText {
 		color: #ffffff;
-	}
-	.counter {
-		font-size: large;
-		background-color: var(--Robot-Color);
-		width: 50px;
-		height: 50px;
 	}
 
 	/* The switch - the box around the slider */
