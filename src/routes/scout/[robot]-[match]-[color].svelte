@@ -2,7 +2,12 @@
 	import Counter from '$lib/Counter.svelte'
 	import { writable } from 'svelte/store'
 	import Slider from '$lib/Slider.svelte'
+	import { page } from '$app/stores'
 
+	export let robotScouting = Number($page.params.robot)
+	export let isRed = $page.params.color == "red"
+	export let matchNumber = Number($page.params.match)
+	
 	/*
 	socket.on('alert', (data) => alert(data))
 	socket.on('match', (matchData) => {
@@ -26,25 +31,13 @@
 	})
 */
 	//Scouting and match logic
-	let hasSumbitted = false;
-	let needToSubmit = false;
-	let currentScoutData: {
-		isScout: Boolean;
-		robotScouting: number;
-		isRed: Boolean;
-	} = {
-		isScout: false,
-		robotScouting: -1,
-		isRed: false
-	};
-	let currentMatchData = {
-		matchNumber: -1
-	};
+	let hasSumbitted = false
+	let needToSubmit = false
 
 	//DATA
 	let data: App.ScoutData = {
-		teamNumber: currentScoutData.robotScouting,
-		matchNumber: currentMatchData.matchNumber,
+		teamNumber: robotScouting,
+		matchNumber: matchNumber,
 		auto: false, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 		cargo: {
 			auto: 0,
@@ -56,44 +49,12 @@
 		},
 		efficient: false, //Whether the robot navigated "Efficiently"
 		notes: ""
-	};
-
+	}
 
 	function submit() {
 		hasSumbitted = true;
 		needToSubmit = false;
 	}
-
-	//Counters
-	function incAuto() {
-		data.cargo.auto++;
-	}
-	function decAuto() {
-		if (data.cargo.auto > 0) {
-			data.cargo.auto--;
-		}
-	}
-
-	function incTele() {
-		data.cargo.teleop++;
-	}
-	function decTele() {
-		if (data.cargo.teleop > 0) {
-			data.cargo.teleop--;
-		}
-	}
-	currentScoutData = {
-			isScout: true,
-			robotScouting: 1294,
-			isRed: true
-		};
-	setInterval(() => {
-		currentScoutData = {
-			isScout: true,
-			robotScouting: 1294,
-			isRed: !currentScoutData.isRed
-		};
-	}, 2000);
 </script>
 
 <main>
@@ -109,15 +70,10 @@
 	<!--Login-->
 
 	<!--Scouting-->
-
-	{#if currentMatchData.matchNumber != -1}
-		<p>Current match: Q{currentMatchData.matchNumber}</p>
+		<p>Current match: Q{matchNumber}</p>
 		<br />
-	{:else}
-		<h1>Welcome! Waiting for data from server.</h1>
-	{/if}
-	{#if currentScoutData.isScout}
-		<p>You are scouting robot {currentScoutData.robotScouting}</p>
+		<p>You are scouting robot {robotScouting}</p>
+		<br>
 		<!--Data collection here-->
 		{#if !hasSumbitted}
 			<br />
@@ -160,31 +116,22 @@
 			<!--TODOCOMP add safety for submitting data-->
 			<br /><button on:click={submit}>Submit data</button>
 		{/if}
-	{:else}
-		<p>You are not scouting this match</p>
-	{/if}
+
 </main>
 
-{#if currentScoutData.isRed && currentScoutData.isScout}
+{#if isRed}
 	<style>
 		:root {
 			--Robot-Color: #ff9999;
 		}
 	</style>
-{:else if currentScoutData.isScout}
+{:else}
 	<style>
 		:root {
 			--Robot-Color: #9999ff;
 		}
 	</style>
-{:else}
-	<style>
-		:root {
-			--Robot-Color: #ffffff;
-		}
-	</style>
 {/if}
-
 <style>
 	#auto {
 		width:300px;
