@@ -1,6 +1,7 @@
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
-	import { writable } from 'svelte/store';
+	import Counter from '$lib/Counter.svelte'
+	import { writable } from 'svelte/store'
+	import Slider from '$lib/Slider.svelte'
 
 	/*
 	socket.on('alert', (data) => alert(data))
@@ -124,11 +125,9 @@
 				<h3>AUTO</h3>
 
 				<p>Did the robot have a functioning auto?</p>
-				<label class="switch">
-					<input bind:checked={data.auto} id="auto" type="checkbox" />
-					<span class="slider round" />
-				</label>
+				<Slider round bind:checked={data.auto} />
 			</div>
+			
 			<div id="cargo">
 				<h3>Cargo</h3>
 				<p>Cargo Auto:</p>
@@ -137,30 +136,21 @@
 				<p>Cargo Teleop:</p>
 				<Counter bind:count={data.cargo.teleop}></Counter>
 			</div>
+
 			<div id="hub">
 				<h3>HUB</h3>
-				<h4>Which hub(s) did the robot use?</h4>
-	
-				<p>Upper:</p>
-				<label class="switch">
-					<input bind:checked={data.hub.upper} id="upper" type="checkbox" />
-					<span class="slider" />
-				</label>
-	
+				<h4>Which hub(s) did the robot use?</h4>	
+				<p>Upper:</p>				
+				<Slider bind:checked={data.hub.upper} />	
 				<br />
 				<p>Lower:</p>
-				<label class="switch">
-					<input bind:checked={data.hub.lower} id="lower" type="checkbox" />
-					<span class="slider" />
-				</label>			
+				<Slider bind:checked={data.hub.lower} />			
 			</div>
+
 			<div id="other">
 				<h3>OTHER</h3>
 				<p>Was the robot efficient?</p>
-				<label class="switch">
-					<input bind:checked={data.efficient} id="efficient" type="checkbox" />
-					<span class="slider round" />
-				</label>
+				<Slider round bind:checked={data.efficient}/>
 				<br />
 				<br>
 				<label for="notes">Additional notes:</label>
@@ -224,77 +214,5 @@
 	}
 	.warningHeaderText {
 		color: #ffffff;
-	}
-
-	/* The switch - the box around the slider */
-	.switch {
-		position: relative;
-		display: inline-block;
-		width: 60px;
-		height: 34px;
-	}
-
-	/* Hide default HTML checkbox */
-	.switch input {
-		opacity: 0;
-		width: 0;
-		height: 0;
-	}
-
-	/* The slider */
-	.slider {
-		position: absolute;
-		cursor: pointer;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: #ccc;
-		-webkit-transition: 0.4s;
-		transition: 0.4s;
-	}
-
-	.slider:before {
-		position: absolute;
-		content: '';
-		height: 26px;
-		width: 26px;
-		left: 4px;
-		bottom: 4px;
-		background-color: white;
-		-webkit-transition: 0.4s;
-		transition: 0.4s;
-	}
-
-	input:checked + .slider {
-		background-color: var(--Robot-Color);
-	}
-
-	input:focus + .slider {
-		box-shadow: 0 0 1px var(--Robot-Color);
-	}
-
-	input:checked + .slider:before {
-		-webkit-transform: translateX(26px);
-		-ms-transform: translateX(26px);
-		transform: translateX(26px);
-	}
-
-	/* Rounded sliders */
-	.slider.round {
-		border-radius: 34px;
-	}
-
-	.slider.round:before {
-		border-radius: 50%;
-	}
-
-	/* Rounded sliders */
-	.round {
-		border-radius: 34px;
-	}
-
-	.slider.round:before {
-		border-radius: 50%;
 	}
 </style>
