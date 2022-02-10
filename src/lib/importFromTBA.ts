@@ -1,6 +1,6 @@
 export async function importDataFromTheBlueAlliance(): Promise<App.MatchData[]> {
     let ParsedMatches:App.MatchData[] = []
-    const url = "https://www.thebluealliance.com/api/v3/event/2016nytr/matches/simple"
+    const url = "https://www.thebluealliance.com/api/v3/event/2019wasno/matches/simple"
     const apiKey = "8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG"
     const res = await fetch(url, {headers: {"X-TBA-Auth-Key": apiKey}})
     const APIResult = await res.json()
@@ -15,21 +15,24 @@ export async function importDataFromTheBlueAlliance(): Promise<App.MatchData[]> 
             blue: {
                 team_keys: string[]
             }
-        }
+        },
+        comp_level: string
     }) => {
-        let redKeys: number[] = []
-        let blueKeys: number[] = []
-        match.alliances.red.team_keys.forEach((teamString:string) => {
-            redKeys.push(Number(teamString.substring(3)))
-        })
-        match.alliances.blue.team_keys.forEach((teamString:string) => {
-            blueKeys.push(Number(teamString.substring(3)))
-        })
-        ParsedMatches.push({
-            matchNumber: match.match_number,
-            red: redKeys,
-            blue: blueKeys
-        })
+        if(match.comp_level == "qf") { //Only process a match if it's a qualifying match
+            let redKeys: number[] = []
+            let blueKeys: number[] = []
+            match.alliances.red.team_keys.forEach((teamString:string) => {
+                redKeys.push(Number(teamString.substring(3)))
+            })
+            match.alliances.blue.team_keys.forEach((teamString:string) => {
+                blueKeys.push(Number(teamString.substring(3)))
+            })
+            ParsedMatches.push({
+                matchNumber: match.match_number,
+                red: redKeys,
+                blue: blueKeys
+            })
+        }        
     })
     return ParsedMatches
 }
