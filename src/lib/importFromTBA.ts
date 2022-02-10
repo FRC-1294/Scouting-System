@@ -1,10 +1,10 @@
-export async function importDataFromTheBlueAlliance() {
+export async function importDataFromTheBlueAlliance(): Promise<App.MatchData[]> {
     let ParsedMatches:App.MatchData[] = []
     const url = "https://www.thebluealliance.com/api/v3/event/2016nytr/matches/simple"
     const res = await fetch(url)
     const json = await res.json()
     json.forEach((match: {
-        //This is the schema that every match conforms to
+        //This is the schema that every imported match conforms to
         match_number: number,
         alliances: {
             red: {
@@ -16,7 +16,18 @@ export async function importDataFromTheBlueAlliance() {
         }
     }) => {
         ParsedMatches.push({
+            //Your code here! Parse each match object into the correct format:
+            /*
+                {
+		matchNumber: number,
+		red: number[],
+		blue: number[]
+	}
+            */
 
+
+    
         })
     })
+    return ParsedMatches
 }
