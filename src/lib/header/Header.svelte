@@ -5,9 +5,7 @@
 
 <header>
 	<div class="corner">
-		<a>
 			<img src="logo.png" alt="SvelteKit" />
-		</a>
 	</div>
 
 	<nav>
@@ -44,7 +42,7 @@
 		height: 5em;
 	}
 
-	.corner a {
+	.corner img {
 		display: flex;
 		align-items: center;
 		justify-content: center;
