@@ -28,4 +28,14 @@ declare namespace App {
 		efficient: boolean,
 		notes: string
 	}
+
+	interface MatchData {
+		matchNumber: number,
+		red: number[],
+		blue: number[]
+	}
+
+	interface EventData {
+		matches: MatchData[]
+	}
 }
