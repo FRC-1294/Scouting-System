@@ -38,4 +38,11 @@ declare namespace App {
 	interface EventData {
 		matches: MatchData[]
 	}
+
+	interface UserData {
+		userName: string,
+		name: string,
+		passwordHash: string,
+		token: string
+	}
 }
