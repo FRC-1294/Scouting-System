@@ -1,3 +1,24 @@
+<script context="module" lang="ts">
+	//PROBLEM It's not getting the session properly, no idea how to fix
+	import { getStores, navigating, page, session, updated } from '$app/stores'
+	import type {Load} from '@sveltejs/kit'
+    export const load: Load = async (obj) => {
+		let session = obj.session
+		console.log(session)
+		if (session.username) {
+    return {
+        status: 302,
+        redirect: "/"
+    }
+    }
+		return {
+			props: {
+				name: session.fullName
+			}
+		}
+    }
+</script>
+
 <script lang="ts">
     let user = {username: "",
         password: ""}

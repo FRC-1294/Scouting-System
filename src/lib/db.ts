@@ -23,7 +23,7 @@ client.connect()
 
 let authDB = client.db("Auth")
 let usersColl: Collection<App.User> = authDB.collection("Users")
-let sessionColl: Collection<App.Session> = authDB.collection("Sessions")
+let sessionColl: Collection<App.StoredSession> = authDB.collection("Sessions")
 
 let compDB = client.db("TESTING_COMP_DATABASE")
 
@@ -57,7 +57,7 @@ export async function createSession(username: string): Promise<string> {
     return token
 }
 
-export async function retreiveSession(sessionId: string): Promise<App.Session> {
+export async function retreiveSession(sessionId: string): Promise<App.StoredSession> {
     console.log("Retreiving session: " + sessionId)
     return (await sessionColl.findOne({sessionId: sessionId}))
 }

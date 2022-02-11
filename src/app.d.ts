@@ -16,8 +16,15 @@ declare namespace App {
 	interface Session {
 			username: string,
 			fullName: string,
-			isAdmin: boolean,
-			sessionId: string
+			isAdmin: boolean
+	}
+
+	interface StoredSession {
+		username: string,
+		fullName: string,
+		isAdmin: boolean,
+		sessionId: string
+
 	}
 
 	interface Stuff {}
