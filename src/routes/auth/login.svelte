@@ -1,18 +1,18 @@
 <script lang="ts">
-    let username
-    let password
+    let user = {username: "",
+        password: ""}
     let error
     async function login() {
         const response = await fetch('/auth/api/login', {
         method: 'POST',
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify(user),
         headers: {
             'Content-Type': 'application/json'
         }
       })
   
       if (!response.ok) {
-        error = (await response.json()).message
+        error = (await response.json()).message //TODO implement error message
         return
       }
   
@@ -23,8 +23,8 @@
 
 <main>
     <div>
-        <input bind:value={username} type="text" placeholder="Username">
-        <input bind:value={password} type="password" placeholder="Password">
+        <input bind:value={user.username} type="text" placeholder="Username">
+        <input bind:value={user.password} type="password" placeholder="Password">
         <button on:click={login}>Login!</button>
         <p>{error}</p>
     </div>
