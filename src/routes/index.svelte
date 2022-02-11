@@ -1,10 +1,20 @@
 <script context="module" lang="ts">
-	export const prerender = true;
+	
+    export async function load({ session }) {
+		return {
+			props: {
+				name: session.user
+			}
+		}
+    }
 </script>
 
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Counter from '$lib/Counter.svelte';
+
+	
+    export let name
 </script>
 
 <svelte:head>
@@ -21,13 +31,12 @@
 		</div>
 
 		to the scouting system!
+		{name}
 	</h1>
 
 	<h1>
 		<a sveltekit:prefetch href="/login">Login!</a>
 	</h1>
-
-	<Counter />
 </section>
 
 <style>

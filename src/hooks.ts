@@ -1,24 +1,20 @@
-import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
-import type { Handle } from '@sveltejs/kit';
+import {parse} from 'cookie'
+import { v4 as uuid } from '@lukeed/uuid'
+import type { Handle, RequestEvent } from '@sveltejs/kit'
+import { getSession } from '$lib/db'
 
-export const handle: Handle = async ({ event, resolve }) => {
-	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-	event.locals.userid = cookies.userid || uuid();
+/** @type {Handle} */
+export async function handle({ event, resolve }) {
+    const cookies = parse(event.request.headers.cookie || '')
 
-	const response = await resolve(event);
+    if (cookies.session_id) {
+     const session = await getSession(cookies.session_id)
+     if (session) {
+         (event as RequestEvent).locals.user = { userName: session.userName, isAdmin: session.isAdmin }
+         return resolve(event)
+     }
+    }
 
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers.set(
-			'set-cookie',
-			cookie.serialize('userid', event.locals.userid, {
-				path: '/',
-				httpOnly: true
-			})
-		);
-	}
-
-	return response;
-};
+    event.locals.user = "Not signed in"
+    return resolve(event)
+}

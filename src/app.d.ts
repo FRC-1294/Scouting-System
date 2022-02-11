@@ -4,16 +4,21 @@
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		userid: string;
+		user: {
+			userName: string,
+			isAdmin: boolean
+		}
 	}
 
 	interface Platform {}
 
-	interface Session {}
+	interface Session {
+		user: string
+	}
 
 	interface Stuff {}
 
-	interface ScoutData {
+	interface ScoutedMatch {
 		teamNumber: number,
 		matchNumber: number,
 		auto: boolean,
@@ -29,20 +34,26 @@ declare namespace App {
 		notes: string
 	}
 
-	interface MatchData {
+	interface Match {
 		matchNumber: number,
 		red: number[],
 		blue: number[]
 	}
 
-	interface EventData {
-		matches: MatchData[]
+	interface Event {
+		matches: Match[]
 	}
 
-	interface UserData {
+	interface User {
 		userName: string,
-		name: string,
+		fullName: string,
 		passwordHash: string,
-		token: string
+		isAdmin: boolean
+	}
+
+	interface Session {
+		userName: string,
+		isAdmin: boolean,
+		sessionId: string
 	}
 }

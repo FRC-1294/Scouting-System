@@ -1,5 +1,5 @@
-export async function importDataFromTheBlueAlliance(): Promise<App.MatchData[]> {
-    let ParsedMatches:App.MatchData[] = []
+export async function importDataFromTheBlueAlliance(): Promise<App.Match[]> {
+    let ParsedMatches:App.Match[] = []
     const url = "https://www.thebluealliance.com/api/v3/event/2019wasno/matches/simple"
     const apiKey = "8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG"
     const res = await fetch(url, {headers: {"X-TBA-Auth-Key": apiKey}})
