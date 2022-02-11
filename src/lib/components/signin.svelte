@@ -3,10 +3,10 @@
   
     let error;
   
-    async function handleSubmit({detail: {userName, password}}) {
+    async function handleSubmit({detail: {username, password}}) {
       const response = await fetch('/auth/api/login', {
       method: 'POST',
-      body: JSON.stringify({ userName, password }),
+      body: JSON.stringify({ username, password }),
       headers: {
           'Content-Type': 'application/json'
       }

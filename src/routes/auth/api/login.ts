@@ -1,15 +1,14 @@
 import { serialize } from 'cookie'
 import { createSession, getUser } from '$lib/db';
 import { hash } from '$lib/hash';
-import type { RequestEvent } from '@sveltejs/kit';
 
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({request}) {
     const body = await request.json()
-    let userName = body.userName
+    let username = body.username
     let password = body.password
-    const user = await getUser(userName);
+    const user = await getUser(username);
 
     // ⚠️ CAUTION: Do not store a plain passwords. Use proper hashing and salting.
     if (!user || user.passwordHash !== hash(password)) {
@@ -21,7 +20,7 @@ export async function post({request}) {
      };
     }
 
-    const id = await createSession(userName);
+    const id = await createSession(username);
     return {
      status: 200,
      headers: {

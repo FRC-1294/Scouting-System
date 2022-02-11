@@ -33,20 +33,23 @@ export async function aggregate() {
 
 }
 
-export async function getUser(userName: string): Promise<App.User> {
-    return (await usersColl.findOne({userName: userName}))
+export async function getUser(username: string): Promise<App.User> {
+    return (await usersColl.findOne({username: username}))
 }
 
 export async function createUser(user: App.User) {
     await usersColl.insertOne(user)
 }
 
-export async function createSession(userName: string): Promise<string> {
+export async function createSession(username: string): Promise<string> {
+    if(!username) throw new Error("Username can't be undefined...")
     let token = randomBytes(30).toString('hex').slice(0,30)
-    let user = await getUser(userName)
+    let user = await getUser(username)
     if(!user) throw new Error("A session can't be created for a nonexistient user")
+    //Delete old sessions for user
+    await sessionColl.deleteMany({username: username})
     await sessionColl.insertOne({
-        userName: userName,
+        username: username,
         fullName: user.fullName,
         sessionId: token,
         isAdmin: user.isAdmin
@@ -55,6 +58,7 @@ export async function createSession(userName: string): Promise<string> {
 }
 
 export async function retreiveSession(sessionId: string): Promise<App.Session> {
+    console.log("Retreiving session: " + sessionId)
     return (await sessionColl.findOne({sessionId: sessionId}))
 }
 

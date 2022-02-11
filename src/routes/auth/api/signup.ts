@@ -1,19 +1,27 @@
-import { createSession, getUser } from "$lib/db";
+import { createSession, createUser, getUser } from "$lib/db";
+import { hash } from "$lib/hash";
 import { serialize } from "cookie";
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function post({ body: { userName, password } }) {
-    
-    if (await getUser(userName)) {
+export async function post({request}) {
+    let {username, password, fullName} = await request.json()
+    if (await getUser(username)) {
      return {
          status: 401,
          body: {
-             message: 'Incorrect user or password',
+             message: 'Username taken',
          },
      };
     }
 
-    const id = await createSession(userName);
+    await createUser({
+        username: username,
+        passwordHash: hash(password),
+        isAdmin: false,
+        fullName: fullName
+    })
+
+    const id = await createSession(username);
     return {
      status: 200,
      headers: {
@@ -21,12 +29,11 @@ export async function post({ body: { userName, password } }) {
              path: '/',
              httpOnly: true,
              sameSite: 'strict',
-             secure: process.env.NODE_ENV === 'production',
              maxAge: 60 * 60 * 24 * 7, // one week
          }),
      },
      body: {
-         message: 'Successfully signed in',
+         message: 'Successfully signed up',
      },
     };
 }

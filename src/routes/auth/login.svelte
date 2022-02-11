@@ -31,7 +31,4 @@
 </main>
 
 <style>
-div {
-    
-}
 </style>

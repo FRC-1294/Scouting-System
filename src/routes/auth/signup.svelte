@@ -17,7 +17,7 @@
         error = (await response.json()).message //TODO implement error message
         return
       }
-  
+      error = (await response.json()).message
       // @ts-ignore
       window.location = '/'
     }
@@ -35,7 +35,4 @@
 </main>
 
 <style>
-div {
-    
-}
 </style>

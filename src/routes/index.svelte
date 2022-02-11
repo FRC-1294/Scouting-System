@@ -1,6 +1,13 @@
 <script context="module" lang="ts">
-	
+	//PROBLEM It's not getting the session properly, no idea how to fix
+	import { getStores, navigating, page, session, updated } from '$app/stores'
     export async function load({ session }) {
+		if (!session?.username) {
+    return {
+        status: 302,
+        redirect: "/auth/login"
+    }
+    }
 		return {
 			props: {
 				name: session.fullName
@@ -10,7 +17,7 @@
 </script>
 
 <script lang="ts">
-	import { getStores, navigating, page, session, updated } from '$app/stores'
+	
 	import Counter from '$lib/Counter.svelte'
 	
     export let name

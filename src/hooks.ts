@@ -1,16 +1,17 @@
 import {parse} from 'cookie'
-import { v4 as uuid } from '@lukeed/uuid'
-import { Handle, RequestEvent } from '@sveltejs/kit'
 import { retreiveSession } from '$lib/db'
 
 /** @type {Handle} */
 export async function handle({ event, resolve }) {
-    const cookies = parse(event.request.headers.cookie || '')
-
+	console.log("\nREQUEST\n")
+	console.log(JSON.stringify(event.request.headers.get("cookie")))
+    const cookies = parse(event.request.headers.get("cookie") || '')
     if (cookies.session_id) {
      const session = await retreiveSession(cookies.session_id)
      if (session) {
-         (event as RequestEvent).locals.user = { userName: session.user.userName, isAdmin: session.user.isAdmin, fullName: session.user.fullName }
+		 console.log(session)
+         event.locals.user = { username: session.username, isAdmin: session.isAdmin, fullName: session.fullName }
+		 console.log(event.locals.user)
          return resolve(event)
      }
     }
@@ -19,14 +20,14 @@ export async function handle({ event, resolve }) {
     return resolve(event)
 }
 
-export async function getSession(event: RequestEvent) {
+export async function getSession(event) {
 	return event.locals.user
 		? {
 				user: {
 					// only include properties needed client-side —
 					// exclude anything else attached to the user
 					// like access tokens etc
-					userName: event.locals.user.userName,
+					username: event.locals.user.username,
 					fullName: event.locals.user.fullName,
 					isAdmin: event.locals.user.isAdmin
 				}
