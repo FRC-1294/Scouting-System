@@ -6,6 +6,7 @@ declare namespace App {
 	interface Locals {
 		user: {
 			userName: string,
+			fullName: string,
 			isAdmin: boolean
 		}
 	}
@@ -13,7 +14,12 @@ declare namespace App {
 	interface Platform {}
 
 	interface Session {
-		user: string
+		user: {
+			userName: string,
+			fullName: string,
+			isAdmin: boolean,
+			sessionId: string
+		}
 	}
 
 	interface Stuff {}
@@ -49,11 +55,5 @@ declare namespace App {
 		fullName: string,
 		passwordHash: string,
 		isAdmin: boolean
-	}
-
-	interface Session {
-		userName: string,
-		isAdmin: boolean,
-		sessionId: string
 	}
 }

@@ -47,13 +47,14 @@ export async function createSession(userName: string): Promise<string> {
     if(!user) throw new Error("A session can't be created for a nonexistient user")
     await sessionColl.insertOne({
         userName: userName,
+        fullName: user.fullName,
         sessionId: token,
         isAdmin: user.isAdmin
     })
     return token
 }
 
-export async function getSession(sessionId: string): Promise<App.Session> {
+export async function retreiveSession(sessionId: string): Promise<App.Session> {
     return (await sessionColl.findOne({sessionId: sessionId}))
 }
 

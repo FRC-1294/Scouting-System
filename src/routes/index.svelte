@@ -3,18 +3,18 @@
     export async function load({ session }) {
 		return {
 			props: {
-				name: session.user
+				name: session.fullName
 			}
 		}
     }
 </script>
 
 <script lang="ts">
-	import { page } from '$app/stores';
-	import Counter from '$lib/Counter.svelte';
-
+	import { getStores, navigating, page, session, updated } from '$app/stores'
+	import Counter from '$lib/Counter.svelte'
 	
     export let name
+	let sessionName = $session.fullName
 </script>
 
 <svelte:head>
@@ -32,6 +32,7 @@
 
 		to the scouting system!
 		{name}
+		{sessionName}
 	</h1>
 
 	<h1>
