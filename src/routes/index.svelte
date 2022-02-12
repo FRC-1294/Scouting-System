@@ -22,8 +22,6 @@
 <script lang="ts">
 	
 	import Counter from '$lib/Counter.svelte'
-	
-    export let name
 	let sessionName = $session.fullName
 </script>
 
@@ -41,7 +39,6 @@
 		</div>
 
 		to the scouting system!
-		{name}
 		{sessionName}
 	</h1>
 
