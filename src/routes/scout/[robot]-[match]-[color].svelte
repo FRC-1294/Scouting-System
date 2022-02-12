@@ -35,7 +35,7 @@
 	let needToSubmit = false
 
 	//DATA
-	let data: App.ScoutData = {
+	let data: App.ScoutedMatch = {
 		teamNumber: robotScouting,
 		matchNumber: matchNumber,
 		auto: false, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
@@ -51,9 +51,19 @@
 		notes: ""
 	}
 
-	function submit() {
-		hasSumbitted = true;
-		needToSubmit = false;
+	let errorMessage = ""
+	async function submit() {
+		let response = await fetch("/scout/submit", {
+			method: "POST",
+			body: JSON.stringify(data)
+		})
+		if(response.status != 200) {
+			errorMessage = (await response.json()).message
+		} else {
+			errorMessage = ""
+			hasSumbitted = true;
+			needToSubmit = false;
+		}
 	}
 </script>
 

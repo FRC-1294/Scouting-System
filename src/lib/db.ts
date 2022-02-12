@@ -26,7 +26,7 @@ let usersColl: Collection<App.StoredUser> = authDB.collection("Users")
 let sessionColl: Collection<App.StoredSession> = authDB.collection("Sessions")
 
 let compDB = client.db("TESTING_COMP_DATABASE")
-
+let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection("ScoutedData")
 
 //Methods
 export async function aggregate() {
@@ -63,4 +63,8 @@ export async function retreiveSession(sessionId: string): Promise<App.StoredUser
 
 export async function destroySession(sessionId: string): Promise<void> {
     sessionColl.findOneAndDelete({sessionId: sessionId})
+}
+
+export async function addScoutedDataToDB(scoutedData: App.ScoutedMatch) {
+    scoutedDataColl.insertOne(scoutedData)
 }
