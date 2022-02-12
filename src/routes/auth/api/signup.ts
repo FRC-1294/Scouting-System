@@ -1,11 +1,11 @@
-import { createSession, createUser, getUser } from "$lib/db";
+import { createSession, createUser, doesUserExist, getUser } from "$lib/db";
 import { hash } from "$lib/hash";
 import { serialize } from "cookie";
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post({request}) {
     let {username, password, fullName} = await request.json()
-    if (await getUser(username)) {
+    if (await doesUserExist(username)) {
      return {
          status: 401,
          body: {
@@ -13,14 +13,12 @@ export async function post({request}) {
          },
      };
     }
-
     await createUser({
         username: username,
         passwordHash: hash(password),
         isAdmin: false,
         fullName: fullName
     })
-
     const id = await createSession(username);
     return {
      status: 200,

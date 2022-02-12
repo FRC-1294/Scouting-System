@@ -37,7 +37,12 @@ export async function getUser(username: string): Promise<App.StoredUser> {
     return (await usersColl.findOne({username: username}))
 }
 
-export async function createUser(user: App.StoredUser) {
+export async function doesUserExist(username: string): Promise<boolean> {
+    return (await usersColl.countDocuments({username: username})) > 0
+}
+
+export async function createUser(user: App.StoredUser): Promise<void> {
+    if(await doesUserExist(user.username)) throw new Error("Username taken, make sure to check for that")
     await usersColl.insertOne(user)
 }
 
@@ -55,9 +60,10 @@ export async function createSession(username: string): Promise<string> {
     return token
 }
 
-export async function retreiveSession(sessionId: string): Promise<App.StoredUser> {
+export async function retreiveSession(sessionId: string): Promise<App.StoredUser | boolean> {
     console.log("Retreiving session: " + sessionId)
     let session = await sessionColl.findOne({sessionId: sessionId})
+    if (!session) return false
     return await usersColl.findOne({username: session.username})
 }
 
