@@ -55,7 +55,7 @@ export async function createSession(username: string): Promise<string> {
     return token
 }
 
-export async function retreiveSession(sessionId: string): Promise<App.Session> {
+export async function retreiveSession(sessionId: string): Promise<App.StoredUser> {
     console.log("Retreiving session: " + sessionId)
     let session = await sessionColl.findOne({sessionId: sessionId})
     return await usersColl.findOne({username: session.username})
