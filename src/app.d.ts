@@ -4,11 +4,7 @@
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		user: {
-			username: string,
-			fullName: string,
-			isAdmin: boolean
-		}
+		user: StoredSession
 	}
 
 	interface Platform {}
@@ -21,10 +17,7 @@ declare namespace App {
 
 	interface StoredSession {
 		username: string,
-		fullName: string,
-		isAdmin: boolean,
 		sessionId: string
-
 	}
 
 	interface Stuff {}
@@ -55,10 +48,7 @@ declare namespace App {
 		matches: Match[]
 	}
 
-	interface User {
-		username: string,
-		fullName: string,
-		passwordHash: string,
-		isAdmin: boolean
+	interface StoredUser extends Session {
+		passwordHash: string
 	}
 }

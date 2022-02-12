@@ -22,7 +22,7 @@ let client = new MongoClient("mongodb://localhost")
 client.connect()
 
 let authDB = client.db("Auth")
-let usersColl: Collection<App.User> = authDB.collection("Users")
+let usersColl: Collection<App.StoredUser> = authDB.collection("Users")
 let sessionColl: Collection<App.StoredSession> = authDB.collection("Sessions")
 
 let compDB = client.db("TESTING_COMP_DATABASE")
@@ -33,11 +33,11 @@ export async function aggregate() {
 
 }
 
-export async function getUser(username: string): Promise<App.User> {
+export async function getUser(username: string): Promise<App.StoredUser> {
     return (await usersColl.findOne({username: username}))
 }
 
-export async function createUser(user: App.User) {
+export async function createUser(user: App.StoredUser) {
     await usersColl.insertOne(user)
 }
 
@@ -50,16 +50,15 @@ export async function createSession(username: string): Promise<string> {
     await sessionColl.deleteMany({username: username})
     await sessionColl.insertOne({
         username: username,
-        fullName: user.fullName,
-        sessionId: token,
-        isAdmin: user.isAdmin
+        sessionId: token
     })
     return token
 }
 
-export async function retreiveSession(sessionId: string): Promise<App.StoredSession> {
+export async function retreiveSession(sessionId: string): Promise<App.Session> {
     console.log("Retreiving session: " + sessionId)
-    return (await sessionColl.findOne({sessionId: sessionId}))
+    let session = await sessionColl.findOne({sessionId: sessionId})
+    return await usersColl.findOne({username: session.username})
 }
 
 export async function destroySession(sessionId: string): Promise<void> {
