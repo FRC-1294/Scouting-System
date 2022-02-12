@@ -9,13 +9,14 @@ export async function get({ request }) {
      await destroySession(cookies.session_id);
     }
 
-    return {
-     status: 200,
+    return { //TODO fix dis
+     status: 301,
      headers: {
          'Set-Cookie': serialize('session_id', '', {
              path: '/',
              expires: new Date(0),
          }),
-     },
-    };
+         location: "/auth/login"
+     }
+    }
 }
