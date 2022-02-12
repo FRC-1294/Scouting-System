@@ -41,10 +41,6 @@
 		to the scouting system!
 		{sessionName}
 	</h1>
-
-	<h1>
-		<a sveltekit:prefetch href="/login">Login!</a>
-	</h1>
 </section>
 
 <style>

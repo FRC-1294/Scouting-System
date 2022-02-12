@@ -40,14 +40,28 @@
       // @ts-ignore
       window.location = '/'
     }
+
+    function testKey(event) {
+        if(event.keycode == 13) {
+            login()
+        }
+    }
 </script>
 
+<svelte:window on:keydown={testKey} />
 <main>
     <div>
+      <form on:submit|preventDefault={login}>
         <input bind:value={user.username} type="text" placeholder="Username">
         <input bind:value={user.password} type="password" placeholder="Password">
         <button on:click={login}>Login!</button>
-        <p>{error}</p>
+        <br>
+        <a href="/auth/signup">Create account</a>
+        {#if error}          
+          <p>{error}</p>
+        {/if}
+
+      </form>
     </div>
 </main>
 
