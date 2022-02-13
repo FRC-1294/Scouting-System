@@ -3,7 +3,7 @@ import { retreiveSession } from '$lib/db'
 import type {RequestEvent} from '@sveltejs/kit'
 
 /** @type {Handle} */
-export async function handle({ event, resolve }) {
+export async function handle({ event, resolve }) { //TODO make secure
 	console.log("\nREQUEST\n")
 	console.log(JSON.stringify(event.request.headers.get("cookie")))
     const cookies = parse(event.request.headers.get("cookie") || '')
