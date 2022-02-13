@@ -132,13 +132,13 @@
 {#if isRed}
 	<style>
 		:root {
-			--Robot-Color: #ff9999;
+			--Robot-Color: #FF0000;
 		}
 	</style>
 {:else}
 	<style>
 		:root {
-			--Robot-Color: #9999ff;
+			--Robot-Color: #0000FF;
 		}
 	</style>
 {/if}

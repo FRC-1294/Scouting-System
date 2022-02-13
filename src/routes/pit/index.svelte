@@ -66,7 +66,7 @@
 <!--TODO fix up div sizes-->
 <style>
     :root {
-        --Robot-Color: #FF8899
+        --Robot-Color: #FF7700
     }
 
     #auto {
