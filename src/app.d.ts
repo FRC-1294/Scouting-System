@@ -51,4 +51,16 @@ declare namespace App {
 	interface StoredUser extends Session {
 		passwordHash: string
 	}
+
+	interface PitData {
+		teamNumber: number,
+		auto: boolean,
+		cargoAuto: number,
+		reliability: number,
+		climb: boolean,
+		//TODO Add images?
+		strengths: string,
+		weakness: string,
+		comments: string,
+	}
 }

@@ -21,7 +21,7 @@
 				<a sveltekit:prefetch href="/todos">Todos</a>
 			</li>
 			<li>
-				<a href="/auth/logout/logout">Logout</a> <!--TODO fix dis-->
+				<a href="/auth/logout">Logout</a> <!--TODO fix dis-->
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
