@@ -1,5 +1,5 @@
 <script>
-    import SignUpForm from '$lib/components/SignUpForm.svelte';
+    import SignUpForm from 'OLD/Example form/SignUpForm.svelte';
   
     let error;
   

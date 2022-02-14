@@ -1,6 +1,6 @@
 <script>
-  import Input from '$lib/components/Input.svelte';
-  import Button from '$lib/components/Button.svelte';
+  import Input from 'OLD/Example form/Input.svelte';
+  import Button from 'OLD/Example form/Button.svelte';
 
   import { createEventDispatcher } from 'svelte';
 
