@@ -10,13 +10,12 @@ export async function get({ request }) {
     }
 
     return { //TODO fix dis
-     status: 301,
+     status: 200,
      headers: {
          'Set-Cookie': serialize('session_id', '', {
              path: '/',
              expires: new Date(0),
-         }),
-         location: "/auth/login"
+         })
      }
     }
 }

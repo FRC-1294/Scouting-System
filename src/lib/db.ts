@@ -61,11 +61,18 @@ export async function createSession(username: string): Promise<string> {
     return token
 }
 
-export async function retreiveSession(sessionId: string): Promise<App.StoredUser | boolean> {
+export async function retreiveSession(sessionId: string): Promise<App.StoredUser> {
     console.log("Retreiving session: " + sessionId)
     let session = await sessionColl.findOne({sessionId: sessionId})
-    if (!session) return false
+    if (!session) throw new Error("You need to test if a session exists before trying to retrieve it")
     return await usersColl.findOne({username: session.username})
+}
+export async function doesSessionExist(sessionId: string): Promise<boolean> {
+    console.log("Testing session: " + sessionId)
+    let session = await sessionColl.findOne({sessionId: sessionId})
+    console.log(session)
+    if(session) return true
+    return false
 }
 
 export async function destroySession(sessionId: string): Promise<void> {

@@ -4,7 +4,7 @@
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		user: StoredSession
+		user: StoredUser
 	}
 
 	interface Platform {}

@@ -1,5 +1,5 @@
 import {parse} from 'cookie'
-import { retreiveSession } from '$lib/db'
+import { doesSessionExist, retreiveSession } from '$lib/db'
 import type {RequestEvent} from '@sveltejs/kit'
 
 /** @type {Handle} */
@@ -8,13 +8,16 @@ export async function handle({ event, resolve }) { //TODO make secure
 	console.log(JSON.stringify(event.request.headers.get("cookie")))
     const cookies = parse(event.request.headers.get("cookie") || '')
     if (cookies.session_id) {
-     const session = await retreiveSession(cookies.session_id)
-     if (session) {
-		 console.log(session)
-         event.locals.user = { username: session.username, isAdmin: session.isAdmin, fullName: session.fullName }
-		 console.log(event.locals.user)
-         return resolve(event)
-     }
+		if(await doesSessionExist(cookies.session_id)) {
+			const session = await retreiveSession(cookies.session_id)
+			if (session) {
+				console.log(session)
+				event.locals.user = { username: session.username, isAdmin: session.isAdmin, fullName: session.fullName }
+				console.log(event.locals.user)
+				return resolve(event)
+			}
+
+		}
     }
 
     event.locals.user = "Not signed in"
