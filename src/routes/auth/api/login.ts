@@ -1,10 +1,10 @@
 import { serialize } from 'cookie'
 import { createSession, getUser } from '$lib/db';
 import { hash } from '$lib/hash';
-
+import type { RequestHandler } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function post({request}) {
+export let post: RequestHandler = async function({request, locals}) {
     const body = await request.json()
     let username = body.username
     let password = body.password
@@ -20,17 +20,9 @@ export async function post({request}) {
      };
     }
 
-    const id = await createSession(username);
+    locals.session.data = user
     return {
      status: 200,
-     headers: {
-         'Set-Cookie': serialize('session_id', id, {
-             path: '/',
-             httpOnly: true,
-             sameSite: 'strict',
-             maxAge: 60 * 60 * 24 * 7, // one week
-         }),
-     },
      body: {
          message: 'Successfully signed in', //TODO redirect user to scout
      },

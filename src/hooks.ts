@@ -1,38 +1,19 @@
-import {parse} from 'cookie'
-import { doesSessionExist, retreiveSession } from '$lib/db'
-import type {RequestEvent} from '@sveltejs/kit'
+import { handleSession } from "svelte-kit-cookie-session";
 
-/** @type {Handle} */
-export async function handle({ event, resolve }) { //TODO make secure
-	console.log("\nREQUEST\n")
-	console.log(JSON.stringify(event.request.headers.get("cookie")))
-    const cookies = parse(event.request.headers.get("cookie") || '')
-    if (cookies.session_id) {
-		if(await doesSessionExist(cookies.session_id)) {
-			const session = await retreiveSession(cookies.session_id)
-			if (session) {
-				console.log(session)
-				event.locals.user = { username: session.username, isAdmin: session.isAdmin, fullName: session.fullName }
-				console.log(event.locals.user)
-				return resolve(event)
-			}
-
-		}
-    }
-
-    event.locals.user = "Not signed in"
-    return resolve(event)
+/** @type {import('@sveltejs/kit').GetSession} */
+export async function getSession({ locals }) {
+  return locals.session.data;
 }
 
-export async function getSession(event: RequestEvent) {
-	let out: App.Session = {
-			// only include properties needed client-side —
-			// exclude anything else attached to the user
-			// like access tokens etc
-			username: event.locals.user.username,
-			fullName: event.locals.user.fullName,
-			isAdmin: event.locals.user.isAdmin
-		
+export const handle = handleSession(
+  {
+    secret: "SOME_COMPLEX_SECRET_AT_LEAST_32_CHARS",
+  },
+  ({ event, resolve }) => {
+    // event.locals is populated with the session `event.locals.session`
+    // event.locals is also populated with all parsed cookies by handleSession, it would cause overhead to parse them again - `event.locals.cookies`.
+
+    // Do anything you want here
+    return resolve(event);
   }
-	return out
-}
+);

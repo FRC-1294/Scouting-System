@@ -2,17 +2,23 @@
 
 // See https://kit.svelte.dev/docs#typescript
 // for information about these interfaces
+
+interface SessionData {
+	// Your session data
+		username: string,
+		fullName: string,
+		isAdmin: boolean
+  }
+
 declare namespace App {
 	interface Locals {
-		user: StoredUser
+		session: import("svelte-kit-cookie-session").Session<SessionData>;
+		cookies: Record<string, string>; // all parsed cookies are automatically set from handleSession to avoid overhead
 	}
 
 	interface Platform {}
 
-	interface Session {
-			username: string,
-			fullName: string,
-			isAdmin: boolean
+	interface Session extends SessionData {
 	}
 
 	interface StoredSession {

@@ -2,7 +2,7 @@
 	//PROBLEM It's not getting the session properly, no idea how to fix
 	import { getStores, navigating, page, session, updated } from '$app/stores'
 	import type {Load} from '@sveltejs/kit'
-    export const load: Load = async (obj) => {
+    export const load: Load = async (obj) => { //TODO access session here
 		let session = obj.session
 		console.log(session)
 		if (session.username) {
