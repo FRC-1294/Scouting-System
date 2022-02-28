@@ -172,4 +172,15 @@
 	.warningHeaderText {
 		color: #ffffff;
 	}
+	button {
+		background-color: var(--Robot-Color);
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		border-radius: 34px;
+  	}
 </style>
