@@ -5,17 +5,13 @@
     export const load: Load = async (obj) => { //TODO access session here
 		let session = obj.session
 		console.log(session)
-		if (session.username) {
+		if ((session ?? false)) {
     return {
         status: 302,
         redirect: "/"
     }
     }
-		return {
-			props: {
-				name: session.fullName
-			}
-		}
+		return {}
     }
 </script>
 
@@ -33,7 +29,7 @@
       })
   
       if (!response.ok) {
-        error = (await response.json()).message //TODO implement error message
+        error = (await response.json()).message
         return
       }
   

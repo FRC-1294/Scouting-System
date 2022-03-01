@@ -5,7 +5,7 @@
     export const load: Load = async (obj) => {
 		let session = obj.session
 		console.log(session)
-		if (!session.username) {
+		if (!(session ?? false)) {
     return {
         status: 302,
         redirect: "/auth/login"
