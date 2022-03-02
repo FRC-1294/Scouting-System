@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
    export const load = async (obj) => {
 		let session = obj.session
-		console.log(session)
 		if (!session.username) {
     return {
         status: 302,
@@ -18,12 +17,17 @@
 
 <script lang="ts">
     import { goto } from "$app/navigation"
-    (async () => {
+import { onMount } from "svelte";
+
+    let text = "Signing out...";
+
+    onMount((async () => {
+        console.log("Logging out")
         await fetch("/auth/api/logout")
-        goto("/auth/login", {replaceState: false})
-    })()
+        text = "Done"
+    }))
 </script>
 
 <main>
-    <p>Signing out...</p>
+    <p>{text}</p>
 </main>

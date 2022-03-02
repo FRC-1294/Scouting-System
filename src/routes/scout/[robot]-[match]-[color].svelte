@@ -77,13 +77,13 @@
 		</header>
 	{/if}
 
+	{#if !hasSumbitted}
 	<!--Scouting-->
 		<div class="robotBanner">
 			<h1>{robotScouting}</h1>
 			<p>Current match: Q{matchNumber}</p>
 		</div>
 		<!--Data collection here-->
-		{#if !hasSumbitted}
 			<div id="auto">
 				<h3>AUTO</h3>
 
@@ -123,6 +123,11 @@
 			<div id="submit">
 				<button on:click={submit}>Submit data</button>
 			</div>
+
+		{:else}			
+		<div class="robotBanner">
+			<h1>Data Submitted. Thanks!</h1>
+		</div>
 		{/if}
 
 </main>

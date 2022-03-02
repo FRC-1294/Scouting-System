@@ -7,7 +7,7 @@ export async function getSession({ locals }) {
 
 export const handle = handleSession(
   {
-    secret: "SOME_COMPLEX_SECRET_AT_LEAST_32_CHARS",
+    secret: "Pl3AZ_D0onOT_StE4L_thiS3CR3T___it_imPorTantL0L",
   },
   ({ event, resolve }) => {
     // event.locals is populated with the session `event.locals.session`

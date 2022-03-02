@@ -4,7 +4,6 @@
 	import type {Load} from '@sveltejs/kit'
     export const load: Load = async (obj) => {
 		let session = obj.session
-		console.log(session)
 		if (!(session ?? false)) {
     return {
         status: 302,
