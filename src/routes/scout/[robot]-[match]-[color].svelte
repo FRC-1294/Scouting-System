@@ -77,16 +77,13 @@
 		</header>
 	{/if}
 
-	<!--Login-->
-
 	<!--Scouting-->
-		<p>Current match: Q{matchNumber}</p>
-		<br />
-		<p>You are scouting robot {robotScouting}</p>
-		<br>
+		<div class="robotBanner">
+			<h1>{robotScouting}</h1>
+			<p>Current match: Q{matchNumber}</p>
+		</div>
 		<!--Data collection here-->
 		{#if !hasSumbitted}
-			<br />
 			<div id="auto">
 				<h3>AUTO</h3>
 
@@ -122,9 +119,10 @@
 				<label for="notes">Additional notes:</label>
 				<input bind:value={data.notes} type="text" id="notes" />
 			</div>
-			<p>{JSON.stringify(data)}</p>
 			<!--TODOCOMP add safety for submitting data-->
-			<br /><button on:click={submit}>Submit data</button>
+			<div id="submit">
+				<button on:click={submit}>Submit data</button>
+			</div>
 		{/if}
 
 </main>
@@ -144,23 +142,20 @@
 {/if}
 <style>
 	#auto {
-		width:300px;
-		height: 130px;
+		width:200px;
 	}
 	#cargo {
-		width: 170px;
-		height: 320px;
+		width: 200px;
 		margin-right: 30px;
 	}
 	#hub {
 		width: 200px;
-		height: 300px;
 	}
 	#other {
 		width: 200px;
-		height: 200px;
 	}
 	div {
+		height: 320px;
 		float: left;
 	}
 
@@ -171,5 +166,44 @@
 	}
 	.warningHeaderText {
 		color: #ffffff;
+	}
+	
+	.robotBanner {
+		background-color: var(--Robot-Color);
+		color: white;
+		text-align: center;
+		display: inline-block;
+		width: 100%;
+		height: 300px;
+        margin: auto;
+	}
+	.robotBanner h1 {
+		font-size: 80px;
+		color: white;
+	}
+	.robotBanner p {
+		color: white;
+	}
+
+	#submit {
+		width: 100%;
+		height: 100%;
+        margin: auto;
+	}
+	#submit button {		
+		background-color: var(--Robot-Color);
+		width: 100%;
+		height: 200px;
+		border: none;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 80px;
+		border-radius: 34px;
+		transition: background-color 1s;
+	}
+	#submit button:hover {		
+		background-color: #ff9900;
 	}
 </style>

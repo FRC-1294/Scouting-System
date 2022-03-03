@@ -1,10 +1,21 @@
 <script context="module" lang="ts">
 	//PROBLEM It's not getting the session properly, no idea how to fix
+	import { getStores, navigating, page, session, updated } from '$app/stores'
+	import type {Load} from '@sveltejs/kit'
+    export const load: Load = async (obj) => { //TODO access session here
+		let session = obj.session
+		console.log(session)
+		if ((session ?? false)) {
+    return {
+        status: 302,
+        redirect: "/"
+    }
+    }
+		return {}
+    }
 </script>
 
 <script lang="ts">
-
-	import { getStores, navigating, page, session, updated } from '$app/stores'
     let user = {username: "",
         password: ""}
     let error
@@ -18,7 +29,7 @@
       })
   
       if (!response.ok) {
-        error = (await response.json()).message //TODO implement error message
+        error = (await response.json()).message
         return
       }
   
