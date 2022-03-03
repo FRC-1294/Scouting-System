@@ -1,7 +1,10 @@
 <script context="module" lang="ts">
-   export const load = async (obj) => {
+import type { Load } from '@sveltejs/kit';
+   export const load: Load = async (obj) => {
+       
+    console.log("Logging out")
+        await fetch("/auth/api/logout")
 		let session = obj.session
-		console.log(session)
 		if (!session.username) {
     return {
         status: 302,
@@ -18,12 +21,20 @@
 
 <script lang="ts">
     import { goto } from "$app/navigation"
-    (async () => {
+import { onMount } from "svelte";
+
+    let text = "Signing out...";
+
+    let logoutFunction = (async () => {
+        alert("Logging out!")
+        console.log("Logging out")
         await fetch("/auth/api/logout")
-        goto("/auth/login", {replaceState: false})
-    })()
+        text = "Done"
+    })
+    onMount(logoutFunction)
 </script>
 
 <main>
-    <p>Signing out...</p>
+    <p>{text}</p>
+    <button on:click={logoutFunction}>LOGOUT</button>
 </main>

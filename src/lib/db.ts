@@ -47,37 +47,6 @@ export async function createUser(user: App.StoredUser): Promise<void> {
     await usersColl.insertOne(user)
 }
 
-export async function createSession(username: string): Promise<string> {
-    if(!username) throw new Error("Username can't be undefined...")
-    let token = randomBytes(30).toString('hex').slice(0,30)
-    let user = await getUser(username)
-    if(!user) throw new Error("A session can't be created for a nonexistient user")
-    //Delete old sessions for user
-    await sessionColl.deleteMany({username: username})
-    await sessionColl.insertOne({
-        username: username,
-        sessionId: token
-    })
-    return token
-}
-
-export async function retreiveSession(sessionId: string): Promise<App.StoredUser> {
-    console.log("Retreiving session: " + sessionId)
-    let session = await sessionColl.findOne({sessionId: sessionId})
-    if (!session) throw new Error("You need to test if a session exists before trying to retrieve it")
-    return await usersColl.findOne({username: session.username})
-}
-export async function doesSessionExist(sessionId: string): Promise<boolean> {
-    console.log("Testing session: " + sessionId)
-    let session = await sessionColl.findOne({sessionId: sessionId})
-    console.log(session)
-    if(session) return true
-    return false
-}
-
-export async function destroySession(sessionId: string): Promise<void> {
-    await sessionColl.findOneAndDelete({sessionId: sessionId})
-}
 
 export async function addScoutedDataToDB(scoutedData: App.ScoutedMatch) {
     await scoutedDataColl.insertOne(scoutedData)
