@@ -1,28 +1,23 @@
 <script context="module" lang="ts">
-	//PROBLEM It's not getting the session properly, no idea how to fix
-	import { getStores, navigating, page, session, updated } from '$app/stores'
 	import type {Load} from '@sveltejs/kit'
     export const load: Load = async (obj) => {
-		let session = obj.session
-		console.log(session)
-		if (!session.username) {
+		console.log(obj.session)
+		if (!obj.session) {
+
     return {
         status: 302,
         redirect: "/auth/login"
-    }
+    } 
     }
 		return {
-			props: {
-				name: session.fullName
-			}
 		}
     }
 </script>
 
 <script lang="ts">
-	
+	import {session} from '$app/stores';
 	import Counter from '$lib/Counter.svelte'
-	let sessionName = $session.fullName
+	let sessName = $session.fullName
 </script>
 
 <svelte:head>
@@ -39,7 +34,7 @@
 		</div>
 
 		to the scouting system!
-		{sessionName}
+		{sessName}
 	</h1>
 </section>
 
