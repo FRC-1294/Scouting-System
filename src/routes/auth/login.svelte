@@ -17,7 +17,7 @@
 </script>
 
 <script lang="ts">
-import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	let user = { username: '', password: '' };
 	let error;
@@ -35,7 +35,7 @@ import { goto } from '$app/navigation';
 			return;
 		}
 
-		goto("/")
+		goto('/');
 	}
 
 	function testKey(event) {

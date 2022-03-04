@@ -27,6 +27,7 @@ let sessionColl: Collection<App.StoredSession> = authDB.collection('Sessions');
 let compDB = client.db('TESTING_COMP_DATABASE');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
+let compInfoColl: Collection<App.Event> = compDB.collection('CompInfo');
 
 //Methods
 export async function aggregate() {}

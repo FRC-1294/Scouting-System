@@ -50,7 +50,9 @@ declare namespace App {
 	}
 
 	interface Event {
+		key: string;
 		matches: Match[];
+		teams: number[];
 	}
 
 	interface StoredUser extends Session {

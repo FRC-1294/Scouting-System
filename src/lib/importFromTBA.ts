@@ -1,11 +1,24 @@
-export async function importDataFromTheBlueAlliance(): Promise<App.Match[]> {
-	let ParsedMatches: App.Match[] = [];
-	const url = 'https://www.thebluealliance.com/api/v3/event/2019wasno/matches/simple';
+export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
+	console.log('Importing data!');
+	let eventKey = '2019wasno';
+	//Outputs
+	let parsedMatches: App.Match[] = [];
+	let parsedTeams: number[] = [];
+
+	//URLs
+	const matchesUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/matches/simple`;
+	const teamsUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/teams/simple`;
+
 	const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
-	const res = await fetch(url, { headers: { 'X-TBA-Auth-Key': apiKey } });
-	const APIResult = await res.json();
-	console.log(APIResult);
-	APIResult.forEach(
+
+	//Invoke fetch
+	const matchesRes = fetch(matchesUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
+	const teamsRes = fetch(teamsUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
+
+	//Matches
+	const matchesAPIResult = (await matchesRes).json();
+	console.log(matchesAPIResult);
+	(await matchesAPIResult).forEach(
 		(match: {
 			//This is the schema that every imported match conforms to
 			match_number: number;
@@ -29,7 +42,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Match[]> {
 				match.alliances.blue.team_keys.forEach((teamString: string) => {
 					blueKeys.push(Number(teamString.substring(3)));
 				});
-				ParsedMatches.push({
+				parsedMatches.push({
 					matchNumber: match.match_number,
 					red: redKeys,
 					blue: blueKeys
@@ -37,5 +50,25 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Match[]> {
 			}
 		}
 	);
-	return ParsedMatches;
+
+	//Teams
+	const teamsAPIResult = (await teamsRes).json();
+	console.log(teamsAPIResult);
+	(await teamsAPIResult).forEach(
+		(team: {
+			//Team object from TBA
+			key: string;
+			nickname: string;
+			team_number: number;
+		}) => {
+			parsedTeams.push(team.team_number);
+		}
+	);
+
+	//Return
+	return {
+		matches: parsedMatches,
+		teams: parsedTeams,
+		key: eventKey
+	};
 }

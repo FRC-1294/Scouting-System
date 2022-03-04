@@ -1,4 +1,3 @@
 <script lang="ts">
-    
-    export let listOfBots
+	export let listOfBots;
 </script>

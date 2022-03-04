@@ -7,12 +7,12 @@ const config = {
 	// for more information about preprocessors
 	preprocess: preprocess(),
 
-	kit: { 
+	kit: {
 		vite: {
 			optimizeDeps: {
-		  		exclude: ["svelte-kit-cookie-session"],
-			},
-	  	},
+				exclude: ['svelte-kit-cookie-session']
+			}
+		},
 		adapter: adapter(),
 
 		// Override http methods in the Todo forms
