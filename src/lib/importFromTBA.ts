@@ -32,7 +32,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 			};
 			comp_level: string;
 		}) => {
-			if (match.comp_level == 'qf') {
+			if (match.comp_level == 'qm') {
 				//Only process a match if it's a qualifying match
 				let redKeys: number[] = [];
 				let blueKeys: number[] = [];
