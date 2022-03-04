@@ -61,11 +61,20 @@ declare namespace App {
 		teamNumber: number;
 		auto: boolean;
 		cargoAuto: number;
+		hub: {
+			upper: boolean;
+			lower: boolean;
+		};
 		reliability: number;
 		climb: boolean;
 		//TODO Add images?
 		strengths: string;
 		weakness: string;
 		comments: string;
+	}
+
+	interface PitTeam {
+		teamNumber: number;
+		hasBeenScouted: boolean;
 	}
 }
