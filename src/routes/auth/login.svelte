@@ -17,6 +17,8 @@
 </script>
 
 <script lang="ts">
+import { goto } from '$app/navigation';
+
 	let user = { username: '', password: '' };
 	let error;
 	async function login() {
@@ -33,8 +35,7 @@
 			return;
 		}
 
-		// @ts-ignore
-		window.location = '/';
+		goto("/")
 	}
 
 	function testKey(event) {
