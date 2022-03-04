@@ -3,9 +3,8 @@ import type { Load } from '@sveltejs/kit';
    export const load: Load = async (obj) => {
        
     console.log("Logging out")
-        await fetch("/auth/api/logout")
 		let session = obj.session
-		if (!session.username) {
+		if (!session) {
     return {
         status: 302,
         redirect: "/auth/login"
@@ -29,6 +28,7 @@ import { onMount } from "svelte";
         alert("Logging out!")
         console.log("Logging out")
         await fetch("/auth/api/logout")
+        location.reload()
         text = "Done"
     })
     onMount(logoutFunction)
@@ -36,5 +36,4 @@ import { onMount } from "svelte";
 
 <main>
     <p>{text}</p>
-    <button on:click={logoutFunction}>LOGOUT</button>
 </main>

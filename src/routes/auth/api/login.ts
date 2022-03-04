@@ -1,10 +1,11 @@
 import { serialize } from 'cookie'
-import { createSession, getUser } from '$lib/db';
+import { getUser } from '$lib/db';
 import { hash } from '$lib/hash';
 import type { RequestHandler } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export let post: RequestHandler = async function({request, locals}) {
+    console.log("Logging in lel")
     const body = await request.json()
     let username = body.username
     let password = body.password
