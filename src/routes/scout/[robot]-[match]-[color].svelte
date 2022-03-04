@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte'
-	import { writable } from 'svelte/store'
-	import Slider from '$lib/Slider.svelte'
-	import { page } from '$app/stores'
+	import Counter from '$lib/Counter.svelte';
+	import { writable } from 'svelte/store';
+	import Slider from '$lib/Slider.svelte';
+	import { page } from '$app/stores';
 
-	export let robotScouting = Number($page.params.robot)
-	export let isRed = $page.params.color == "red"
-	export let matchNumber = Number($page.params.match)
-	
+	export let robotScouting = Number($page.params.robot);
+	export let isRed = $page.params.color == 'red';
+	export let matchNumber = Number($page.params.match);
+
 	/*
 	socket.on('alert', (data) => alert(data))
 	socket.on('match', (matchData) => {
@@ -31,8 +31,8 @@
 	})
 */
 	//Scouting and match logic
-	let hasSumbitted = false
-	let needToSubmit = false
+	let hasSumbitted = false;
+	let needToSubmit = false;
 
 	//DATA
 	let data: App.ScoutedMatch = {
@@ -48,19 +48,19 @@
 			lower: false
 		},
 		efficient: false, //Whether the robot navigated "Efficiently"
-		notes: ""
-	}
+		notes: ''
+	};
 
-	let errorMessage = ""
+	let errorMessage = '';
 	async function submit() {
-		let response = await fetch("/scout/submit", {
-			method: "POST",
+		let response = await fetch('/scout/submit', {
+			method: 'POST',
 			body: JSON.stringify(data)
-		})
-		if(response.status != 200) {
-			errorMessage = (await response.json()).message
+		});
+		if (response.status != 200) {
+			errorMessage = (await response.json()).message;
 		} else {
-			errorMessage = ""
+			errorMessage = '';
 			hasSumbitted = true;
 			needToSubmit = false;
 		}
@@ -78,76 +78,75 @@
 	{/if}
 
 	{#if !hasSumbitted}
-	<!--Scouting-->
+		<!--Scouting-->
 		<div class="robotBanner">
 			<h1>{robotScouting}</h1>
 			<p>Current match: Q{matchNumber}</p>
 		</div>
 		<!--Data collection here-->
-			<div id="auto">
-				<h3>AUTO</h3>
+		<div id="auto">
+			<h3>AUTO</h3>
 
-				<p>Did the robot have a functioning auto?</p>
-				<Slider round bind:checked={data.auto} />
-			</div>
-			
-			<div id="cargo">
-				<h3>Cargo</h3>
-				<p>Cargo Auto:</p>
-				<Counter bind:count={data.cargo.auto}></Counter>
-				<br />			
-				<p>Cargo Teleop:</p>
-				<Counter bind:count={data.cargo.teleop}></Counter>
-			</div>
+			<p>Did the robot have a functioning auto?</p>
+			<Slider round bind:checked={data.auto} />
+		</div>
 
-			<div id="hub">
-				<h3>HUB</h3>
-				<h4>Which hub(s) did the robot use?</h4>	
-				<p>Upper:</p>				
-				<Slider bind:checked={data.hub.upper} />	
-				<br />
-				<p>Lower:</p>
-				<Slider bind:checked={data.hub.lower} />			
-			</div>
+		<div id="cargo">
+			<h3>Cargo</h3>
+			<p>Cargo Auto:</p>
+			<Counter bind:count={data.cargo.auto} />
+			<br />
+			<p>Cargo Teleop:</p>
+			<Counter bind:count={data.cargo.teleop} />
+		</div>
 
-			<div id="other">
-				<h3>OTHER</h3>
-				<p>Was the robot efficient?</p>
-				<Slider round bind:checked={data.efficient}/>
-				<br />
-				<br>
-				<label for="notes">Additional notes:</label>
-				<input bind:value={data.notes} type="text" id="notes" />
-			</div>
-			<!--TODOCOMP add safety for submitting data-->
-			<div id="submit">
-				<button on:click={submit}>Submit data</button>
-			</div>
+		<div id="hub">
+			<h3>HUB</h3>
+			<h4>Which hub(s) did the robot use?</h4>
+			<p>Upper:</p>
+			<Slider bind:checked={data.hub.upper} />
+			<br />
+			<p>Lower:</p>
+			<Slider bind:checked={data.hub.lower} />
+		</div>
 
-		{:else}			
+		<div id="other">
+			<h3>OTHER</h3>
+			<p>Was the robot efficient?</p>
+			<Slider round bind:checked={data.efficient} />
+			<br />
+			<br />
+			<label for="notes">Additional notes:</label>
+			<input bind:value={data.notes} type="text" id="notes" />
+		</div>
+		<!--TODOCOMP add safety for submitting data-->
+		<div id="submit">
+			<button on:click={submit}>Submit data</button>
+		</div>
+	{:else}
 		<div class="robotBanner">
 			<h1>Data Submitted. Thanks!</h1>
 		</div>
-		{/if}
-
+	{/if}
 </main>
 
 {#if isRed}
 	<style>
 		:root {
-			--Robot-Color: #FF0000;
+			--Robot-Color: #ff0000;
 		}
 	</style>
 {:else}
 	<style>
 		:root {
-			--Robot-Color: #0000FF;
+			--Robot-Color: #0000ff;
 		}
 	</style>
 {/if}
+
 <style>
 	#auto {
-		width:200px;
+		width: 200px;
 	}
 	#cargo {
 		width: 200px;
@@ -172,7 +171,7 @@
 	.warningHeaderText {
 		color: #ffffff;
 	}
-	
+
 	.robotBanner {
 		background-color: var(--Robot-Color);
 		color: white;
@@ -180,7 +179,7 @@
 		display: inline-block;
 		width: 100%;
 		height: 300px;
-        margin: auto;
+		margin: auto;
 	}
 	.robotBanner h1 {
 		font-size: 80px;
@@ -193,9 +192,9 @@
 	#submit {
 		width: 100%;
 		height: 100%;
-        margin: auto;
+		margin: auto;
 	}
-	#submit button {		
+	#submit button {
 		background-color: var(--Robot-Color);
 		width: 100%;
 		height: 200px;
@@ -208,7 +207,7 @@
 		border-radius: 34px;
 		transition: background-color 1s;
 	}
-	#submit button:hover {		
+	#submit button:hover {
 		background-color: #ff9900;
 	}
 </style>

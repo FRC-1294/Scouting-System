@@ -1,28 +1,28 @@
 <script>
-	export let scout
-	export let boot
+	export let scout;
+	export let boot;
 	const defaultStyle =
-		'width:180px; height:400px; margin: auto; float:left; border: 5px solid #000000; padding: 10px; background-color:'
-	let divStyle
+		'width:180px; height:400px; margin: auto; float:left; border: 5px solid #000000; padding: 10px; background-color:';
+	let divStyle;
 
 	function updateColor() {
 		if (scout.status == 'disconnected') {
-			divStyle = defaultStyle + '#ff9999' //Red
+			divStyle = defaultStyle + '#ff9999'; //Red
 		}
 		if (scout.status == 'connected') {
-			divStyle = defaultStyle + '#99c2ff' //Blue
+			divStyle = defaultStyle + '#99c2ff'; //Blue
 		}
 		if (scout.status == 'scouting') {
-			divStyle = defaultStyle + '#80ff80' //Green
+			divStyle = defaultStyle + '#80ff80'; //Green
 		}
 		if (scout.status == 'submit') {
-			divStyle = defaultStyle + '#ff66ff' //Pink
+			divStyle = defaultStyle + '#ff66ff'; //Pink
 		}
 	}
-	updateColor()
+	updateColor();
 	setInterval(() => {
-		updateColor()
-	}, 100)
+		updateColor();
+	}, 100);
 </script>
 
 <main>
@@ -37,7 +37,7 @@
 		<h2>{scout.status}</h2>
 		<button
 			on:click={() => {
-				boot(scout.id)
+				boot(scout.id);
 			}}>BOOT</button
 		>
 	</div>

@@ -12,48 +12,45 @@ Each competition database will have a few collections:
 "ScoutedMatches" which will hold data for each match scouted and each robot
 */
 //Crypto
-import {randomBytes} from 'crypto'
-
+import { randomBytes } from 'crypto';
 
 //Setup Mongo
-import { Collection, MongoClient } from "mongodb"
+import { Collection, MongoClient } from 'mongodb';
 
-let client = new MongoClient("mongodb://localhost")
-client.connect()
+let client = new MongoClient('mongodb://localhost');
+client.connect();
 
-let authDB = client.db("Auth")
-let usersColl: Collection<App.StoredUser> = authDB.collection("Users")
-let sessionColl: Collection<App.StoredSession> = authDB.collection("Sessions")
+let authDB = client.db('Auth');
+let usersColl: Collection<App.StoredUser> = authDB.collection('Users');
+let sessionColl: Collection<App.StoredSession> = authDB.collection('Sessions');
 
-let compDB = client.db("TESTING_COMP_DATABASE")
-let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection("MatchData")
-let pitDataColl: Collection<App.PitData> = compDB.collection("PitData")
+let compDB = client.db('TESTING_COMP_DATABASE');
+let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
+let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 
 //Methods
-export async function aggregate() {
-
-}
+export async function aggregate() {}
 
 export async function getUser(username: string): Promise<App.StoredUser> {
-    return (await usersColl.findOne({username: username}))
+	return await usersColl.findOne({ username: username });
 }
 
 export async function doesUserExist(username: string): Promise<boolean> {
-    return (await usersColl.countDocuments({username: username})) > 0
+	return (await usersColl.countDocuments({ username: username })) > 0;
 }
 
 export async function createUser(user: App.StoredUser): Promise<void> {
-    if(await doesUserExist(user.username)) throw new Error("Username taken, make sure to check for that")
-    await usersColl.insertOne(user)
+	if (await doesUserExist(user.username))
+		throw new Error('Username taken, make sure to check for that');
+	await usersColl.insertOne(user);
 }
 
-
 export async function addScoutedDataToDB(scoutedData: App.ScoutedMatch) {
-    await scoutedDataColl.insertOne(scoutedData)
+	await scoutedDataColl.insertOne(scoutedData);
 }
 
 export async function addPitDataToDB(scoutedData: App.PitData) {
-    console.log("DATA")
-    console.log(scoutedData)
-    await pitDataColl.insertOne(scoutedData)
+	console.log('DATA');
+	console.log(scoutedData);
+	await pitDataColl.insertOne(scoutedData);
 }

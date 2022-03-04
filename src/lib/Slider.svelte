@@ -1,20 +1,21 @@
-<script lang='ts'>
-    export let round: boolean = false
-    export let checked = false
+<script lang="ts">
+	export let round: boolean = false;
+	export let checked = false;
 </script>
+
 <main>
-    <label class="switch">
-        <input bind:checked={checked} id="upper" type="checkbox" />
-        {#if round}
-            <span class="slider round" />
-        {:else}
-            <span class="slider" />        
-        {/if}
-    </label>
+	<label class="switch">
+		<input bind:checked id="upper" type="checkbox" />
+		{#if round}
+			<span class="slider round" />
+		{:else}
+			<span class="slider" />
+		{/if}
+	</label>
 </main>
 
 <style>
-    /* The switch - the box around the slider */
+	/* The switch - the box around the slider */
 	.switch {
 		position: relative;
 		display: inline-block;

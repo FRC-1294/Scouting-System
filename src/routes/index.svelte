@@ -1,23 +1,21 @@
 <script context="module" lang="ts">
-	import type {Load} from '@sveltejs/kit'
-    export const load: Load = async (obj) => {
-		console.log(obj.session)
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = async (obj) => {
+		console.log(obj.session);
 		if (!obj.session) {
-
-    return {
-        status: 302,
-        redirect: "/auth/login"
-    } 
-    }
-		return {
+			return {
+				status: 302,
+				redirect: '/auth/login'
+			};
 		}
-    }
+		return {};
+	};
 </script>
 
 <script lang="ts">
-	import {session} from '$app/stores';
-	import Counter from '$lib/Counter.svelte'
-	let sessName = $session.fullName
+	import { session } from '$app/stores';
+	import Counter from '$lib/Counter.svelte';
+	let sessName = $session.fullName;
 </script>
 
 <svelte:head>
@@ -28,7 +26,6 @@
 	<h1>
 		<div class="welcome">
 			<picture>
-				
 				<img src="svelte-welcome.png" alt="Welcome" />
 			</picture>
 		</div>

@@ -5,68 +5,67 @@
 
 interface SessionData {
 	// Your session data
-		username: string,
-		fullName: string,
-		isAdmin: boolean
-  }
+	username: string;
+	fullName: string;
+	isAdmin: boolean;
+}
 
 declare namespace App {
 	interface Locals {
-		session: import("svelte-kit-cookie-session").Session<SessionData>;
+		session: import('svelte-kit-cookie-session').Session<SessionData>;
 		cookies: Record<string, string>; // all parsed cookies are automatically set from handleSession to avoid overhead
 	}
 
 	interface Platform {}
 
-	interface Session extends SessionData {
-	}
+	interface Session extends SessionData {}
 
 	interface StoredSession {
-		username: string,
-		sessionId: string
+		username: string;
+		sessionId: string;
 	}
 
 	interface Stuff {}
 
 	interface ScoutedMatch {
-		teamNumber: number,
-		matchNumber: number,
-		auto: boolean,
+		teamNumber: number;
+		matchNumber: number;
+		auto: boolean;
 		cargo: {
-			auto: number,
-			teleop: number
-		},
+			auto: number;
+			teleop: number;
+		};
 		hub: {
-			upper: boolean,
-			lower: boolean
-		}
-		efficient: boolean,
-		notes: string
+			upper: boolean;
+			lower: boolean;
+		};
+		efficient: boolean;
+		notes: string;
 	}
 
 	interface Match {
-		matchNumber: number,
-		red: number[],
-		blue: number[]
+		matchNumber: number;
+		red: number[];
+		blue: number[];
 	}
 
 	interface Event {
-		matches: Match[]
+		matches: Match[];
 	}
 
 	interface StoredUser extends Session {
-		passwordHash: string
+		passwordHash: string;
 	}
 
 	interface PitData {
-		teamNumber: number,
-		auto: boolean,
-		cargoAuto: number,
-		reliability: number,
-		climb: boolean,
+		teamNumber: number;
+		auto: boolean;
+		cargoAuto: number;
+		reliability: number;
+		climb: boolean;
 		//TODO Add images?
-		strengths: string,
-		weakness: string,
-		comments: string,
+		strengths: string;
+		weakness: string;
+		comments: string;
 	}
 }
