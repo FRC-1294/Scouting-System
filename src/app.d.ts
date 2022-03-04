@@ -74,9 +74,4 @@ declare namespace App {
 		weakness: string;
 		comments: string;
 	}
-
-	interface PitTeam {
-		teamNumber: number;
-		hasBeenScouted: boolean;
-	}
 }

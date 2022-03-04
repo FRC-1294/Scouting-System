@@ -16,6 +16,7 @@ import { randomBytes } from 'crypto';
 
 //Setup Mongo
 import { Collection, MongoClient } from 'mongodb';
+import { importDataFromTheBlueAlliance } from './importFromTBA';
 
 let client = new MongoClient('mongodb://localhost');
 client.connect();
@@ -54,4 +55,24 @@ export async function addPitDataToDB(scoutedData: App.PitData) {
 	console.log('DATA');
 	console.log(scoutedData);
 	await pitDataColl.insertOne(scoutedData);
+}
+
+
+export async function importEventData() {
+	compInfoColl.deleteMany({});
+	compInfoColl.insertOne(await importDataFromTheBlueAlliance());
+}
+
+export async function getEventData(): Promise<App.Event> {
+	return await compInfoColl.findOne({});
+}
+
+export async function getListOfRobotsToPitScout(): Promise<number[]> {
+	let neededTeams: number[] = []
+	let eventData = await getEventData();
+	eventData.teams.forEach(async team => {
+		//If the team isn't in the pit data collection
+		if((await pitDataColl.countDocuments({ teamNumber: team })) < 1) neededTeams.push(team);
+	});
+	return neededTeams;
 }
