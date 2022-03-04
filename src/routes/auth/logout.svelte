@@ -10,11 +10,7 @@ import type { Load } from '@sveltejs/kit';
         redirect: "/auth/login"
     }
     }
-		return {
-			props: {
-				name: session.fullName
-			}
-		}
+		return {}
     }
 </script>
 
@@ -25,15 +21,13 @@ import { onMount } from "svelte";
     let text = "Signing out...";
 
     let logoutFunction = (async () => {
-        alert("Logging out!")
         console.log("Logging out")
         await fetch("/auth/api/logout")
         location.reload()
-        text = "Done"
     })
     onMount(logoutFunction)
 </script>
 
 <main>
-    <p>{text}</p>
+    <h1>Logging out...</h1>
 </main>
