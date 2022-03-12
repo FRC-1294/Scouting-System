@@ -117,7 +117,7 @@
 			<br />
 			<br />
 			<label for="notes">Additional notes:</label>
-			<input bind:value={data.notes} type="text" id="notes" />
+			<textarea bind:value={data.notes} rows=7 cols=40 id="notes" />
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">
