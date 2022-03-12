@@ -9,6 +9,9 @@ const config = {
 
 	kit: {
 		vite: {
+			define: {
+				global: {}
+			},
 			optimizeDeps: {
 				exclude: ['svelte-kit-cookie-session']
 			}

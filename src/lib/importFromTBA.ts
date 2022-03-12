@@ -3,7 +3,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 	let eventKey = '2019wasno';
 	//Outputs
 	let parsedMatches: App.Match[] = [];
-	let parsedTeams: number[] = [];
+	let parsedTeams: App.PitTeam[] = [];
 
 	//URLs
 	const matchesUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/matches/simple`;
@@ -16,7 +16,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 	const teamsRes = fetch(teamsUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
 
 	//Matches
-	const matchesAPIResult = (await matchesRes).json();
+	const matchesAPIResult = await (await matchesRes).json();
 	console.log(matchesAPIResult);
 	(await matchesAPIResult).forEach(
 		(match: {
@@ -52,7 +52,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 	);
 
 	//Teams
-	const teamsAPIResult = (await teamsRes).json();
+	const teamsAPIResult = await (await teamsRes).json();
 	console.log(teamsAPIResult);
 	(await teamsAPIResult).forEach(
 		(team: {
@@ -61,7 +61,7 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 			nickname: string;
 			team_number: number;
 		}) => {
-			parsedTeams.push(team.team_number);
+			parsedTeams.push({teamNumber: team.team_number, hasBeenPitScouted: false});
 		}
 	);
 

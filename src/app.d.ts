@@ -52,7 +52,7 @@ declare namespace App {
 	interface Event {
 		key: string;
 		matches: Match[];
-		teams: number[];
+		teams: PitTeam[];
 	}
 
 	interface StoredUser extends Session {
@@ -73,5 +73,10 @@ declare namespace App {
 		strengths: string;
 		weakness: string;
 		comments: string;
+	}
+
+	interface PitTeam {
+		teamNumber: number;
+		hasBeenPitScouted: boolean;
 	}
 }

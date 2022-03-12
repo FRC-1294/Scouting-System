@@ -13,7 +13,11 @@
 		climb: false,
 		comments: '',
 		strengths: '',
-		weakness: ''
+		weakness: '',
+		hub: {
+			upper: false,
+			lower: false
+		}
 	};
 
 	async function submit() {

@@ -11,8 +11,6 @@ Each competition database will have a few collections:
 "Matches" which will hold data for the matches at a competition
 "ScoutedMatches" which will hold data for each match scouted and each robot
 */
-//Crypto
-import { randomBytes } from 'crypto';
 
 //Setup Mongo
 import { Collection, MongoClient } from 'mongodb';
@@ -28,7 +26,8 @@ let sessionColl: Collection<App.StoredSession> = authDB.collection('Sessions');
 let compDB = client.db('TESTING_COMP_DATABASE');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
-let compInfoColl: Collection<App.Event> = compDB.collection('CompInfo');
+let matchesColl: Collection<App.Match> = compDB.collection("Matches");
+let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
 
 //Methods
 export async function aggregate() {}
@@ -55,24 +54,38 @@ export async function addPitDataToDB(scoutedData: App.PitData) {
 	console.log('DATA');
 	console.log(scoutedData);
 	await pitDataColl.insertOne(scoutedData);
+	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {hasBeenPitScouted: true});
 }
 
 
 export async function importEventData() {
-	compInfoColl.deleteMany({});
-	compInfoColl.insertOne(await importDataFromTheBlueAlliance());
+	if(await teamsColl.find().count() > 0) {
+		throw new Error("Data already imported!")
+	}
+	let data = await importDataFromTheBlueAlliance();
+	matchesColl.insertMany(data.matches);
+	teamsColl.insertMany(data.teams);
+	return "ok"
 }
 
 export async function getEventData(): Promise<App.Event> {
-	return await compInfoColl.findOne({});
+	let output: any = {};
+	output.matches = await matchesColl.find().toArray();
+	output.teams = await teamsColl.find().toArray();
+
+	return output;
 }
 
-export async function getListOfRobotsToPitScout(): Promise<number[]> {
-	let neededTeams: number[] = []
-	let eventData = await getEventData();
-	eventData.teams.forEach(async team => {
-		//If the team isn't in the pit data collection
-		if((await pitDataColl.countDocuments({ teamNumber: team })) < 1) neededTeams.push(team);
-	});
-	return neededTeams;
+export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
+	if(await teamsColl.find({hasBeenPitScouted: false}).count() < 1) {
+		teamsColl.insertMany([
+			{teamNumber: 1294, hasBeenPitScouted: false},
+			{teamNumber: 1234, hasBeenPitScouted: false},
+			{teamNumber: 1212, hasBeenPitScouted: false},
+			{teamNumber: 222, hasBeenPitScouted: true},
+			{teamNumber: 194, hasBeenPitScouted: true},
+		])
+	}
+	console.log(await teamsColl.find({hasBeenPitScouted: false}).toArray())
+	return await teamsColl.find({hasBeenPitScouted: false}).toArray();
 }
