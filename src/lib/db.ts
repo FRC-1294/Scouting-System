@@ -76,6 +76,11 @@ export async function getEventData(): Promise<App.Event> {
 	return output;
 }
 
+
+export async function getMatches(noneLessThan?: number) {
+	return await matchesColl.find({matchNumber: {$gt: noneLessThan ?? 0}}).toArray();
+}
+
 export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
 	if(await teamsColl.find({hasBeenPitScouted: false}).count() < 1) {
 		teamsColl.insertMany([
