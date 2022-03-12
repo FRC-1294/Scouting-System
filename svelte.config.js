@@ -11,9 +11,6 @@ const config = {
 		vite: {
 			define: {
 				global: {}
-			},
-			optimizeDeps: {
-				exclude: ['svelte-kit-cookie-session']
 			}
 		},
 		adapter: adapter(),

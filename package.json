@@ -30,7 +30,6 @@
 		"@fontsource/fira-mono": "^4.5.0",
 		"@lukeed/uuid": "^2.0.0",
 		"cookie": "^0.4.2",
-		"mongodb": "^4.3.1",
-		"svelte-kit-cookie-session": "^2.1.2"
+		"mongodb": "^4.3.1"
 	}
 }

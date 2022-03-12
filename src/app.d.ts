@@ -3,27 +3,12 @@
 // See https://kit.svelte.dev/docs#typescript
 // for information about these interfaces
 
-interface SessionData {
-	// Your session data
-	username: string;
-	fullName: string;
-	isAdmin: boolean;
-}
-
 declare namespace App {
-	interface Locals {
-		session: import('svelte-kit-cookie-session').Session<SessionData>;
-		cookies: Record<string, string>; // all parsed cookies are automatically set from handleSession to avoid overhead
-	}
+	interface Locals {}
 
 	interface Platform {}
 
-	interface Session extends SessionData {}
-
-	interface StoredSession {
-		username: string;
-		sessionId: string;
-	}
+	interface Session {}
 
 	interface Stuff {}
 
@@ -53,10 +38,6 @@ declare namespace App {
 		key: string;
 		matches: Match[];
 		teams: PitTeam[];
-	}
-
-	interface StoredUser extends Session {
-		passwordHash: string;
 	}
 
 	interface PitData {

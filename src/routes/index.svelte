@@ -1,21 +1,4 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-	export const load: Load = async (obj) => {
-		console.log(obj.session);
-		if (!obj.session) {
-			return {
-				status: 302,
-				redirect: '/auth/login'
-			};
-		}
-		return {};
-	};
-</script>
-
 <script lang="ts">
-	import { session } from '$app/stores';
-	import Counter from '$lib/Counter.svelte';
-	let sessName = $session.fullName;
 </script>
 
 <svelte:head>
@@ -31,7 +14,7 @@
 		</div>
 
 		to the scouting system!
-		{sessName}
+		Use the above buttons to navigate to where you need!
 	</h1>
 </section>
 
