@@ -15,10 +15,10 @@
 		<ul>
 			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Home</a></li>
 			<li class:active={$page.url.pathname.includes("/scout")}>
-				<a sveltekit:prefetch href="/scout">Stands</a>
+				<a sveltekit:prefetch href="/scout/list">Stands</a>
 			</li>
 			<li class:active={$page.url.pathname.includes("/pit")}>
-				<a sveltekit:prefetch href="/pit">Pits</a>
+				<a sveltekit:prefetch href="/pit/list">Pits</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

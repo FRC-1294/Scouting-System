@@ -46,4 +46,7 @@
 		background-color: #FF7700;
 		height: 40px;
 	}
+	a {
+		color: black;
+	}
 </style>

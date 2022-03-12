@@ -64,9 +64,12 @@
 		height: 30px;
 	}
 	.blue {
-		background-color: #7777FF;
+		background-color: #AAAAFF;
 	}
 	.red {
-		background-color: #FF7777;
+		background-color: #FFAAAA;
+	}
+	a {
+		color: black;
 	}
 </style>
