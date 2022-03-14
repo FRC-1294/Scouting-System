@@ -84,14 +84,14 @@
 			<p>Current match: Q{matchNumber}</p>
 		</div>
 		<!--Data collection here-->
-		<div id="auto">
+		<div class="item" id="auto">
 			<h3>AUTO</h3>
 
 			<p>Did the robot have a functioning auto?</p>
 			<Slider round bind:checked={data.auto} />
 		</div>
 
-		<div id="cargo">
+		<div class="item" id="cargo">
 			<h3>Cargo</h3>
 			<p>Cargo Auto:</p>
 			<Counter bind:count={data.cargo.auto} />
@@ -100,7 +100,7 @@
 			<Counter bind:count={data.cargo.teleop} />
 		</div>
 
-		<div id="hub">
+		<div class="item" id="hub">
 			<h3>HUB</h3>
 			<h4>Which hub(s) did the robot use?</h4>
 			<p>Upper:</p>
@@ -110,7 +110,7 @@
 			<Slider bind:checked={data.hub.lower} />
 		</div>
 
-		<div id="other">
+		<div class="item" id="other">
 			<h3>OTHER</h3>
 			<p>Was the robot efficient?</p>
 			<Slider round bind:checked={data.efficient} />
@@ -145,17 +145,7 @@
 {/if}
 
 <style>
-	#auto {
-		width: 200px;
-	}
-	#cargo {
-		width: 200px;
-		margin-right: 30px;
-	}
-	#hub {
-		width: 200px;
-	}
-	#other {
+	.item {
 		width: 200px;
 	}
 	div {

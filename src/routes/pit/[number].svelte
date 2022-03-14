@@ -47,20 +47,20 @@
 			<h1>{robotScouting}</h1>
 		</div>
 		<!--Data collection here-->
-		<div id="auto">
+		<div class="item">
 			<h3>AUTO</h3>
 
 			<p>Did the robot have a functioning auto?</p>
 			<Slider round bind:checked={data.auto} />
 		</div>
 
-		<div id="cargo">
+		<div class="item" id="cargo">
 			<h3>Cargo</h3>
 			<p>Cargo in Auto:</p>
 			<Counter bind:count={data.cargoAuto} />
 		</div>
 
-		<div id="hub">
+		<div class="item">
 			<h3>HUB</h3>
 			<h4>Which hub(s) did the robot use?</h4>
 			<p>Upper:</p>
@@ -70,28 +70,24 @@
 			<Slider bind:checked={data.hub.lower} />
 		</div>
 
-		<div id="other">
-			<p>Additional notes:<p><br>
+		<div class="item" id="comments">
+			<h3>Additional notes:<h3><br>
 			<table>
 				<tbody>
 					<tl>
-						<td>Strengths</td>						
+						<td class="label">Strengths</td>						
 						<td><textarea bind:value={data.weakness} rows=7 cols=40 id="notes" /></td>
 					</tl>
 					<tl>
-						<td>Weakness</td>
+						<td class="label">Weakness</td>
 						<td><textarea bind:value={data.strengths} rows=7 cols=40 id="notes" /></td>
 					</tl>
 					<tl>
-						<td>Other</td>
+						<td class="label">Other</td>
 						<td><textarea bind:value={data.comments} rows=7 cols=40 id="notes" /></td>
 					</tl>
 				</tbody>
 			</table>
-
-			<br />
-			<p></p>
-			<p></p>
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">
@@ -117,25 +113,15 @@
 		height: 300px;
 		margin: auto;
 	}
-	#auto {
-		width: 200px;
-		height: 200px;
-	}
-
-	.switch {
-		width: 200px;
-		height: 200px;
-	}
-
-	#reliability {
-		width: 200px;
-		height: 150px;
-	}
 
 	#comments {
 		width: 300px;
-		height: 500px;
-	}table,
+		height: 530px;
+		padding-bottom: 10px;
+		
+	}
+	
+	table,
 	td {
 		border: 3px solid #333;
 		font-size: 20px;
@@ -155,5 +141,39 @@
 		margin: auto;
 		width: 60%;
 		padding: 10px;
+	}
+
+	.label {
+		width: 110px;
+	}
+	.item {
+		width: 200px;
+	}
+	#cargo {
+		margin-right: 30px;
+	}
+	div {
+		height: 320px;
+		float: left;
+	}	#submit {
+		width: 100%;
+		height: 100%;
+		margin: auto;
+	}
+	#submit button {
+		background-color: var(--Robot-Color);
+		width: 100%;
+		height: 200px;
+		border: none;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 80px;
+		border-radius: 34px;
+		transition: background-color 1s;
+	}
+	#submit button:hover {
+		background-color: #ff9900;
 	}
 </style>
