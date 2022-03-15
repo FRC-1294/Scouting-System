@@ -60,4 +60,9 @@ declare namespace App {
 		teamNumber: number;
 		hasBeenPitScouted: boolean;
 	}
+
+	interface EventInfo {
+		key: string,
+		nextMatchNumber: number
+	}
 }

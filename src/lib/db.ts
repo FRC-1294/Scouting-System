@@ -10,6 +10,7 @@ let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
+let eventInfoColl: Collection<App.EventInfo> = compDB.collection("EventInfo");
 
 //Methods
 export async function aggregate() {}
@@ -50,4 +51,20 @@ export async function getMatches(noneLessThan?: number) {
 
 export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
 	return await teamsColl.find().toArray();
+}
+
+export async function updateEventInfo(data: App.EventInfo) {
+	if((await eventInfoColl.find().toArray()).length < 1 ) {
+		await eventInfoColl.insertOne(data);
+	} else {
+		await eventInfoColl.updateOne({}, {$set: data});
+	}
+}
+
+export async function setNextMatchNumber(num: number) {
+	await eventInfoColl.updateOne({}, {$set: {nextMatchNumber: num}});
+}
+
+export async function getEventInfo(): Promise<App.EventInfo> {
+	return await eventInfoColl.findOne();
 }
