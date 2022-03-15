@@ -24,7 +24,7 @@ declare namespace App {
 			upper: boolean;
 			lower: boolean;
 		};
-		efficient: boolean;
+		gotStuckOften: boolean;
 		notes: string;
 	}
 

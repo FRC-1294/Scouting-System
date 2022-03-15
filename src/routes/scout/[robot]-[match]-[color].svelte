@@ -47,7 +47,7 @@
 			upper: false,
 			lower: false
 		},
-		efficient: false, //Whether the robot navigated "Efficiently"
+		gotStuckOften: false, //Whether the robot got stuck often
 		notes: ''
 	};
 
@@ -112,8 +112,8 @@
 
 		<div class="item" id="other">
 			<h3>OTHER</h3>
-			<p>Was the robot efficient?</p>
-			<Slider round bind:checked={data.efficient} />
+			<p>Did the robot get stuck often?</p>
+			<Slider round bind:checked={data.gotStuckOften} />
 			<br />
 			<br />
 			<label for="notes">Additional notes:</label>
