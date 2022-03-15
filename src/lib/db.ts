@@ -22,7 +22,7 @@ export async function addPitDataToDB(scoutedData: App.PitData) {
 	console.log('DATA');
 	console.log(scoutedData);
 	await pitDataColl.insertOne(scoutedData);
-	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {hasBeenPitScouted: true});
+	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {hasBeenPitScouted: true} });
 }
 
 export async function importEventData() {
@@ -49,15 +49,5 @@ export async function getMatches(noneLessThan?: number) {
 }
 
 export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
-	if(await teamsColl.find({hasBeenPitScouted: false}).count() < 1) {
-		teamsColl.insertMany([
-			{teamNumber: 1294, hasBeenPitScouted: false},
-			{teamNumber: 1234, hasBeenPitScouted: false},
-			{teamNumber: 1212, hasBeenPitScouted: false},
-			{teamNumber: 222, hasBeenPitScouted: true},
-			{teamNumber: 194, hasBeenPitScouted: true},
-		])
-	}
-	console.log(await teamsColl.find({hasBeenPitScouted: false}).toArray())
-	return await teamsColl.find({hasBeenPitScouted: false}).toArray();
+	return await teamsColl.find().toArray();
 }

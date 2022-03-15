@@ -16,7 +16,15 @@
 			<tbody>
 				{#each listOfTeams as team}
 					<tr>
-						<td><a href="/pit/{team.teamNumber}"><button>{team.teamNumber}</button></a></td>
+						<td><a href="/pit/{team.teamNumber}">
+							{#if team.hasBeenPitScouted}
+							<button class="done">{team.teamNumber}</button>
+							{:else}
+							<button class="need">{team.teamNumber}</button>
+							{/if}
+								
+							
+						</a></td>
 					</tr>
 				{/each}
 			</tbody>
@@ -43,8 +51,13 @@
 	}
 	table button {
 		width: 100%;
-		background-color: #FF7700;
 		height: 40px;
+	}
+	.need {
+		background-color: #FF7700;
+	}
+	.done {
+		background-color: #00ff00;
 	}
 	a {
 		color: black;
