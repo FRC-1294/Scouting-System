@@ -1,0 +1,1 @@
+.\mongodump.exe /d TESTING_COMP_DATABASE "mongodb://localhost:27017"; .\mongorestore.exe /drop "mongodb://localhost:1234"; Remove-Item -Recurse "dump"
