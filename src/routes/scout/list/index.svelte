@@ -22,15 +22,29 @@
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					<tr>
-						<td>{match.matchNumber}</td>
-						{#each match.blue as team}
-							<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
-						{/each}
-						{#each match.red as team}
-							<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
-						{/each}
-					</tr>
+					{#if match.isCurrentMatch}
+						<tr class="highlight">
+							<td>{match.matchNumber}</td>
+							{#each match.blue as team}
+								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
+							{/each}
+							{#each match.red as team}
+								<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
+							{/each}
+						</tr>
+						
+					{:else}
+					
+						<tr>
+							<td>{match.matchNumber}</td>
+							{#each match.blue as team}
+								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
+							{/each}
+							{#each match.red as team}
+								<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
+							{/each}
+						</tr>
+					{/if}
 				{/each}
 			</tbody>
 		</table>
@@ -71,5 +85,16 @@
 	}
 	a {
 		color: black;
+	}
+	.highlight {
+		background-color: #f0f000;
+	}
+	.highlight .red {
+		background-color: #ff0000;
+		color: white;
+	}
+	.highlight .blue {
+		background-color: #3b3bff;
+		color: white;
 	}
 </style>

@@ -45,7 +45,8 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 				parsedMatches.push({
 					matchNumber: match.match_number,
 					red: redKeys,
-					blue: blueKeys
+					blue: blueKeys,
+					isCurrentMatch: false
 				});
 			}
 		}

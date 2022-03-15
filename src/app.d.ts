@@ -32,6 +32,7 @@ declare namespace App {
 		matchNumber: number;
 		red: number[];
 		blue: number[];
+		isCurrentMatch: boolean;
 	}
 
 	interface Event {

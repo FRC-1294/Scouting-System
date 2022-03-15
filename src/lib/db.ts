@@ -45,8 +45,14 @@ export async function getEventData(): Promise<App.Event> {
 }
 
 
-export async function getMatches(noneLessThan?: number) {
-	return await matchesColl.find({matchNumber: {$gt: noneLessThan ?? 0}}).toArray();
+export async function getMatches(highlightNumber?: number) {
+	let matches = await matchesColl.find().toArray();
+	if(highlightNumber) {
+		matches.forEach(match => {
+			if(match.matchNumber == highlightNumber) match.isCurrentMatch = true; 
+		})
+	}
+	return matches;
 }
 
 export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
