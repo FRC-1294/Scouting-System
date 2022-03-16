@@ -5,7 +5,7 @@
 
 <header>
 	<div class="corner">
-		<img src="/logo.png" alt="SvelteKit" />
+		<img src="/favicon.png" alt="SvelteKit" />
 	</div>
 
 	<nav>
