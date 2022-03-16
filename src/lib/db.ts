@@ -10,7 +10,7 @@ let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
-let eventInfoColl: Collection<App.EventInfo> = compDB.collection("EventInfo");
+let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 
 //Methods
 export async function aggregate() {}
@@ -36,14 +36,6 @@ export async function importEventData() {
 	return "ok"
 }
 
-export async function getEventData(): Promise<App.Event> {
-	let output: any = {};
-	output.matches = await matchesColl.find().toArray();
-	output.teams = await teamsColl.find().toArray();
-
-	return output;
-}
-
 
 export async function getMatches(highlightNumber?: number) {
 	let matches = await matchesColl.find().toArray();
@@ -59,18 +51,11 @@ export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
 	return await teamsColl.find().toArray();
 }
 
-export async function updateEventInfo(data: App.EventInfo) {
-	if((await eventInfoColl.find().toArray()).length < 1 ) {
-		await eventInfoColl.insertOne(data);
-	} else {
-		await eventInfoColl.updateOne({}, {$set: data});
-	}
+export async function updateHighlightedMatch(newMatchNumber: number) {
+	await matchNumberColl.deleteMany({});
+	await matchNumberColl.insertOne({matchNumber: newMatchNumber});
 }
 
-export async function setNextMatchNumber(num: number) {
-	await eventInfoColl.updateOne({}, {$set: {nextMatchNumber: num}});
-}
-
-export async function getEventInfo(): Promise<App.EventInfo> {
-	return await eventInfoColl.findOne();
+export async function getHighlightedMatchNumber(): Promise<number> {
+	return (await matchNumberColl.findOne()).matchNumber;
 }

@@ -1,4 +1,7 @@
-export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
+export async function importDataFromTheBlueAlliance(): Promise<{
+	matches: App.Match[];
+	teams: App.PitTeam[];
+}> {
 	console.log('Importing data!');
 	let eventKey = '2019wasno';
 	//Outputs
@@ -69,7 +72,6 @@ export async function importDataFromTheBlueAlliance(): Promise<App.Event> {
 	//Return
 	return {
 		matches: parsedMatches,
-		teams: parsedTeams,
-		key: eventKey
+		teams: parsedTeams
 	};
 }

@@ -35,12 +35,6 @@ declare namespace App {
 		isCurrentMatch: boolean;
 	}
 
-	interface Event {
-		key: string;
-		matches: Match[];
-		teams: PitTeam[];
-	}
-
 	interface PitData {
 		teamNumber: number;
 		auto: boolean;
@@ -60,10 +54,5 @@ declare namespace App {
 	interface PitTeam {
 		teamNumber: number;
 		hasBeenPitScouted: boolean;
-	}
-
-	interface EventInfo {
-		key: string,
-		nextMatchNumber: number
 	}
 }
