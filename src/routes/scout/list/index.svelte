@@ -1,4 +1,6 @@
 <script lang="ts">
+import Match from "./[match].svelte";
+
 	export let listOfMatches: App.Match[];
 	listOfMatches.sort((a,b) => {
 		return a.matchNumber - b.matchNumber
@@ -10,21 +12,19 @@
 		<table>
 			<thead>
 				<tr>
-					<td>Match number</td>
+					<td>Match number (click for data)</td>
 					<td>b1</td>
 					<td>b2</td>
 					<td>b3</td>
 					<td>r1</td>
 					<td>r2</td>
 					<td>r3</td>
-
 				</tr>
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					{#if match.isCurrentMatch}
-						<tr class="highlight">
-							<td>{match.matchNumber}</td>
+						<tr class="{match.isCurrentMatch ? 'highlight' : ""}">
+							<td><a href="/scout/list/{match.matchNumber}"><button class="matchData">{match.matchNumber}</button></a></td>
 							{#each match.blue as team}
 								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
 							{/each}
@@ -32,19 +32,6 @@
 								<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
 							{/each}
 						</tr>
-						
-					{:else}
-					
-						<tr>
-							<td>{match.matchNumber}</td>
-							{#each match.blue as team}
-								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
-							{/each}
-							{#each match.red as team}
-								<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
-							{/each}
-						</tr>
-					{/if}
 				{/each}
 			</tbody>
 		</table>
@@ -85,6 +72,9 @@
 	}
 	a {
 		color: black;
+	}
+	.highlight button {
+		background-color: #f0f000;
 	}
 	.highlight {
 		background-color: #f0f000;

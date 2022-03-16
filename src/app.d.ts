@@ -55,4 +55,7 @@ declare namespace App {
 		teamNumber: number;
 		hasBeenPitScouted: boolean;
 	}
+
+	interface AggregatedMatchAndTeamData {
+	}
 }
