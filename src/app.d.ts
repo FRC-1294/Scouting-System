@@ -56,6 +56,14 @@ declare namespace App {
 		hasBeenPitScouted: boolean;
 	}
 
-	interface AggregatedMatchAndTeamData {
+	interface AggregatedTeamData {
+		defensePercent: number;
+		reliablePercent: number;
+		averageCargoAuto: number;
+		averageCargoTele: number;
+		maxClimb: Climb;
+	}
+	enum Climb {
+		none, low, mid, high, traverse
 	}
 }
