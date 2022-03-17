@@ -81,7 +81,7 @@
 		<!--Scouting-->
 		<div class="robotBanner">
 			<h1>{robotScouting}</h1>
-			<p>Current match: Q{matchNumber}</p>
+			<p>Match Q{matchNumber}</p>
 		</div>
 		<!--Data collection here-->
 		<div class="item" id="auto">
