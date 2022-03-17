@@ -1,5 +1,4 @@
 <script lang="ts">
-import Match from "./[match].svelte";
 
 	export let listOfMatches: App.Match[];
 	listOfMatches.sort((a,b) => {
@@ -24,7 +23,7 @@ import Match from "./[match].svelte";
 			<tbody>
 				{#each listOfMatches as match}
 						<tr class="{match.isCurrentMatch ? 'highlight' : ""}">
-							<td><a href="/scout/list/{match.matchNumber}"><button class="matchData">{match.matchNumber}</button></a></td>
+							<td><a href="/data/team/{match.matchNumber}"><button class="matchData">{match.matchNumber}</button></a></td>
 							{#each match.blue as team}
 								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
 							{/each}

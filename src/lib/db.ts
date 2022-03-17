@@ -57,5 +57,6 @@ export async function updateHighlightedMatch(newMatchNumber: number) {
 }
 
 export async function getHighlightedMatchNumber(): Promise<number> {
-	return (await matchNumberColl.findOne()).matchNumber;
+	let matchNumber = (await matchNumberColl.findOne()).matchNumber
+	return matchNumber ?? 0;
 }
