@@ -1,9 +1,8 @@
 <script lang="ts">
-
 	export let listOfMatches: App.Match[];
-	listOfMatches.sort((a,b) => {
-		return a.matchNumber - b.matchNumber
-	})
+	listOfMatches.sort((a, b) => {
+		return a.matchNumber - b.matchNumber;
+	});
 </script>
 
 <main>
@@ -22,15 +21,43 @@
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-						<tr class="{match.isCurrentMatch ? 'highlight' : ""}">
-							<td><a href="/data/team/{match.matchNumber}"><button class="matchData">{match.matchNumber}</button></a></td>
-							{#each match.blue as team}
-								<td><a href="/scout/{team}-{match.matchNumber}-blue"><button class="blue">{team}</button></a></td>
-							{/each}
-							{#each match.red as team}
-								<td><a href="/scout/{team}-{match.matchNumber}-red"><button class="red">{team}</button></a></td>
-							{/each}
-						</tr>
+					<tr class={match.isCurrentMatch ? 'highlight' : ''}>
+						<td
+							><a href="/data/team/{match.matchNumber}"
+								><button class="matchData">{match.matchNumber}</button></a
+							></td
+						>
+						{#each match.blue as team}
+							{#if team == 1294}
+								<td
+									><a href="/scout/{team}-{match.matchNumber}-blue"
+										><button class="pop">{team}</button></a
+									></td
+								>
+							{:else}
+								<td
+									><a href="/scout/{team}-{match.matchNumber}-blue"
+										><button class="blue">{team}</button></a
+									></td
+								>
+							{/if}
+						{/each}
+						{#each match.red as team}
+							{#if team == 1294}
+								<td
+									><a href="/scout/{team}-{match.matchNumber}-red"
+										><button class="pop">{team}</button></a
+									></td
+								>
+							{:else}
+								<td
+									><a href="/scout/{team}-{match.matchNumber}-red"
+										><button class="red">{team}</button></a
+									></td
+								>
+							{/if}
+						{/each}
+					</tr>
 				{/each}
 			</tbody>
 		</table>
@@ -45,7 +72,7 @@
 		text-align: center;
 	}
 
-	tr {		
+	tr {
 		height: 8px;
 	}
 
@@ -68,6 +95,10 @@
 	}
 	.red {
 		background-color: #FFAAAA;
+	}
+	.pop {
+		background-color: #000000;
+		color: gold;
 	}
 	a {
 		color: black;
