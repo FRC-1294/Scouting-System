@@ -22,24 +22,24 @@
 			<tbody>
 				{#each listOfMatches as match}
 					<tr class={match.isCurrentMatch ? 'highlight' : ''}>
-						<td
-							><a href="/data/team/{match.matchNumber}"
-								><button class="matchData">{match.matchNumber}</button></a
-							></td
-						>
+						<td>
+							<a href="/data/team/{match.matchNumber}">
+								<button class="matchData">{match.matchNumber} </button>
+							</a>
+						</td>
 						{#each match.blue as team}
 							{#if team == 1294}
-								<td
-									><a href="/scout/{team}-{match.matchNumber}-blue"
-										><button class="pop">{team}</button></a
-									></td
-								>
+								<td>
+									<a href="/scout/{team}-{match.matchNumber}-blue">
+										<button class="pop">{team}</button>
+									</a>
+								</td>
 							{:else}
-								<td
-									><a href="/scout/{team}-{match.matchNumber}-blue"
-										><button class="blue">{team}</button></a
-									></td
-								>
+								<td>
+									<a href="/scout/{team}-{match.matchNumber}-blue">
+										<button class="blue">{team}</button>
+									</a>
+								</td>
 							{/if}
 						{/each}
 						{#each match.red as team}
@@ -91,10 +91,10 @@
 		height: 30px;
 	}
 	.blue {
-		background-color: #AAAAFF;
+		background-color: #aaaaff;
 	}
 	.red {
-		background-color: #FFAAAA;
+		background-color: #ffaaaa;
 	}
 	.pop {
 		background-color: #000000;
