@@ -10,15 +10,24 @@ export async function generateMatchSchedule(numberOfShifts: number): Promise<App
         shuffledListOfHumans.sort((a, b) => 0.5 - Math.random())
     }
 
-    function getRandomHuman(): App.Human {
+    function getRandomHuman(shiftNumber: number): App.Human {
         if(shuffledListOfHumans.length < 1) shuffleHumans();
-        return shuffledListOfHumans.splice(Math.floor(Math.random()*shuffledListOfHumans.length), 1)[0];
+        let human = shuffledListOfHumans.splice(Math.floor(Math.random()*shuffledListOfHumans.length), 1)[0]
+        if((human.leaving ?? numberOfShifts + 1) < shiftNumber) {
+            return getRandomHuman(shiftNumber);
+        } 
+        if((human.arriving ?? 0) > shiftNumber) {
+            shuffledListOfHumans.push(human);
+            return getRandomHuman(shiftNumber);
+        }
+        return human;
     }
 
     shuffleHumans()
     
     for (let i = 0; i < numberOfShifts; i++) {
         let currentShift: App.Shift = {
+            shiftNumber: i,
             r1: null,
             r2: null,
             r3: null,
@@ -27,12 +36,12 @@ export async function generateMatchSchedule(numberOfShifts: number): Promise<App
             b3: null,
         }
         
-        currentShift.r1 = getRandomHuman();
-        currentShift.r2 = getRandomHuman();
-        currentShift.r3 = getRandomHuman();
-        currentShift.b1 = getRandomHuman();
-        currentShift.b2 = getRandomHuman();
-        currentShift.b3 = getRandomHuman();
+        currentShift.r1 = getRandomHuman(i);
+        currentShift.r2 = getRandomHuman(i);
+        currentShift.r3 = getRandomHuman(i);
+        currentShift.b1 = getRandomHuman(i);
+        currentShift.b2 = getRandomHuman(i);
+        currentShift.b3 = getRandomHuman(i);
         
         console.log(currentShift)
         shifts.push(currentShift);

@@ -80,6 +80,7 @@ declare namespace App {
 		arriving?: number
 	}
 	interface Shift {
+		shiftNumber: number,
 		r1: Human,
 		r2: Human,
 		r3: Human,
