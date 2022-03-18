@@ -98,7 +98,6 @@
 	}
 	.pop {
 		background-color: #000000;
-		color: gold;
 	}
 	a {
 		color: black;

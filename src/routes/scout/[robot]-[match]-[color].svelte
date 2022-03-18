@@ -110,6 +110,16 @@
 			<Slider bind:checked={data.hub.lower} />
 		</div>
 
+		<div class="item" id="climb">
+			<h3>CLIMB</h3>
+			<h4>Did the robot climb?</h4>
+			<p>Climbed:</p>
+			<Slider bind:checked={data.hub.upper} />
+			<br />
+			<p>Traversed:</p>
+			<Slider bind:checked={data.hub.lower} />
+		</div>
+
 		<div class="item" id="other">
 			<h3>OTHER</h3>
 			<p>Did the robot get stuck often?</p>
