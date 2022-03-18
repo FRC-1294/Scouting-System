@@ -31,6 +31,7 @@ declare namespace App {
 			traverse: boolean;
 		}
 		gotStuckOften: boolean;
+		defense: boolean;
 		itBroke: boolean;
 		notes: string;
 	}
@@ -66,6 +67,7 @@ declare namespace App {
 	interface AggregatedTeamData {
 		defensePercent: number;
 		reliablePercent: number;
+		stuckPercent: number;
 		averageCargoAuto: number;
 		averageCargoTele: number;
 		maxClimb: Climb;

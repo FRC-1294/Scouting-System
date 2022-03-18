@@ -15,7 +15,6 @@ let scheduleColl: Collection<App.Shift> = compDB.collection("Schedule")
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 
 //Methods
-export async function aggregate() {}
 
 export async function addScoutedDataToDB(scoutedData: App.ScoutedMatch) {
 	await scoutedDataColl.insertOne(scoutedData);
@@ -74,4 +73,145 @@ export async function getHumans(): Promise<App.Human[]> {
 export async function addScheduleToDB(schedule: App.Shift[]) {
 	await scheduleColl.drop()
 	await scheduleColl.insertMany(schedule);
+}
+
+export async function aggregate(): Promise<{}> {
+	let pipeline = [
+		{
+		  '$group': {
+			'_id': '$teamNumber', 
+			'averageCargoAuto': {
+			  '$avg': '$cargo.auto'
+			}, 
+			'averageCargoTele': {
+			  '$avg': '$cargo.teleop'
+			}, 
+			'canClimbLow': {
+			  '$max': '$climb.low'
+			}, 
+			'percentClimbLow': {
+			  '$avg': {
+				'$cmp': [
+				  '$climb.low', false
+				]
+			  }
+			}, 
+			'canClimbMid': {
+			  '$max': '$climb.mid'
+			}, 
+			'percentClimbMid': {
+			  '$avg': {
+				'$cmp': [
+				  '$climb.mid', false
+				]
+			  }
+			}, 
+			'canClimbHigh': {
+			  '$max': '$climb.high'
+			}, 
+			'percentClimbHigh': {
+			  '$avg': {
+				'$cmp': [
+				  '$climb.high', false
+				]
+			  }
+			}, 
+			'canClimbTraverse': {
+			  '$max': '$climb.traverse'
+			}, 
+			'percentClimbTraverse': {
+			  '$avg': {
+				'$cmp': [
+				  '$climb.traverse', false
+				]
+			  }
+			}, 
+			'defensePercent': {
+			  '$avg': {
+				'$cmp': [
+				  '$defense', false
+				]
+			  }
+			}, 
+			'reliablePercent': {
+			  '$avg': {
+				'$cmp': [
+				  true, '$itBroke'
+				]
+			  }
+			}, 
+			'stuckPercent': {
+			  '$avg': {
+				'$cmp': [
+				  true, '$gotStuckOften'
+				]
+			  }
+			}, 
+			'percentLowHub': {
+			  '$avg': {
+				'$cmp': [
+				  true, '$gotStuckOften'
+				]
+			  }
+			}, 
+			'percentUpperHub': {
+			  '$avg': {
+				'$cmp': [
+				  '$hub.upper', false
+				]
+			  }
+			}, 
+			'percentLowerHub': {
+			  '$avg': {
+				'$cmp': [
+				  '$hub.lower', false
+				]
+			  }
+			}, 
+			'canUpperHub': {
+			  '$max': '$hub.upper'
+			}, 
+			'canLowerHub': {
+			  '$max': '$hub.lower'
+			}
+		  }
+		}, {
+		  '$addFields': {
+			'climb': {
+			  'low': {
+				'can': '$canClimbLow', 
+				'percent': '$percentClimbLow'
+			  }, 
+			  'mid': {
+				'can': '$canClimbMid', 
+				'percent': '$percentClimbMid'
+			  }, 
+			  'high': {
+				'can': '$canClimbHigh', 
+				'percent': '$percentClimbHigh'
+			  }, 
+			  'traverse': {
+				'can': '$canClimbTraverse', 
+				'percent': '$percentClimbTraverse'
+			  }
+			}, 
+			'hub': {
+			  'lower': {
+				'can': '$canLowerHub', 
+				'percent': '$percentLowerHub'
+			  }, 
+			  'upper': {
+				'can': '$canUpperHub', 
+				'percent': '$percentUpperHub'
+			  }
+			}
+		  }
+		}, {
+		  '$unset': [
+			'canClimbLow', 'canClimbMid', 'canClimbHigh', 'canClimbTraverse', 'percentClimbLow', 'percentClimbMid', 'percentClimbHigh', 'percentClimbTraverse', 'canLowerHub', 'canUpperHub', 'percentLowerHub', 'percentLowHub', 'percentUpperHub'
+		  ]
+		}
+	  ]
+
+	  
 }

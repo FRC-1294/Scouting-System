@@ -55,6 +55,7 @@
 		},
 		gotStuckOften: false, //Whether the robot got stuck often
 		itBroke: false,
+		defense: false,
 		notes: ''
 	};
 
@@ -119,7 +120,7 @@
 
 		<div class="item" id="climb">
 			<h3>CLIMB</h3>
-			<h4>Which bar did the robot climb to?</h4>
+			<h4>Which bars did the robot climb to? (click all that apply)</h4>
 			<p>Low:</p>
 			<Slider bind:checked={data.climb.low} />
 			<p>Mid:</p>
@@ -136,6 +137,8 @@
 			<Slider round bind:checked={data.gotStuckOften} />
 			<p>Did the robot break or lose connection?</p>
 			<Slider round bind:checked={data.itBroke}></Slider>
+			<p>Did the robot play defense?</p>
+			<Slider round bind:checked={data.defense}></Slider>
 			<br />
 			<br />
 			<label for="notes">Additional notes:</label>
@@ -176,7 +179,7 @@
 	}
 
 	#other {
-		height: 500px;
+		height: 550px;
 	}
 
 	.warningHeader {
