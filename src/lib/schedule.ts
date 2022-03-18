@@ -1,6 +1,6 @@
 import { getHumans } from "./db";
 
-export async function generateMatchSchedule(numberOfShifts: number): Promise<App.Shift[]> {
+export async function generateScoutSchedule(numberOfShifts: number): Promise<App.Shift[]> {
     let shifts: App.Shift[] = [];
     let listOfHumans = await getHumans();
     let shuffledListOfHumans = [...listOfHumans];
@@ -17,15 +17,16 @@ export async function generateMatchSchedule(numberOfShifts: number): Promise<App
             return getRandomHuman(shiftNumber);
         } 
         if((human.arriving ?? 0) > shiftNumber) {
-            shuffledListOfHumans.push(human);
-            return getRandomHuman(shiftNumber);
+            let tempHuman = getRandomHuman(shiftNumber); //Get a new human while the current human isn't selected
+            shuffledListOfHumans.push(human); //Add the current human since they're not being returned
+            return tempHuman; //Return the temporary human
         }
         return human;
     }
 
     shuffleHumans()
     
-    for (let i = 0; i < numberOfShifts; i++) {
+    for (let i = 1; i <= numberOfShifts; i++) {
         let currentShift: App.Shift = {
             shiftNumber: i,
             r1: null,
@@ -36,12 +37,20 @@ export async function generateMatchSchedule(numberOfShifts: number): Promise<App
             b3: null,
         }
         
-        currentShift.r1 = getRandomHuman(i);
-        currentShift.r2 = getRandomHuman(i);
-        currentShift.r3 = getRandomHuman(i);
-        currentShift.b1 = getRandomHuman(i);
-        currentShift.b2 = getRandomHuman(i);
-        currentShift.b3 = getRandomHuman(i);
+        let humanArr = [];
+
+        while (humanArr.length < 6) {
+            let human = getRandomHuman(i);
+            if(humanArr.includes(human)) continue;
+            humanArr.push(human);
+        }
+
+        currentShift.r1 = humanArr[0];
+        currentShift.r2 = humanArr[1];
+        currentShift.r3 = humanArr[2];
+        currentShift.b1 = humanArr[3];
+        currentShift.b2 = humanArr[4];
+        currentShift.b3 = humanArr[5];
         
         console.log(currentShift)
         shifts.push(currentShift);

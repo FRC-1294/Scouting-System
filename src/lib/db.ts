@@ -11,6 +11,7 @@ let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
 let humansColl: Collection<App.Human> = compDB.collection("Humans");
+let scheduleColl: Collection<App.Shift> = compDB.collection("Schedule")
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 
 //Methods
@@ -63,5 +64,14 @@ export async function getHighlightedMatchNumber(): Promise<number> {
 }
 
 export async function getHumans(): Promise<App.Human[]> {
-	return await humansColl.find().toArray();
+	let arr = await humansColl.find().toArray();
+	arr.forEach(item => {
+		delete item._id
+	})
+	return arr;
+}
+
+export async function addScheduleToDB(schedule: App.Shift[]) {
+	await scheduleColl.drop()
+	await scheduleColl.insertMany(schedule);
 }
