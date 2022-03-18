@@ -24,7 +24,7 @@
 					<tr class={match.isCurrentMatch ? 'highlight' : ''}>
 						<td>
 							<a href="/data/team/{match.matchNumber}">
-								<button class="matchData">{match.matchNumber} </button>
+								<button class="data">{match.matchNumber} </button>
 							</a>
 						</td>
 						{#each match.blue as team}
@@ -98,14 +98,15 @@
 	}
 	.pop {
 		background-color: #000000;
+		color: gold;
 	}
 	a {
 		color: black;
 	}
-	.highlight button {
+	.highlight {
 		background-color: #f0f000;
 	}
-	.highlight {
+	.highlight .data {
 		background-color: #f0f000;
 	}
 	.highlight .red {

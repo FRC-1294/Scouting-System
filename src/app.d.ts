@@ -31,6 +31,7 @@ declare namespace App {
 			traverse: boolean;
 		}
 		gotStuckOften: boolean;
+		itBroke: boolean;
 		notes: string;
 	}
 

@@ -54,6 +54,7 @@
 			traverse: false
 		},
 		gotStuckOften: false, //Whether the robot got stuck often
+		itBroke: false,
 		notes: ''
 	};
 
@@ -133,6 +134,8 @@
 			<h3>OTHER</h3>
 			<p>Did the robot get stuck often?</p>
 			<Slider round bind:checked={data.gotStuckOften} />
+			<p>Did the robot break or lose connection?</p>
+			<Slider round bind:checked={data.itBroke}></Slider>
 			<br />
 			<br />
 			<label for="notes">Additional notes:</label>
@@ -170,6 +173,10 @@
 	div {
 		height: 320px;
 		float: left;
+	}
+
+	#other {
+		height: 500px;
 	}
 
 	.warningHeader {
