@@ -10,6 +10,7 @@ let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
+let humansColl: Collection<App.Human> = compDB.collection("Humans");
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 
 //Methods
@@ -59,4 +60,8 @@ export async function updateHighlightedMatch(newMatchNumber: number) {
 export async function getHighlightedMatchNumber(): Promise<number> {
 	let matchNumber = (await matchNumberColl.findOne()).matchNumber
 	return matchNumber ?? 0;
+}
+
+export async function getHumans(): Promise<App.Human[]> {
+	return await humansColl.find().toArray();
 }

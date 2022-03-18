@@ -73,4 +73,18 @@ declare namespace App {
 	enum Climb {
 		none, low, mid, high, traverse
 	}
+
+	interface Human {
+		name: string,
+		leaving?: number,
+		arriving?: number
+	}
+	interface Shift {
+		r1: Human,
+		r2: Human,
+		r3: Human,
+		b1: Human,
+		b2: Human,
+		b3: Human,
+	}
 }
