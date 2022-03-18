@@ -76,11 +76,16 @@ declare namespace App {
 
 	interface Human {
 		name: string,
-		leaving?: number,
-		arriving?: number
+		leaving1?: number,
+		arriving1?: number,
+		leaving2?: number,
+		arriving2?: number,
+		dayOne: boolean,
+		dayTwo: boolean,
 	}
 	interface Shift {
 		shiftNumber: number,
+		day: number,
 		r1: Human,
 		r2: Human,
 		r3: Human,
