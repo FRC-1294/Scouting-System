@@ -24,6 +24,12 @@ declare namespace App {
 			upper: boolean;
 			lower: boolean;
 		};
+		climb: {
+			low: boolean;
+			mid: boolean;
+			high: boolean;
+			traverse: boolean;
+		}
 		gotStuckOften: boolean;
 		notes: string;
 	}

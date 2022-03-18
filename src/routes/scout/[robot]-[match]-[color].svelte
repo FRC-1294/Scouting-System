@@ -47,6 +47,12 @@
 			upper: false,
 			lower: false
 		},
+		climb: {
+			low: false,
+			mid: false,
+			high: false,
+			traverse: false
+		},
 		gotStuckOften: false, //Whether the robot got stuck often
 		notes: ''
 	};
@@ -112,12 +118,15 @@
 
 		<div class="item" id="climb">
 			<h3>CLIMB</h3>
-			<h4>Did the robot climb?</h4>
-			<p>Climbed:</p>
-			<Slider bind:checked={data.hub.upper} />
-			<br />
-			<p>Traversed:</p>
-			<Slider bind:checked={data.hub.lower} />
+			<h4>Which bar did the robot climb to?</h4>
+			<p>Low:</p>
+			<Slider bind:checked={data.climb.low} />
+			<p>Mid:</p>
+			<Slider bind:checked={data.climb.mid} />
+			<p>High:</p>
+			<Slider bind:checked={data.climb.high} />
+			<p>Traverse:</p>
+			<Slider bind:checked={data.climb.traverse} />
 		</div>
 
 		<div class="item" id="other">
