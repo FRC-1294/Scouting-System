@@ -65,12 +65,40 @@ declare namespace App {
 	}
 
 	interface AggregatedTeamData {
+		_id: number;
 		defensePercent: number;
 		reliablePercent: number;
 		stuckPercent: number;
 		averageCargoAuto: number;
 		averageCargoTele: number;
-		maxClimb: Climb;
+		climb: {
+			low: {
+				can: boolean;
+				percent: number;
+			}
+			mid: {
+				can: boolean;
+				percent: number;
+			}
+			high: {
+				can: boolean;
+				percent: number;
+			}
+			traverse: {
+				can: boolean;
+				percent: number;
+			}
+		}
+		hub: {
+			lower: {
+				can: boolean;
+				percent: number;
+			}			
+			upper: {
+				can: boolean;
+				percent: number;
+			}
+		}
 	}
 	enum Climb {
 		none, low, mid, high, traverse

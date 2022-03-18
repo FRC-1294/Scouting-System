@@ -75,7 +75,7 @@ export async function addScheduleToDB(schedule: App.Shift[]) {
 	await scheduleColl.insertMany(schedule);
 }
 
-export async function aggregate(): Promise<{}> {
+export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 	let pipeline = [
 		{
 		  '$group': {
@@ -213,5 +213,12 @@ export async function aggregate(): Promise<{}> {
 		}
 	  ]
 
-	  
+	  let result = await scoutedDataColl.aggregate(pipeline).toArray()
+	  return result as unknown as App.AggregatedTeamData[];
+}
+
+export async function getTeamData(teamNumber: number) {
+	let data = await aggregate();
+	return data.find(i => i._id == teamNumber);
+	
 }
