@@ -7,7 +7,7 @@
 </script>
 
 <main>
-	<div id="table">
+	<!--<div id="table">
 		<table>
 			<thead>
 				<tr>
@@ -22,7 +22,7 @@
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					<tr class={match.isCurrentMatch ? 'highlight' : (match.matchNumber > 44 || match.matchNumber < currentMatchNumber) ? 'grey' : ''}>
+					<tr class={match.isCurrentMatch ? 'highlight' : (match.matchNumber > 60 || match.matchNumber < currentMatchNumber) ? 'grey' : ''}>
 						
 						<td>
 							<a target="_blank" rel="noreferrer noopener" href="/data/match/{match.matchNumber}">
@@ -63,7 +63,38 @@
 				{/each}
 			</tbody>
 		</table>
-	</div>
+
+	</div>-->
+	<h1>THANK YOU SCOUTS!!!</h1>
+	<h2>You all are the best!!</h2>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<p>amogus</p>
 </main>
 
 <style>
