@@ -5,7 +5,7 @@ import { importDataFromTheBlueAlliance } from './importFromTBA';
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('TESTING_COMP_DATABASE');
+let compDB = client.db('SAMMAMISH');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
@@ -32,7 +32,9 @@ export async function importEventData() {
 		throw new Error("Data already imported!")
 	}
 	let data = await importDataFromTheBlueAlliance();
-	matchesColl.insertMany(data.matches);
+	if(data.matches.length > 0) {
+		matchesColl.insertMany(data.matches);
+	}
 	teamsColl.insertMany(data.teams);
 	return "ok"
 }
@@ -217,8 +219,12 @@ export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 	  return result as unknown as App.AggregatedTeamData[];
 }
 
-export async function getTeamData(teamNumber: number) {
+export async function getTeamData(teamNumber: number): Promise<App.AggregatedTeamData> {
 	let data = await aggregate();
 	return data.find(i => i._id == teamNumber);
 	
+}
+
+export async function getPitTeamData(teamNumber: number): Promise<App.PitData> {
+	return await pitDataColl.findOne({teamNumber: teamNumber});
 }

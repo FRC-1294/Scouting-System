@@ -16,7 +16,7 @@
 		auto: false,
 		cargoAuto: 0,
 		reliability: 0,
-		climb: false,
+		climb: 0,
 		comments: '',
 		strengths: '',
 		weakness: '',
@@ -71,6 +71,8 @@
 		</div>
 
 		<div class="item" id="comments">
+			<h3>Climb</h3>
+			<Counter bind:count={data.climb}></Counter>
 			<h3>Additional notes:<h3><br>
 			<table>
 				<tbody>
@@ -116,7 +118,7 @@
 
 	#comments {
 		width: 300px;
-		height: 530px;
+		height: 600px;
 		padding-bottom: 10px;
 		
 	}

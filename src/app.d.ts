@@ -52,7 +52,7 @@ declare namespace App {
 			lower: boolean;
 		};
 		reliability: number;
-		climb: boolean;
+		climb: number;
 		//TODO Add images?
 		strengths: string;
 		weakness: string;

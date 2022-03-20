@@ -3,7 +3,7 @@ export async function importDataFromTheBlueAlliance(): Promise<{
 	teams: App.PitTeam[];
 }> {
 	console.log('Importing data!');
-	let eventKey = '2019wasno';
+	let eventKey = '2022wasam';
 	//Outputs
 	let parsedMatches: App.Match[] = [];
 	let parsedTeams: App.PitTeam[] = [];

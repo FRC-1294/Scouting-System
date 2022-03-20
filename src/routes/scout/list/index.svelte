@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let listOfMatches: App.Match[];
+	export let currentMatchNumber: number;
 	listOfMatches.sort((a, b) => {
 		return a.matchNumber - b.matchNumber;
 	});
@@ -21,9 +22,10 @@
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					<tr class={match.isCurrentMatch ? 'highlight' : ''}>
+					<tr class={match.isCurrentMatch ? 'highlight' : (match.matchNumber > 44 || match.matchNumber < currentMatchNumber) ? 'grey' : ''}>
+						
 						<td>
-							<a href="/data/team/{match.matchNumber}">
+							<a target="_blank" rel="noreferrer noopener" href="/data/match/{match.matchNumber}">
 								<button class="data">{match.matchNumber} </button>
 							</a>
 						</td>
@@ -116,5 +118,13 @@
 	.highlight .blue {
 		background-color: #3b3bff;
 		color: white;
+	}
+	.grey {
+		background-color: gray;
+		color: black;
+	}
+	.grey button {
+		background-color: gray;
+		color: black;
 	}
 </style>
