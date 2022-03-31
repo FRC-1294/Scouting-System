@@ -106,6 +106,9 @@
 			<br />
 			<p>Cargo Teleop:</p>
 			<Counter bind:count={data.cargo.teleop} />
+			<br />
+			<p>Missed Cargo:</p>
+			<Counter bind:count={data.cargo.missed} />
 		</div>
 
 		<div class="item" id="hub">
@@ -141,8 +144,10 @@
 			<Slider round bind:checked={data.defense}></Slider>
 			<br />
 			<br />
+			<label for="name">Name:</label>
+			<input bind:value={data.name} id="name" />
 			<label for="notes">Additional notes:</label>
-			<textarea bind:value={data.notes} rows=7 cols=40 id="notes" />
+			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">

@@ -19,6 +19,7 @@ declare namespace App {
 		cargo: {
 			auto: number;
 			teleop: number;
+			missed: number;
 		};
 		hub: {
 			upper: boolean;
@@ -33,6 +34,7 @@ declare namespace App {
 		gotStuckOften: boolean;
 		defense: boolean;
 		itBroke: boolean;
+		name: string;
 		notes: string;
 	}
 
