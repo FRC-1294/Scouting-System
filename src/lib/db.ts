@@ -1,6 +1,6 @@
 //Setup Mongo
 import { Collection, MongoClient } from 'mongodb';
-import { importDataFromTheBlueAlliance, importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance } from './importFromTBA';
+import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance } from './importFromTBA';
 
 let client = new MongoClient('mongodb://localhost');
 client.connect();
