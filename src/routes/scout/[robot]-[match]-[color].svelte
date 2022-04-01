@@ -41,7 +41,8 @@
 		auto: false, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 		cargo: {
 			auto: 0,
-			teleop: 0
+			teleop: 0,
+			missed: 0
 		},
 		hub: {
 			upper: false,
@@ -56,7 +57,8 @@
 		gotStuckOften: false, //Whether the robot got stuck often
 		itBroke: false,
 		defense: false,
-		notes: ''
+		notes: '',
+		name: ''
 	};
 
 	let errorMessage = '';
