@@ -1,22 +1,14 @@
-export async function importDataFromTheBlueAlliance(): Promise<{
-	matches: App.Match[];
-	teams: App.PitTeam[];
-}> {
-	console.log('Importing data!');
-	let eventKey = '2022wasam';
+const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
+let eventKey = '2022wabon';
+
+export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]> {
+	console.log('Importing Match data!');
 	//Outputs
 	let parsedMatches: App.Match[] = [];
-	let parsedTeams: App.PitTeam[] = [];
 
-	//URLs
 	const matchesUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/matches/simple`;
-	const teamsUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/teams/simple`;
-
-	const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
-
-	//Invoke fetch
+	
 	const matchesRes = fetch(matchesUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
-	const teamsRes = fetch(teamsUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
 
 	//Matches
 	const matchesAPIResult = await (await matchesRes).json();
@@ -55,6 +47,20 @@ export async function importDataFromTheBlueAlliance(): Promise<{
 		}
 	);
 
+
+
+	return parsedMatches;
+}
+
+
+export async function importTeamDataFromTheBlueAlliance(): Promise<App.PitTeam[]> {
+
+	let parsedTeams: App.PitTeam[] = [];
+
+	const teamsUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/teams/simple`;
+
+	const teamsRes = fetch(teamsUrl, { headers: { 'X-TBA-Auth-Key': apiKey } });
+
 	//Teams
 	const teamsAPIResult = await (await teamsRes).json();
 	console.log(teamsAPIResult);
@@ -69,9 +75,5 @@ export async function importDataFromTheBlueAlliance(): Promise<{
 		}
 	);
 
-	//Return
-	return {
-		matches: parsedMatches,
-		teams: parsedTeams
-	};
+	return parsedTeams;
 }
