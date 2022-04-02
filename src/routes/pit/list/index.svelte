@@ -6,6 +6,9 @@
 </script>
 
 <main>
+	<h1>
+		This is the list for PIT scouting. Click "Scouting!" above to go to match scouting.
+	</h1>
 	<div id="table">
 		<table>
 			<thead>

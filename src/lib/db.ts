@@ -1,11 +1,11 @@
 //Setup Mongo
 import { Collection, MongoClient } from 'mongodb';
-import { importDataFromTheBlueAlliance } from './importFromTBA';
+import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance } from './importFromTBA';
 
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('SAMMAMISH');
+let compDB = client.db('BONNEY_LAKE');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
@@ -27,15 +27,29 @@ export async function addPitDataToDB(scoutedData: App.PitData) {
 	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {hasBeenPitScouted: true} });
 }
 
-export async function importEventData() {
-	if(await teamsColl.find().count() > 0) {
-		throw new Error("Data already imported!")
+export async function matchDataHasBeenImported() {
+	return await matchesColl.find().count() > 0
+}
+
+export async function teamDataHasBeenImported() {
+	return await matchesColl.find().count() > 0
+}
+
+export async function importEventMatchData() {
+	if(await matchDataHasBeenImported()) {
+		throw new Error("Match data already imported!")
 	}
-	let data = await importDataFromTheBlueAlliance();
-	if(data.matches.length > 0) {
-		matchesColl.insertMany(data.matches);
+	let data = await importMatchDataFromTheBlueAlliance();
+	matchesColl.insertMany(data);
+	return "ok"
+}
+
+export async function importEventTeamData() {
+	if(await teamDataHasBeenImported()) {
+		throw new Error("Team data already imported!")
 	}
-	teamsColl.insertMany(data.teams);
+	let data = await importTeamDataFromTheBlueAlliance();
+	teamsColl.insertMany(data);
 	return "ok"
 }
 
@@ -60,7 +74,12 @@ export async function updateHighlightedMatch(newMatchNumber: number) {
 }
 
 export async function getHighlightedMatchNumber(): Promise<number> {
-	let matchNumber = (await matchNumberColl.findOne()).matchNumber
+	let matchNumber = 0;
+	try {
+		matchNumber = (await matchNumberColl.findOne()).matchNumber;
+	} catch (error) {
+		matchNumber = 0;
+	}
 	return matchNumber ?? 0;
 }
 
