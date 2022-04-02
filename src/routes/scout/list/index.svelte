@@ -128,4 +128,7 @@
 		background-color: gray;
 		color: black;
 	}
+	.grey .pop {
+		color: gold;
+	}
 </style>
