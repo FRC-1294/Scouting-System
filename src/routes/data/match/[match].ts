@@ -1,4 +1,4 @@
-import { getListOfRobotsToPitScout, getMatches, getPitTeamData, getTeamData } from '$lib/db';
+import { getListOfAllTeams, getMatches, getPitTeamData, getTeamData } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export let get = async function ({params}): Promise<{
@@ -18,7 +18,8 @@ export let get = async function ({params}): Promise<{
 	let MatchData = (await getMatches()).find(item => item.matchNumber == params.match);
 
 
-	let teams = (await getListOfRobotsToPitScout())
+	let teams = (await getListOfAllTeams())
+	console.log(teams)
 
 	for (let i = 0; i < teams.length; i++) {
 		const team = teams[i];

@@ -1,4 +1,4 @@
-import { getListOfRobotsToPitScout, getPitTeamData, getTeamData } from '$lib/db';
+import { getListOfAllTeams, getPitTeamData, getTeamData } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export let get = async function ({params}) {

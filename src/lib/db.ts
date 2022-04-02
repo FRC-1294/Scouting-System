@@ -64,7 +64,7 @@ export async function getMatches(highlightNumber?: number) {
 	return matches;
 }
 
-export async function getListOfRobotsToPitScout(): Promise<App.PitTeam[]> {
+export async function getListOfAllTeams(): Promise<App.PitTeam[]> {
 	return await teamsColl.find().toArray();
 }
 

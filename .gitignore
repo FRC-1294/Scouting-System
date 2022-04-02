@@ -9,4 +9,5 @@ node_modules
 .vercel
 .output
 /mongo/data
-/mongo/dumps
+/mongo/backups
+/mongo/sammamish
