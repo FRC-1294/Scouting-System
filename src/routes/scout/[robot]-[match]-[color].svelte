@@ -78,6 +78,7 @@
 </script>
 
 <main>
+	<title>Scouting robot {robotScouting} in Q{matchNumber}</title>
 	<!--Need to sumbit warning-->
 	{#if needToSubmit}
 		<header class="warningHeader">
@@ -146,7 +147,7 @@
 			<Slider round bind:checked={data.defense}></Slider>
 			<br />
 			<br />
-			<label for="name">Name:</label>
+			<label for="name">Your Name:</label>
 			<input bind:value={data.name} id="name" />
 			<label for="notes">Additional notes:</label>
 			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
@@ -158,6 +159,7 @@
 	{:else}
 		<div class="robotBanner">
 			<h1>Data Submitted. Thanks!</h1>
+			<a sveltekit:prefetch href="/scout/list"><button class="goback">Go back</button></a>
 		</div>
 	{/if}
 </main>
@@ -204,7 +206,7 @@
 		text-align: center;
 		display: inline-block;
 		width: 100%;
-		height: 300px;
+		height: 400px;
 		margin: auto;
 	}
 	.robotBanner h1 {
@@ -235,5 +237,21 @@
 	}
 	#submit button:hover {
 		background-color: #ff9900;
+	}
+	.goback {
+		width: 50%;
+		height: 100px;
+		background-color: rgb(189, 0, 189);
+		border: none;
+		color: white;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 80px;
+		border-radius: 34px;
+		transition: background-color 1s;
+	}
+	.goback:hover {
+		background-color: rgb(185, 120, 0);
 	}
 </style>

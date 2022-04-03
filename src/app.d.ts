@@ -73,6 +73,7 @@ declare namespace App {
 		stuckPercent: number;
 		averageCargoAuto: number;
 		averageCargoTele: number;
+		averageMissedCargo: number;
 		climb: {
 			low: {
 				can: boolean;
@@ -100,7 +101,8 @@ declare namespace App {
 				can: boolean;
 				percent: number;
 			}
-		}
+		},
+		notes: string
 	}
 	enum Climb {
 		none, low, mid, high, traverse

@@ -1,11 +1,28 @@
 <script lang="ts">
-import TeamDataWidget from "$lib/TeamDataWidget.svelte";
+    import type { Data } from "./[match]";
+	import { page } from '$app/stores';
+    import TeamDataWidget from "$lib/TeamDataWidget.svelte";
 
-    export let DATA: {MatchData: App.AggregatedTeamData, PitData: App.PitData, red: boolean}[]
+    export let redData: Data;
+    export let blueData: Data;
 </script>
 
 <main>
-    {#each DATA as aTeam}
-        <TeamDataWidget TeamData={aTeam}></TeamDataWidget>
-    {/each}
+    <title>Data for match {$page.params.match}</title>
+    <table>
+        <tr>
+            {#each redData as aTeam}
+            <td>
+                <TeamDataWidget TeamData={aTeam}></TeamDataWidget>
+            </td>
+            {/each}
+        </tr>
+        <tr>
+            {#each blueData as aTeam}
+            <td>
+                <TeamDataWidget TeamData={aTeam}></TeamDataWidget>
+            </td>
+            {/each}
+        </tr>
+    </table>
 </main>

@@ -7,6 +7,9 @@
 </script>
 
 <main>
+	<title>List of matches</title>
+	<h1>Fun fact:</h1>
+	<h1>You can click on the match number in the table to view data on the match, collected by our own scouts!</h1>
 	<div id="table">
 		<table>
 			<thead>

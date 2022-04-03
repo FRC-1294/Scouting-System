@@ -43,6 +43,7 @@ import { writable } from "svelte/store";
 </script>
 
 <main>
+	<title>Next match: {$matchNumber}</title>
     <a href="/control/import">Import data</a> <br>
     {#if errorMessage}
         <p>{errorMessage}</p>

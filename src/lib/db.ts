@@ -107,6 +107,9 @@ export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 			'averageCargoTele': {
 			  '$avg': '$cargo.teleop'
 			}, 
+			'averageMissedCargo': {
+			  '$avg': '$cargo.missed'
+			}, 
 			'canClimbLow': {
 			  '$max': '$climb.low'
 			}, 
@@ -194,6 +197,9 @@ export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 			}, 
 			'canLowerHub': {
 			  '$max': '$hub.lower'
+			}, 
+			'commentsArray': {
+			  '$push': '$notes'
 			}
 		  }
 		}, {
@@ -224,6 +230,27 @@ export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 			  'upper': {
 				'can': '$canUpperHub', 
 				'percent': '$percentUpperHub'
+			  }
+			}, 
+			'notes': {
+			  '$reduce': {
+				'input': '$commentsArray', 
+				'initialValue': '', 
+				'in': {
+				  '$cond': {
+					'if': {
+					  '$eq': [
+						'$$value', ''
+					  ]
+					}, 
+					'then': '$$this', 
+					'else': {
+					  '$concat': [
+						'$$value', ', ', '$$this'
+					  ]
+					}
+				  }
+				}
 			  }
 			}
 		  }
