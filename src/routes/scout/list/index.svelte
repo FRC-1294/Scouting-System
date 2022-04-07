@@ -1,13 +1,30 @@
 <script lang="ts">
+import { onMount } from "svelte";
+import { writable } from "svelte/store";
+
 	export let listOfMatches: App.Match[];
 	export let currentMatchNumber: number;
+	let currentMatchStore = writable(currentMatchNumber)
 	listOfMatches.sort((a, b) => {
 		return a.matchNumber - b.matchNumber;
 	});
+	onMount(() => {
+		setInterval(async ()=>{
+			let number = await (await fetch("/control/updateEventData")).json()
+			
+			$currentMatchStore = parseInt(number.matchNumber);
+			console.log("Match Number: " + $currentMatchStore)
+			
+		},100)
+	})
 </script>
 
 <main>
 	<title>List of matches</title>
+	{#if $currentMatchStore > 59}
+		<h1>Thank you for scouting!!</h1>
+		<h1>Go ahead and unplug your laptop. </h1>
+	{:else}
 	<h1>Fun fact:</h1>
 	<h1>You can click on the match number in the table to view data on the match, collected by our own scouts!</h1>
 	<div id="table">
@@ -25,7 +42,7 @@
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					<tr class={match.isCurrentMatch ? 'highlight' : (match.matchNumber > 45 || match.matchNumber < currentMatchNumber) ? 'grey' : ''}>
+					<tr class={match.matchNumber == $currentMatchStore ? 'highlight' : (match.matchNumber > 59 || match.matchNumber < $currentMatchStore) ? 'grey' : ''}>
 						
 						<td>
 							<a target="_blank" rel="noreferrer noopener" href="/data/match/{match.matchNumber}">
@@ -68,6 +85,7 @@
 		</table>
 
 	</div>
+	{/if}
 </main>
 
 <style>
