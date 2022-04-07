@@ -1,0 +1,31 @@
+[{$group: {
+ _id: '$teamNumber',
+ commentsArray: {
+  $push: '$notes'
+ }
+}}, {$addFields: {
+ notes: {
+  $reduce: {
+   input: '$commentsArray',
+   initialValue: '',
+   'in': {
+    $cond: {
+     'if': {
+      $eq: [
+       '$$value',
+       ''
+      ]
+     },
+     then: '$$this',
+     'else': {
+      $concat: [
+       '$$value',
+       ', ',
+       '$$this'
+      ]
+     }
+    }
+   }
+  }
+ }
+}}]

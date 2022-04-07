@@ -2,10 +2,9 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { addNotesToDB, addScoutedDataToDB } from '$lib/db';
 export async function post({ request }) {
-	let body: App.ScoutedMatch = await request.json();
+	let body = await request.json();
 	console.log(body);
-	await addScoutedDataToDB(body);
-	await addNotesToDB([{notes: body.notes, matchNumber: body.matchNumber, teamNumber: body.teamNumber}])
+	await addNotesToDB(body);
 	return {
 		status: 200,
 		body: {

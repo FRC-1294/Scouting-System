@@ -1,10 +1,13 @@
 <script lang="ts">
-    export let TeamData: {MatchData: App.AggregatedTeamData, PitData: App.PitData, red: boolean}
+import type { Data } from "src/routes/data/match/[match]";
+
+
+    export let TeamData: Data
 </script>
 
 <main>
     <div class={TeamData.red ? "red" : "blue"}>
-        <h1>{TeamData.PitData.teamNumber}</h1>
+        <h1>{TeamData.teamNumber}</h1>
         {#if TeamData.MatchData}
         <p>Average balls Auto: {TeamData.MatchData.averageCargoAuto} </p>
         <p>Average balls Teleop: {TeamData.MatchData.averageCargoTele} </p>
@@ -17,6 +20,11 @@
         <p>Traverse climb: {TeamData.MatchData.climb.traverse.can} {TeamData.MatchData.climb.traverse.percent * 100}%</p>
         <h2>Notes:</h2>
         <p>{TeamData.MatchData.notes}</p>
+        {/if}
+
+        {#if TeamData.notes}
+            <h1>Other notes:</h1>
+            <p>{TeamData.notes.notes}</p>
         {/if}
 
         {#if TeamData.PitData}

@@ -4,16 +4,19 @@ import { writable } from "svelte/store";
 
 	export let listOfMatches: App.Match[];
 	export let currentMatchNumber: number;
+	export let endMatchNumber: number;
 	let currentMatchStore = writable(currentMatchNumber)
+	let endMatchStore = writable(endMatchNumber)
 	listOfMatches.sort((a, b) => {
 		return a.matchNumber - b.matchNumber;
 	});
 	onMount(() => {
 		setInterval(async ()=>{
-			let number = await (await fetch("/control/updateEventData")).json()
-			
-			$currentMatchStore = parseInt(number.matchNumber);
-			console.log("Match Number: " + $currentMatchStore)
+			let newHightlightedMatch = await (await fetch("/control/nextMatch")).json()
+			$currentMatchStore = parseInt(newHightlightedMatch.matchNumber);
+
+			let newEndMatch = await (await fetch("/control/endMatch")).json()
+			$endMatchStore = parseInt(newEndMatch.matchNumber)
 			
 		},100)
 	})
@@ -21,10 +24,6 @@ import { writable } from "svelte/store";
 
 <main>
 	<title>List of matches</title>
-	{#if $currentMatchStore > 59}
-		<h1>Thank you for scouting!!</h1>
-		<h1>Go ahead and unplug your laptop. </h1>
-	{:else}
 	<h1>Fun fact:</h1>
 	<h1>You can click on the match number in the table to view data on the match, collected by our own scouts!</h1>
 	<div id="table">
@@ -32,9 +31,11 @@ import { writable } from "svelte/store";
 			<thead>
 				<tr>
 					<td>Match number (click for data)</td>
+					<td>BLUE</td>
 					<td>b1</td>
 					<td>b2</td>
 					<td>b3</td>
+					<td>RED</td>
 					<td>r1</td>
 					<td>r2</td>
 					<td>r3</td>
@@ -42,11 +43,16 @@ import { writable } from "svelte/store";
 			</thead>
 			<tbody>
 				{#each listOfMatches as match}
-					<tr class={match.matchNumber == $currentMatchStore ? 'highlight' : (match.matchNumber > 59 || match.matchNumber < $currentMatchStore) ? 'grey' : ''}>
+					<tr class={match.matchNumber == $currentMatchStore ? 'highlight' : (match.matchNumber > $endMatchStore || match.matchNumber < $currentMatchStore) ? 'grey' : ''}>
 						
 						<td>
 							<a target="_blank" rel="noreferrer noopener" href="/data/match/{match.matchNumber}">
 								<button class="data">{match.matchNumber} </button>
+							</a>
+						</td>			
+						<td>
+							<a href="/scout/{match.matchNumber}-blue">
+								<button class="all allBlue">All</button>
 							</a>
 						</td>
 						{#each match.blue as team}
@@ -63,7 +69,12 @@ import { writable } from "svelte/store";
 									</a>
 								</td>
 							{/if}
-						{/each}
+						{/each}		
+						<td>
+							<a href="/scout/{match.matchNumber}-red">
+								<button class="all allRed">All</button>
+							</a>
+						</td>	
 						{#each match.red as team}
 							{#if team == 1294}
 								<td
@@ -85,7 +96,6 @@ import { writable } from "svelte/store";
 		</table>
 
 	</div>
-	{/if}
 </main>
 
 <style>
@@ -119,6 +129,16 @@ import { writable } from "svelte/store";
 	}
 	.red {
 		background-color: #ffaaaa;
+	}
+	.all {
+		width: 100px;
+		color: white;
+	}
+	.allRed {
+		background-color: #ff0000;
+	}
+	.allBlue {
+		background-color: #0000ff;
 	}
 	.pop {
 		background-color: #000000;

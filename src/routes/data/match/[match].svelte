@@ -3,8 +3,8 @@
 	import { page } from '$app/stores';
     import TeamDataWidget from "$lib/TeamDataWidget.svelte";
 
-    export let redData: Data;
-    export let blueData: Data;
+    export let redData: Data[];
+    export let blueData: Data[];
 </script>
 
 <main>

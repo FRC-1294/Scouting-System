@@ -38,6 +38,12 @@ declare namespace App {
 		notes: string;
 	}
 
+	interface ScoutedNotes {
+		teamNumber: number;
+		matchNumber: number;
+		notes: string;
+	}
+
 	interface Match {
 		matchNumber: number;
 		red: number[];
@@ -103,6 +109,11 @@ declare namespace App {
 			}
 		},
 		notes: string
+	}
+	interface AggregatedNotes {
+		_id: number;
+		commentsArray: string[];
+		notes: string;
 	}
 	enum Climb {
 		none, low, mid, high, traverse

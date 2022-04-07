@@ -1,5 +1,5 @@
 const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
-let eventKey = '2022wabon';
+let eventKey = '2022pncmp';
 
 export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]> {
 	console.log('Importing Match data!');
