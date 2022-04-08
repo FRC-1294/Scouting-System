@@ -69,7 +69,6 @@ export async function generateScoutSchedule(firstDayNumberOfShifts: number, seco
         currentShift.b2 = humanArr[4];
         currentShift.b3 = humanArr[5];
         
-        console.log(currentShift)
         shifts.push(currentShift);
     }
 
@@ -100,7 +99,6 @@ export async function generateScoutSchedule(firstDayNumberOfShifts: number, seco
         currentShift.b2 = humanArr[4];
         currentShift.b3 = humanArr[5];
         
-        console.log(currentShift)
         shifts.push(currentShift);
     }
 

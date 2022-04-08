@@ -11,3 +11,5 @@ node_modules
 /mongo/data
 /mongo/backups
 /mongo/sammamish
+/mongo/districts
+/mongo/bonneylake

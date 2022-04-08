@@ -6,7 +6,6 @@ export let get: RequestHandler = async function () {
     let res;
     try {
         res = await importEventTeamData();
-        console.log(res)        
     } catch (error) {
         return {
             status: 500,

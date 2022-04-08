@@ -7,6 +7,7 @@ import type { Data } from "src/routes/data/match/[match]";
 
 <main>
     <div class={TeamData.red ? "red" : "blue"}>
+        <title>Data for team {TeamData.teamNumber}</title>
         <h1>{TeamData.teamNumber}</h1>
         {#if TeamData.MatchData}
         <p>Average balls Auto: {TeamData.MatchData.averageCargoAuto} </p>
@@ -18,8 +19,6 @@ import type { Data } from "src/routes/data/match/[match]";
         <p>Mid climb: {TeamData.MatchData.climb.mid.can} {TeamData.MatchData.climb.mid.percent * 100}%</p>
         <p>High climb: {TeamData.MatchData.climb.high.can} {TeamData.MatchData.climb.high.percent * 100}%</p>
         <p>Traverse climb: {TeamData.MatchData.climb.traverse.can} {TeamData.MatchData.climb.traverse.percent * 100}%</p>
-        <h2>Notes:</h2>
-        <p>{TeamData.MatchData.notes}</p>
         {/if}
 
         {#if TeamData.notes}

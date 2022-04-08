@@ -14,6 +14,7 @@
 			<thead>
 				<tr>
 					<td>Team number</td>
+					<td>Data</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,6 +28,9 @@
 							{/if}
 								
 							
+						</a></td>
+						<td><a target="_blank" href="/data/team/{team.teamNumber}" rel="noreferrer noopener" >
+							<button >Data {team.teamNumber}</button>
 						</a></td>
 					</tr>
 				{/each}

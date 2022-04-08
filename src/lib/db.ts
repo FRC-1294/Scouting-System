@@ -27,8 +27,6 @@ export async function addNotesToDB(notes: App.ScoutedNotes[]) {
 }
 
 export async function addPitDataToDB(scoutedData: App.PitData) {
-	console.log('DATA');
-	console.log(scoutedData);
 	await pitDataColl.insertOne(scoutedData);
 	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {hasBeenPitScouted: true} });
 }
@@ -337,4 +335,21 @@ export async function getTeamNotes(teamNumber: number): Promise<App.AggregatedNo
 
 export async function getPitTeamData(teamNumber: number): Promise<App.PitData> {
 	return await pitDataColl.findOne({teamNumber: teamNumber});
+}
+
+export async function nukeDuplicates() {
+	for (let teamNumber = 0; teamNumber < 9999; teamNumber++) {
+		//For each team
+		for (let matchNumber = 0; matchNumber < 300; matchNumber++) {
+			//For each match for each team
+			let scoutedDataCollDuplicateArray = await scoutedDataColl.find({ matchNumber: matchNumber, teamNumber: teamNumber }).toArray()
+			if(scoutedDataCollDuplicateArray.length > 1 ) {
+				//Remove duplicates for scoutedDataCollDuplicateArray
+			}
+			let scoutedNotesCollDuplicateArray = await scoutedNotesColl.find({ matchNumber: matchNumber, teamNumber: teamNumber }).toArray();
+			if(scoutedNotesCollDuplicateArray.length > 1 ) {
+				//Remove duplicates for scoutedNotesCollDuplicateArray
+			}
+		}
+	}
 }

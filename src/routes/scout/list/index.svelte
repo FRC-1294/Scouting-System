@@ -52,7 +52,7 @@ import { writable } from "svelte/store";
 						</td>			
 						<td>
 							<a href="/scout/{match.matchNumber}-blue">
-								<button class="all allBlue">All</button>
+								<button class="all allBlue">Blue</button>
 							</a>
 						</td>
 						{#each match.blue as team}
@@ -72,7 +72,7 @@ import { writable } from "svelte/store";
 						{/each}		
 						<td>
 							<a href="/scout/{match.matchNumber}-red">
-								<button class="all allRed">All</button>
+								<button class="all allRed">Red</button>
 							</a>
 						</td>	
 						{#each match.red as team}

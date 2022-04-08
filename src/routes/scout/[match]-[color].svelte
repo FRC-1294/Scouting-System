@@ -56,6 +56,10 @@ import { onMount } from 'svelte';
         
 	<title>Scouting Q{matchNumber} {isRed ? "Red" : "Blue"}</title>
     <h1>Q{matchNumber}</h1>
+    <q>This is a little different then usual scouting. Rather than counting every ball, every climb, etc., you simply need to take notes.</q>
+    <p>Maybe a robot had an electrical problem, write that down. Did a robot climb really fast? Write that down. Pay attention to all 3 robots
+        on an alliance, and take notes on what you notice.
+    </p>
     <h1>{isRed ? "Red" : "Blue"} Alliance</h1>
     {#each data as d}
         <NotesInput bind:data={d}></NotesInput>
