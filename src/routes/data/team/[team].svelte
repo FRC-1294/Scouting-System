@@ -1,7 +1,6 @@
 <script lang="ts">
     import TeamDataWidget from "$lib/TeamDataWidget.svelte";
-    import type { Data } from "../match/[match]";
-    export let data: Data;
+    export let data: App.CompleteTeamData;
 </script>
 
 <main>

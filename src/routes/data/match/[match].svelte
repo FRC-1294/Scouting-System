@@ -1,10 +1,9 @@
 <script lang="ts">
-    import type { Data } from "./[match]";
 	import { page } from '$app/stores';
     import TeamDataWidget from "$lib/TeamDataWidget.svelte";
 
-    export let redData: Data[];
-    export let blueData: Data[];
+    export let redData: App.CompleteTeamData[];
+    export let blueData: App.CompleteTeamData[];
 </script>
 
 <main>

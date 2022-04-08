@@ -1,6 +1,4 @@
 import { getListOfAllTeams, getPitTeamData, getTeamData, getTeamNotes } from '$lib/db';
-import type { RequestHandler } from '@sveltejs/kit';
-import type { Data } from '../match/[match]';
 
 export let get = async function ({params}) {
 	let team: App.PitTeam = {
@@ -13,7 +11,7 @@ export let get = async function ({params}) {
 			
 			let notes = await getTeamNotes(team.teamNumber)
 
-	let finishedData: Data = {teamNumber: team.teamNumber, notes: notes, MatchData: aggData, PitData: pitData, red: false}
+	let finishedData: App.CompleteTeamData = {teamNumber: team.teamNumber, notes: notes, MatchData: aggData, PitData: pitData, red: false}
 	return {
 		body: {
 			data: finishedData

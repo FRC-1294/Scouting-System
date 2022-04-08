@@ -1,23 +1,17 @@
 import { getListOfAllTeams, getMatches, getPitTeamData, getTeamData, getTeamNotes } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export type Data = {
-	teamNumber: number;
-	MatchData: App.AggregatedTeamData;
-	PitData: App.PitData;
-	red: boolean;
-	notes: App.AggregatedNotes;
-};
+
 
 export let get = async function ({params}): Promise<{
 	body: {
-		redData: Data[];
-		blueData: Data[];
+		redData: App.CompleteTeamData[];
+		blueData: App.CompleteTeamData[];
 	};
 }> {
 	
-	let redOutput:Data[]  = [];
-	let blueOutput:Data[] = [];
+	let redOutput:App.CompleteTeamData[]  = [];
+	let blueOutput:App.CompleteTeamData[] = [];
 	let MatchData = (await getMatches()).find(item => item.matchNumber == params.match);
 
 

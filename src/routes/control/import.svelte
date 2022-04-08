@@ -15,9 +15,9 @@
 	<p>
 		{res}
 	</p>
-	<button disabled={!canImportMatch} class={canImportMatch ? "enabled" : "disabled"} on:click={importMatchData}>Import Match Data</button>
+	<button disabled={!canImportMatch} class={canImportMatch ? "enabled" : "disabled"} on:click={importMatchData}>Import Match App.CompleteTeamData</button>
 	<br>
-	<button disabled={!canImportTeam} class={canImportTeam ? "enabled" : "disabled"} on:click={importTeamData}>Import Team Data</button>
+	<button disabled={!canImportTeam} class={canImportTeam ? "enabled" : "disabled"} on:click={importTeamData}>Import Team App.CompleteTeamData</button>
 </main>
 
 <style>

@@ -1,8 +1,7 @@
 <script lang="ts">
-import type { Data } from "src/routes/data/match/[match]";
 
 
-    export let TeamData: Data
+    export let TeamData: App.CompleteTeamData
 </script>
 
 <main>

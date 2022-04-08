@@ -115,6 +115,14 @@ declare namespace App {
 		commentsArray: string[];
 		notes: string;
 	}
+	interface CompleteTeamData {
+		teamNumber: number;
+		MatchData: App.AggregatedTeamData;
+		PitData: App.PitData;
+		red: boolean;
+		notes: App.AggregatedNotes;
+	};
+
 	enum Climb {
 		none, low, mid, high, traverse
 	}
