@@ -5,7 +5,7 @@
 	//TODO FIX THIS PAGE IT BROKEN
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
-	import Counter from '$lib/Counter.svelte';
+	import Counter from '$lib/scouting components/Counter.svelte';
 	import Slider from '$lib/Slider.svelte';
 	let robotScouting = Number($page.params.number);
 
@@ -128,15 +128,6 @@
 		border: 3px solid #333;
 		font-size: 20px;
 		text-align: center;
-	}
-
-	tr {		
-		height: 8px;
-	}
-
-	thead {
-		background-color: #333;
-		color: #fff;
 	}
 
 	table {

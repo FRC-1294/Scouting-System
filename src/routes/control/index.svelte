@@ -16,7 +16,7 @@
 </script>
 
 <script lang="ts">
-import Counter from "$lib/Counter.svelte";
+import Counter from "$lib/scouting components/Counter.svelte";
 import { writable } from "svelte/store";
 	
 
@@ -81,22 +81,6 @@ import { writable } from "svelte/store";
 </main>
 
 <style>
-    button {
-		background-color: #ff0000;
-		width: 100px;
-		height: 50px;
-		border: none;
-		color: white;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-		font-size: 19px;
-		border-radius: 34px;
-		transition: background-color 1s;
-	}
-	button:hover {
-		background-color: #ff9900;
-	}
 	:root {
 		--Robot-Color: #000000;
 	}

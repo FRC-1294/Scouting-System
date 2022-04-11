@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import Counter from '$lib/scouting components/Counter.svelte';
 	import { writable } from 'svelte/store';
 	import Slider from '$lib/Slider.svelte';
     import NotesInput from './_notesInput.svelte';
@@ -90,16 +90,9 @@ import { onMount } from 'svelte';
 {/if}
 
 <style>
-	.item {
-		width: 200px;
-	}
 	div {
 		height: 320px;
 		float: left;
-	}
-
-	#other {
-		height: 550px;
 	}
 
 
