@@ -11,7 +11,6 @@ let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNot
 let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
-let humansColl: Collection<App.Human> = compDB.collection("Humans");
 let scheduleColl: Collection<App.Shift> = compDB.collection("Schedule")
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 let endMatchColl: Collection<{matchNumber: number}> = compDB.collection("EndingMatch");
@@ -100,13 +99,6 @@ export async function getEndMatchNumber(): Promise<number> {
 	return matchNumber ?? 0;
 }
 
-export async function getHumans(): Promise<App.Human[]> {
-	let arr = await humansColl.find().toArray();
-	arr.forEach(item => {
-		delete item._id
-	})
-	return arr;
-}
 
 export async function addScheduleToDB(schedule: App.Shift[]) {
 	await scheduleColl.drop()
