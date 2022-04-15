@@ -12,6 +12,19 @@ declare namespace App {
 
 	interface Stuff {}
 
+	//
+	// Match data
+	//
+	
+	interface Match {
+		matchNumber: number;
+		red: number[];
+		blue: number[];
+	}
+
+	//
+	// Scouted data
+	//
 	interface ScoutedMatch {
 		teamNumber: number;
 		matchNumber: number;
@@ -31,7 +44,6 @@ declare namespace App {
 			high: boolean;
 			traverse: boolean;
 		}
-		gotStuckOften: boolean;
 		defense: boolean;
 		itBroke: boolean;
 		name: string;
@@ -44,14 +56,7 @@ declare namespace App {
 		notes: string;
 	}
 
-	interface Match {
-		matchNumber: number;
-		red: number[];
-		blue: number[];
-		isCurrentMatch: boolean;
-	}
-
-	interface PitData {
+	interface ScoutedPit {
 		teamNumber: number;
 		auto: boolean;
 		cargoAuto: number;
@@ -67,11 +72,10 @@ declare namespace App {
 		comments: string;
 	}
 
-	interface PitTeam {
-		teamNumber: number;
-		hasBeenPitScouted: boolean;
-	}
-
+	//
+	// Aggregated data
+	//
+	
 	interface AggregatedTeamData {
 		_id: number;
 		defensePercent: number;
@@ -107,43 +111,26 @@ declare namespace App {
 				can: boolean;
 				percent: number;
 			}
-		},
-		notes: string
+		}
 	}
+
 	interface AggregatedNotes {
 		_id: number;
 		commentsArray: string[];
 		notes: string;
 	}
-	interface CompleteTeamData {
+
+	//
+	// The Team type
+	// This type is supposed to give you handy easy access to all the relevant data for a team, 
+	// without re-computing aggregations every time.
+	//
+
+	interface Team {
 		teamNumber: number;
-		MatchData: App.AggregatedTeamData;
-		PitData: App.PitData;
-		red: boolean;
+		matchData: App.AggregatedTeamData;
+		pitData: App.ScoutedPit;
 		notes: App.AggregatedNotes;
 	};
 
-	enum Climb {
-		none, low, mid, high, traverse
-	}
-
-	interface Human {
-		name: string,
-		leaving1?: number,
-		arriving1?: number,
-		leaving2?: number,
-		arriving2?: number,
-		dayOne: boolean,
-		dayTwo: boolean,
-	}
-	interface Shift {
-		shiftNumber: number,
-		day: number,
-		r1: Human,
-		r2: Human,
-		r3: Human,
-		b1: Human,
-		b2: Human,
-		b3: Human,
-	}
 }

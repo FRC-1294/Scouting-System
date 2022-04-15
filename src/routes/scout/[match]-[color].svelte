@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Counter from '$lib/scouting components/Counter.svelte';
 	import { writable } from 'svelte/store';
-	import Slider from '$lib/Slider.svelte';
+	import Slider from '$lib/scouting components/Slider.svelte';
     import NotesInput from './_notesInput.svelte';
 	import { page } from '$app/stores';
 import { onMount } from 'svelte';

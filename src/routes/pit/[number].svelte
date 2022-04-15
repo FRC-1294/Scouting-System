@@ -6,12 +6,12 @@
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
 	import Counter from '$lib/scouting components/Counter.svelte';
-	import Slider from '$lib/Slider.svelte';
+	import Slider from '$lib/scouting components/Slider.svelte';
 	let robotScouting = Number($page.params.number);
 
 	let errorMessage = '';
 	let hasSumbitted = false;
-	let data: App.PitData = {
+	let data: App.ScoutedPit = {
 		teamNumber: robotScouting,
 		auto: false,
 		cargoAuto: 0,
