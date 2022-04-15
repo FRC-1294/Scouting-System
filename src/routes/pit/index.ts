@@ -1,7 +1,13 @@
-export async function get() {
-	//Redirect the user if they go here without the required parameters.
+import { getListOfAllTeams } from '$lib/db';
+import type { RequestHandler } from '@sveltejs/kit';
+
+export let get = async function () {
+	let listOfTeams: App.PitTeam[] = []
+	listOfTeams = await getListOfAllTeams()
+	
 	return {
-		headers: { Location: '/pit/list' },
-		status: 302
+		body: {
+			listOfTeams: listOfTeams
+		}
 	};
-}
+};

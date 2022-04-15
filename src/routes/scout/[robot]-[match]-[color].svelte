@@ -159,7 +159,7 @@
 	{:else}
 		<div class="robotBanner">
 			<h1>Data Submitted. Thanks!</h1>
-			<a sveltekit:prefetch href="/scout/list"><button class="goback">Go back</button></a>
+			<a sveltekit:prefetch href="/scout"><button class="goback">Go back</button></a>
 		</div>
 	{/if}
 </main>
