@@ -14,6 +14,7 @@ import { onMount } from 'svelte';
 	//Scouting and match logic
 	let hasSumbitted = false;
 	let needToSubmit = false;
+	let isSubmitting = false;
 
 	//DATA
 	let data: App.ScoutedNotes[] = [];
@@ -37,17 +38,21 @@ import { onMount } from 'svelte';
 
 	let errorMessage = '';
 	async function submit() {
-		let response = await fetch('/scout/submitNotes', {
+		if(!isSubmitting) {
+			isSubmitting = true;
+			let response = await fetch('/scout/submitNotes', {
 			method: 'POST',
 			body: JSON.stringify(data)
-		});
-		if (response.status != 200) {
-			errorMessage = (await response.json()).message;
-		} else {
-			errorMessage = '';
-			hasSumbitted = true;
-			needToSubmit = false;
+			});
+			if (response.status != 200) {
+				errorMessage = (await response.json()).message;
+			} else {
+				errorMessage = '';
+				hasSumbitted = true;
+				needToSubmit = false;
+			}
 		}
+		
 	}
 </script>
 
@@ -65,7 +70,7 @@ import { onMount } from 'svelte';
         <NotesInput bind:data={d}></NotesInput>
     {/each}
 		<div id="submit">
-			<button on:click={submit}>Submit data</button>
+			<button on:click={submit} disabled={isSubmitting}>{!isSubmitting ? "Submit data" : "Submitting..."}</button>
 		</div>
 	{:else}
 		<div class="robotBanner">

@@ -33,21 +33,23 @@
 	//Scouting and match logic
 	let hasSumbitted = false;
 	let needToSubmit = false;
+	let isSubmitting = false;
 
 	//DATA
 	let data: App.ScoutedMatch = {
 		teamNumber: robotScouting,
 		matchNumber: matchNumber,
-		auto: false, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+		auto: true, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
 		cargo: {
 			auto: 0,
 			teleop: 0,
 			missed: 0
 		},
 		hub: {
-			upper: false,
+			upper: true,
 			lower: false
 		},
+		swimDistance: 0,
 		climb: {
 			low: false,
 			mid: false,
@@ -63,16 +65,19 @@
 
 	let errorMessage = '';
 	async function submit() {
-		let response = await fetch('/scout/submit', {
-			method: 'POST',
-			body: JSON.stringify(data)
-		});
-		if (response.status != 200) {
-			errorMessage = (await response.json()).message;
-		} else {
-			errorMessage = '';
-			hasSumbitted = true;
-			needToSubmit = false;
+		if(!isSubmitting) {
+			isSubmitting = true
+			let response = await fetch('/scout/submit', {
+				method: 'POST',
+				body: JSON.stringify(data)
+			});
+			if (response.status != 200) {
+				errorMessage = (await response.json()).message;
+			} else {
+				errorMessage = '';
+				hasSumbitted = true;
+				needToSubmit = false;
+			}
 		}
 	}
 </script>
@@ -135,6 +140,7 @@
 			<Slider bind:checked={data.climb.high} />
 			<p>Traverse:</p>
 			<Slider bind:checked={data.climb.traverse} />
+			<Counter bind:count={data.swimDistance}></Counter>
 		</div>
 
 		<div class="item" id="other">
@@ -149,12 +155,14 @@
 			<br />
 			<label for="name">Your Name:</label>
 			<input bind:value={data.name} id="name" />
+			<p>If a robot played defense, make sure to take notes on their defense!</p>
 			<label for="notes">Additional notes:</label>
 			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
+			<p>{JSON.stringify(data)}</p>
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">
-			<button on:click={submit}>Submit data</button>
+			<button on:click={submit} disabled={isSubmitting}>{!isSubmitting ? "Submit data" : "Submitting..."}</button>
 		</div>
 	{:else}
 		<div class="robotBanner">
@@ -188,7 +196,7 @@
 	}
 
 	#other {
-		height: 550px;
+		height: 750px;
 	}
 
 	.warningHeader {

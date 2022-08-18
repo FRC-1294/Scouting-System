@@ -21,6 +21,7 @@ declare namespace App {
 			teleop: number;
 			missed: number;
 		};
+		swimDistance: number;
 		hub: {
 			upper: boolean;
 			lower: boolean;

@@ -18,7 +18,7 @@ import { writable } from "svelte/store";
 			let newEndMatch = await (await fetch("/control/endMatch")).json()
 			$endMatchStore = parseInt(newEndMatch.matchNumber)
 			
-		},100)
+		},1000)
 	})
 </script>
 
@@ -30,7 +30,7 @@ import { writable } from "svelte/store";
 		<table>
 			<thead>
 				<tr>
-					<td>Match number (click for data)</td>
+					<td>Match number</td>
 					<td>BLUE</td>
 					<td>b1</td>
 					<td>b2</td>

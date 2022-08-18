@@ -82,13 +82,36 @@ export async function updateEndingMatch(newMatchNumber: number) {
 }
 
 export async function getHighlightedMatchNumber(): Promise<number> {
-	let matchNumber = 0;
+	
+	let manualMatchNumber = 0;
 	try {
-		matchNumber = (await matchNumberColl.findOne()).matchNumber;
+		manualMatchNumber = (await matchNumberColl.findOne()).matchNumber;
 	} catch (error) {
-		matchNumber = 0;
+		manualMatchNumber = 0;
 	}
-	return matchNumber ?? 0;
+	let dataMatchResult = await scoutedDataColl.aggregate([
+		{
+		  '$group': {
+			'_id': 1, 
+			'maxMatch': {
+			  '$max': '$matchNumber'
+			}
+		  }
+		}
+	  ]).toArray()
+	let nextDataMatch = dataMatchResult[0].maxMatch + 1
+	let dataMatchNumber = await scoutedNotesColl.aggregate([
+		{
+		  '$group': {
+			'_id': 1, 
+			'maxMatch': {
+			  '$max': '$matchNumber'
+			}
+		  }
+		}
+	  ]).toArray()
+	let nextNotesMatch = dataMatchNumber[0].maxMatch + 1
+	return Math.max(manualMatchNumber, nextDataMatch, nextNotesMatch)
 }
 export async function getEndMatchNumber(): Promise<number> {
 	let matchNumber = 0;
