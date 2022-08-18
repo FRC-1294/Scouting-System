@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import Counter from '$lib/scouting components/Counter.svelte';
 	import { writable } from 'svelte/store';
-	import Slider from '$lib/Slider.svelte';
+	import Slider from '$lib/scouting components/Slider.svelte';
     import NotesInput from './_notesInput.svelte';
 	import { page } from '$app/stores';
 import { onMount } from 'svelte';
@@ -75,7 +75,7 @@ import { onMount } from 'svelte';
 	{:else}
 		<div class="robotBanner">
 			<h1>Data Submitted. Thanks!</h1>
-			<a sveltekit:prefetch href="/scout/list"><button class="goback">Go back</button></a>
+			<a sveltekit:prefetch href="/scout"><button class="goback">Go back</button></a>
 		</div>
 	{/if}
 </main>
@@ -95,16 +95,9 @@ import { onMount } from 'svelte';
 {/if}
 
 <style>
-	.item {
-		width: 200px;
-	}
 	div {
 		height: 320px;
 		float: left;
-	}
-
-	#other {
-		height: 550px;
 	}
 
 

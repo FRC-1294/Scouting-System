@@ -5,13 +5,13 @@
 	//TODO FIX THIS PAGE IT BROKEN
 	import { writable } from 'svelte/store';
 	import { page } from '$app/stores';
-	import Counter from '$lib/Counter.svelte';
-	import Slider from '$lib/Slider.svelte';
+	import Counter from '$lib/scouting components/Counter.svelte';
+	import Slider from '$lib/scouting components/Slider.svelte';
 	let robotScouting = Number($page.params.number);
 
 	let errorMessage = '';
 	let hasSumbitted = false;
-	let data: App.PitData = {
+	let data: App.ScoutedPit = {
 		teamNumber: robotScouting,
 		auto: false,
 		cargoAuto: 0,
@@ -128,15 +128,6 @@
 		border: 3px solid #333;
 		font-size: 20px;
 		text-align: center;
-	}
-
-	tr {		
-		height: 8px;
-	}
-
-	thead {
-		background-color: #333;
-		color: #fff;
 	}
 
 	table {

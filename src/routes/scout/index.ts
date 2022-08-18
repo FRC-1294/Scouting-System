@@ -1,7 +1,16 @@
-export async function get() {
-	//Redirect the user if they go here without the required parameters.
+import { getEndMatchNumber, getHighlightedMatchNumber, getMatches } from '$lib/db';
+import type { RequestHandler } from '@sveltejs/kit';
+
+export let get = async function () {
+	let listOfMatches: App.Match[] = []
+	const highlightedMatchNumber = await getHighlightedMatchNumber();
+	const endMatchNumber = await getEndMatchNumber();
+	listOfMatches = await getMatches(highlightedMatchNumber);
 	return {
-		headers: { Location: '/scout/list' },
-		status: 302
+		body: {
+			listOfMatches: listOfMatches,
+			currentMatchNumber: highlightedMatchNumber,
+			endMatchNumber: endMatchNumber
+		}
 	};
-}
+};

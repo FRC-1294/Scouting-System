@@ -5,14 +5,12 @@ import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance }
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('REGIONALS');
+let compDB = client.db('TEST_DB_2');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNotes');
-let pitDataColl: Collection<App.PitData> = compDB.collection('PitData');
+let pitDataColl: Collection<App.ScoutedPit> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
-let teamsColl: Collection<App.PitTeam> = compDB.collection("Teams");
-let humansColl: Collection<App.Human> = compDB.collection("Humans");
-let scheduleColl: Collection<App.Shift> = compDB.collection("Schedule")
+let teamsColl: Collection<App.Team> = compDB.collection("Teams");
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
 let endMatchColl: Collection<{matchNumber: number}> = compDB.collection("EndingMatch");
 
@@ -26,7 +24,7 @@ export async function addNotesToDB(notes: App.ScoutedNotes[]) {
 	await scoutedNotesColl.insertMany(notes);
 }
 
-export async function addPitDataToDB(scoutedData: App.PitData) {
+export async function addPitDataToDB(scoutedData: App.ScoutedPit) {
 	await pitDataColl.insertOne(scoutedData);
 	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {hasBeenPitScouted: true} });
 }
@@ -58,18 +56,17 @@ export async function importEventTeamData() {
 }
 
 
-export async function getMatches(highlightNumber?: number) {
+export async function getMatches() {
 	let matches = await matchesColl.find().toArray();
-	if(highlightNumber) {
-		matches.forEach(match => {
-			if(match.matchNumber == highlightNumber) match.isCurrentMatch = true; 
-		})
-	}
 	return matches;
 }
 
-export async function getListOfAllTeams(): Promise<App.PitTeam[]> {
+export async function getListOfAllTeams(): Promise<App.Team[]> {
 	return await teamsColl.find().toArray();
+}
+
+export async function getTeam(teamNumber: number): Promise<App.Team> {
+	return await teamsColl.findOne({teamNumber: teamNumber});
 }
 
 export async function updateHighlightedMatch(newMatchNumber: number) {
@@ -123,18 +120,7 @@ export async function getEndMatchNumber(): Promise<number> {
 	return matchNumber ?? 0;
 }
 
-export async function getHumans(): Promise<App.Human[]> {
-	let arr = await humansColl.find().toArray();
-	arr.forEach(item => {
-		delete item._id
-	})
-	return arr;
-}
 
-export async function addScheduleToDB(schedule: App.Shift[]) {
-	await scheduleColl.drop()
-	await scheduleColl.insertMany(schedule);
-}
 
 export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 	let pipeline = [
@@ -356,23 +342,6 @@ export async function getTeamNotes(teamNumber: number): Promise<App.AggregatedNo
 	return data.find(team => team._id == teamNumber)
 }
 
-export async function getPitTeamData(teamNumber: number): Promise<App.PitData> {
+export async function getPitTeamData(teamNumber: number): Promise<App.ScoutedPit> {
 	return await pitDataColl.findOne({teamNumber: teamNumber});
-}
-
-export async function nukeDuplicates() {
-	for (let teamNumber = 0; teamNumber < 9999; teamNumber++) {
-		//For each team
-		for (let matchNumber = 0; matchNumber < 300; matchNumber++) {
-			//For each match for each team
-			let scoutedDataCollDuplicateArray = await scoutedDataColl.find({ matchNumber: matchNumber, teamNumber: teamNumber }).toArray()
-			if(scoutedDataCollDuplicateArray.length > 1 ) {
-				//Remove duplicates for scoutedDataCollDuplicateArray
-			}
-			let scoutedNotesCollDuplicateArray = await scoutedNotesColl.find({ matchNumber: matchNumber, teamNumber: teamNumber }).toArray();
-			if(scoutedNotesCollDuplicateArray.length > 1 ) {
-				//Remove duplicates for scoutedNotesCollDuplicateArray
-			}
-		}
-	}
 }

@@ -125,40 +125,40 @@ import { writable } from "svelte/store";
 		height: 30px;
 	}
 	.blue {
-		background-color: #aaaaff;
+		background-color: var(--light-blue);
 	}
 	.red {
-		background-color: #ffaaaa;
+		background-color: var(--light-red);
 	}
 	.all {
 		width: 100px;
 		color: white;
 	}
 	.allRed {
-		background-color: #ff0000;
+		background-color: var(--pure-red);
 	}
 	.allBlue {
-		background-color: #0000ff;
+		background-color: var(--pure-blue);
 	}
 	.pop {
 		background-color: #000000;
-		color: gold;
+		color: var(--highlight);
 	}
 	a {
 		color: black;
 	}
 	.highlight {
-		background-color: #f0f000;
+		background-color: var(--highlight);
 	}
 	.highlight .data {
-		background-color: #f0f000;
+		background-color: var(--highlight);
 	}
 	.highlight .red {
-		background-color: #ff0000;
+		background-color: var(--pure-red);
 		color: white;
 	}
 	.highlight .blue {
-		background-color: #3b3bff;
+		background-color: var(--pure-blue);
 		color: white;
 	}
 	.grey {
@@ -170,6 +170,6 @@ import { writable } from "svelte/store";
 		color: black;
 	}
 	.grey .pop {
-		color: gold;
+		color: var(--highlight);
 	}
 </style>

@@ -46,9 +46,9 @@
         float: left;
     }
     .red {
-        background-color: lightcoral;
+        background-color: var(--light-red);
     }
     .blue {
-        background-color: lightblue;
+        background-color: var(--light-blue);
     }
 </style>
