@@ -5,7 +5,7 @@ import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance }
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('TEST_DB_2');
+let compDB = client.db('GIRLS_GEN');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNotes');
 let pitDataColl: Collection<App.ScoutedPit> = compDB.collection('PitData');
@@ -79,8 +79,8 @@ export async function updateEndingMatch(newMatchNumber: number) {
 }
 
 export async function getHighlightedMatchNumber(): Promise<number> {
-	
-	let manualMatchNumber = 0;
+	try {
+		let manualMatchNumber = 0;
 	try {
 		manualMatchNumber = (await matchNumberColl.findOne()).matchNumber;
 	} catch (error) {
@@ -109,6 +109,11 @@ export async function getHighlightedMatchNumber(): Promise<number> {
 	  ]).toArray()
 	let nextNotesMatch = dataMatchNumber[0].maxMatch + 1
 	return Math.max(manualMatchNumber, nextDataMatch, nextNotesMatch)
+	} catch (error) {
+		return 1;
+	}
+	
+	
 }
 export async function getEndMatchNumber(): Promise<number> {
 	let matchNumber = 0;

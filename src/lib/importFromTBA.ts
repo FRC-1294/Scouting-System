@@ -1,5 +1,5 @@
 const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
-let eventKey = '2022pncmp';
+let eventKey = '2022wagg';
 
 export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]> {
 	
@@ -40,8 +40,7 @@ export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]>
 				parsedMatches.push({
 					matchNumber: match.match_number,
 					red: redKeys,
-					blue: blueKeys,
-					isCurrentMatch: false
+					blue: blueKeys
 				});
 			}
 		}
@@ -53,9 +52,9 @@ export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]>
 }
 
 
-export async function importTeamDataFromTheBlueAlliance(): Promise<App.PitTeam[]> {
+export async function importTeamDataFromTheBlueAlliance(): Promise<App.Team[]> {
 
-	let parsedTeams: App.PitTeam[] = [];
+	let parsedTeams: App.Team[] = [];
 
 	const teamsUrl = `https://www.thebluealliance.com/api/v3/event/${eventKey}/teams/simple`;
 
@@ -71,7 +70,7 @@ export async function importTeamDataFromTheBlueAlliance(): Promise<App.PitTeam[]
 			nickname: string;
 			team_number: number;
 		}) => {
-			parsedTeams.push({teamNumber: team.team_number, hasBeenPitScouted: false});
+			parsedTeams.push({teamNumber: team.team_number, matchData: null, notes: null, pitData: null});
 		}
 	);
 
