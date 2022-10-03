@@ -5,7 +5,7 @@ import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance }
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('GIRLS_GEN');
+let compDB = client.db('TEST_DB');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNotes');
 let pitDataColl: Collection<App.ScoutedPit> = compDB.collection('PitData');
