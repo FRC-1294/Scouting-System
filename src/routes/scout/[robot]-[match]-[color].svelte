@@ -8,28 +8,6 @@
 	export let isRed = $page.params.color == 'red';
 	export let matchNumber = Number($page.params.match);
 
-	/*
-	socket.on('alert', (data) => alert(data))
-	socket.on('match', (matchData) => {
-		currentMatchData = matchData
-		currentScoutData.isScout = false
-		hasSumbitted = false
-		needToSubmit = false
-	})
-	socket.on('scout', (newScoutData) => {
-		//TODO deal with this event overriding current scout
-		currentScoutData = newScoutData
-	})
-	socket.on('end', (subtle) => {
-		//TODO unlock submit button
-		if (!subtle) {
-			if (!hasSumbitted && currentScoutData.isScout) {
-				alert('The match has ended. Please submit your data.')
-				needToSubmit = true
-			}
-		}
-	})
-*/
 	//Scouting and match logic
 	let hasSumbitted = false;
 	let needToSubmit = false;
@@ -49,14 +27,12 @@
 			upper: true,
 			lower: false
 		},
-		swimDistance: 0,
 		climb: {
 			low: false,
 			mid: false,
 			high: false,
 			traverse: false
 		},
-		gotStuckOften: false, //Whether the robot got stuck often
 		itBroke: false,
 		defense: false,
 		notes: '',
@@ -140,13 +116,10 @@
 			<Slider bind:checked={data.climb.high} />
 			<p>Traverse:</p>
 			<Slider bind:checked={data.climb.traverse} />
-			<Counter bind:count={data.swimDistance}></Counter>
 		</div>
 
 		<div class="item" id="other">
 			<h3>OTHER</h3>
-			<p>Did the robot get stuck often?</p>
-			<Slider round bind:checked={data.gotStuckOften} />
 			<p>Did the robot break or lose connection?</p>
 			<Slider round bind:checked={data.itBroke}></Slider>
 			<p>Did the robot play defense?</p>

@@ -2,6 +2,7 @@
 	import { spring } from 'svelte/motion';
 
 	export let count = 0;
+	export let red: boolean = false
 
 	const displayed_count = spring();
 	$: displayed_count.set(count);
@@ -14,7 +15,7 @@
 </script>
 
 <div class="counter">
-	<button on:click={() => {if (count != 0){count--;}}} aria-label="Decrease the counter by one">
+	<button on:click={() => {if (count > 0){count--;}}} aria-label="Decrease the counter by one">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5" />
 		</svg>
@@ -33,6 +34,29 @@
 		</svg>
 	</button>
 </div>
+
+
+
+
+{#if red}
+<style>
+	.counter-viewport strong {
+	color: var(--full-red);
+}
+path {
+	stroke: var(--full-red);
+}
+</style>
+{:else}
+<style>
+	.counter-viewport strong {
+	color: var(--full-blue);
+}
+path {
+	stroke: var(--full-blue);
+}
+</style>
+{/if}
 
 <style>
 	.counter {
@@ -66,7 +90,6 @@
 	path {
 		vector-effect: non-scaling-stroke;
 		stroke-width: 2px;
-		stroke: var(--Robot-Color);
 	}
 
 	.counter-viewport {
@@ -83,7 +106,6 @@
 		width: 100%;
 		height: 100%;
 		font-weight: 400;
-		color: var(--Robot-Color);
 		font-size: 4rem;
 		align-items: center;
 		justify-content: center;

@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
     import TeamDataWidget from "$lib/TeamDataWidget.svelte";
 
-    export let redData: App.CompleteTeamData[];
-    export let blueData: App.CompleteTeamData[];
+    export let redData: App.Team[];
+    export let blueData: App.Team[];
 </script>
 
 <main>
@@ -12,14 +12,14 @@
         <tr>
             {#each redData as aTeam}
             <td>
-                <TeamDataWidget TeamData={aTeam}></TeamDataWidget>
+                <TeamDataWidget teamData={aTeam} red></TeamDataWidget>
             </td>
             {/each}
         </tr>
         <tr>
             {#each blueData as aTeam}
             <td>
-                <TeamDataWidget TeamData={aTeam}></TeamDataWidget>
+                <TeamDataWidget teamData={aTeam}></TeamDataWidget>
             </td>
             {/each}
         </tr>

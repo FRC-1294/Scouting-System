@@ -5,13 +5,13 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 export let get = async function ({params}): Promise<{
 	body: {
-		redData: App.CompleteTeamData[];
-		blueData: App.CompleteTeamData[];
+		redData: App.Team[];
+		blueData: App.Team[];
 	};
 }> {
 	
-	let redOutput:App.CompleteTeamData[]  = [];
-	let blueOutput:App.CompleteTeamData[] = [];
+	let redOutput:App.Team[]  = [];
+	let blueOutput:App.Team[] = [];
 	let MatchData = (await getMatches()).find(item => item.matchNumber == params.match);
 
 
@@ -28,7 +28,7 @@ export let get = async function ({params}): Promise<{
 			let pitData = await getPitTeamData(team.teamNumber)
 			
 			let notes = await getTeamNotes(team.teamNumber)
-			blueOutput.push({teamNumber: team.teamNumber, notes: notes, MatchData: aggData, PitData: pitData, red: MatchData.red.includes(team.teamNumber)})
+			blueOutput.push({teamNumber: team.teamNumber, notes: notes, matchData: aggData, pitData: pitData})
 		}
 		
 	}
@@ -43,7 +43,7 @@ export let get = async function ({params}): Promise<{
 			let pitData = await getPitTeamData(team.teamNumber)
 			
 			let notes = await getTeamNotes(team.teamNumber)
-			redOutput.push({teamNumber: team.teamNumber, notes: notes, MatchData: aggData, PitData: pitData, red: MatchData.red.includes(team.teamNumber)})
+			redOutput.push({teamNumber: team.teamNumber, notes: notes, matchData: aggData, pitData: pitData})
 		}
 		
 	}

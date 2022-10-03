@@ -1,41 +1,42 @@
 <script lang="ts">
 
 
-    export let TeamData: App.CompleteTeamData
+    export let teamData: App.Team
+    export let red: boolean = false
 </script>
 
 <main>
-    <div class={TeamData.red ? "red" : "blue"}>
-        <title>Data for team {TeamData.teamNumber}</title>
-        <h1>{TeamData.teamNumber}</h1>
-        {#if TeamData.MatchData}
-        <p>Average balls Auto: {TeamData.MatchData.averageCargoAuto} </p>
-        <p>Average balls Teleop: {TeamData.MatchData.averageCargoTele} </p>
-        <p>Average missed balls: {TeamData.MatchData.averageMissedCargo}</p>
-        <p>Defense percentage: {TeamData.MatchData.defensePercent * 100}%</p>
-        <p>Reliable percentage: {TeamData.MatchData.reliablePercent * 100}%</p>
-        <p>Low climb: {TeamData.MatchData.climb.low.can} {TeamData.MatchData.climb.low.percent * 100}%</p>
-        <p>Mid climb: {TeamData.MatchData.climb.mid.can} {TeamData.MatchData.climb.mid.percent * 100}%</p>
-        <p>High climb: {TeamData.MatchData.climb.high.can} {TeamData.MatchData.climb.high.percent * 100}%</p>
-        <p>Traverse climb: {TeamData.MatchData.climb.traverse.can} {TeamData.MatchData.climb.traverse.percent * 100}%</p>
+    <div class={red ? "red" : "blue"}>
+        <title>Data for team {teamData.teamNumber}</title>
+        <h1>{teamData.teamNumber}</h1>
+        {#if teamData.matchData}
+        <p>Average balls Auto: {teamData.matchData.averageCargoAuto} </p>
+        <p>Average balls Teleop: {teamData.matchData.averageCargoTele} </p>
+        <p>Average missed balls: {teamData.matchData.averageMissedCargo}</p>
+        <p>Defense percentage: {teamData.matchData.defensePercent * 100}%</p>
+        <p>Reliable percentage: {teamData.matchData.reliablePercent * 100}%</p>
+        <p>Low climb: {teamData.matchData.climb.low.can} {teamData.matchData.climb.low.percent * 100}%</p>
+        <p>Mid climb: {teamData.matchData.climb.mid.can} {teamData.matchData.climb.mid.percent * 100}%</p>
+        <p>High climb: {teamData.matchData.climb.high.can} {teamData.matchData.climb.high.percent * 100}%</p>
+        <p>Traverse climb: {teamData.matchData.climb.traverse.can} {teamData.matchData.climb.traverse.percent * 100}%</p>
         {/if}
 
-        {#if TeamData.notes}
+        {#if teamData.notes}
             <h1>Other notes:</h1>
-            <p>{TeamData.notes.notes}</p>
+            <p>{teamData.notes.notes}</p>
         {/if}
 
-        {#if TeamData.PitData}
+        {#if teamData.pitData}
         <br>
         <h2><strong>Pit data:</strong></h2>
-        <p>Climb: {TeamData.PitData.climb}</p>
-        <p>Hub: Up: {TeamData.PitData.hub.upper} Low: {TeamData.PitData.hub.lower} </p>
-        <p>Strengths: {TeamData.PitData.strengths}</p>
-        <p>Weaknesses: {TeamData.PitData.weakness} </p>
-        <p>Other: {TeamData.PitData.comments}</p>
+        <p>Climb: {teamData.pitData.climb}</p>
+        <p>Hub: Up: {teamData.pitData.hub.upper} Low: {teamData.pitData.hub.lower} </p>
+        <p>Strengths: {teamData.pitData.strengths}</p>
+        <p>Weaknesses: {teamData.pitData.weakness} </p>
+        <p>Other: {teamData.pitData.comments}</p>
         <h3>Auto:</h3>
-        <p>Can auto?: {TeamData.PitData.auto}</p>
-        <p>Cargo: {TeamData.PitData.cargoAuto} </p>
+        <p>Can auto?: {teamData.pitData.auto}</p>
+        <p>Cargo: {teamData.pitData.cargoAuto} </p>
         {/if}
     </div>
 </main>

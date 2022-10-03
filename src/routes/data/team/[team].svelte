@@ -1,10 +1,10 @@
 <script lang="ts">
     import TeamDataWidget from "$lib/TeamDataWidget.svelte";
-    export let data: App.CompleteTeamData;
+    export let data: App.Team;
 </script>
 
 <main>
-    <TeamDataWidget TeamData={data}></TeamDataWidget>
+    <TeamDataWidget teamData={data}></TeamDataWidget>
 </main>
 
 <style>

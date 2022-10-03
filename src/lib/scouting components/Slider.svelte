@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let round: boolean = false;
+	export let red: boolean = false;
 	export let checked = false;
 </script>
 
@@ -13,6 +14,28 @@
 		{/if}
 	</label>
 </main>
+
+{#if red}
+<style>
+		input:checked + .slider {
+		background-color: var(--full-red);
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px var(--full-red);
+	}
+</style>
+{:else}
+<style>
+		input:checked + .slider {
+		background-color: var(--full-blue);
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px var(--full-blue);
+	}
+</style>
+{/if}
 
 <style>
 	/* The switch - the box around the slider */
@@ -53,14 +76,6 @@
 		background-color: white;
 		-webkit-transition: 0.4s;
 		transition: 0.4s;
-	}
-
-	input:checked + .slider {
-		background-color: var(--Robot-Color);
-	}
-
-	input:focus + .slider {
-		box-shadow: 0 0 1px var(--Robot-Color);
 	}
 
 	input:checked + .slider:before {

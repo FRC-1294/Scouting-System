@@ -135,10 +135,10 @@ import { writable } from "svelte/store";
 		color: white;
 	}
 	.allRed {
-		background-color: var(--pure-red);
+		background-color: var(--full-red);
 	}
 	.allBlue {
-		background-color: var(--pure-blue);
+		background-color: var(--full-blue);
 	}
 	.pop {
 		background-color: #000000;
@@ -154,11 +154,11 @@ import { writable } from "svelte/store";
 		background-color: var(--highlight);
 	}
 	.highlight .red {
-		background-color: var(--pure-red);
+		background-color: var(--full-red);
 		color: white;
 	}
 	.highlight .blue {
-		background-color: var(--pure-blue);
+		background-color: var(--full-blue);
 		color: white;
 	}
 	.grey {
