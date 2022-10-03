@@ -131,6 +131,6 @@ declare namespace App {
 		matchData: App.AggregatedTeamData;
 		pitData: App.ScoutedPit;
 		notes: App.AggregatedNotes;
-	};
+	}
 
 }
