@@ -8,7 +8,6 @@ client.connect();
 let compDB = client.db('TEST_DB');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNotes');
-let pitDataColl: Collection<App.ScoutedPit> = compDB.collection('PitData');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
 let teamsColl: Collection<App.Team> = compDB.collection("Teams");
 let matchNumberColl: Collection<{matchNumber: number}> = compDB.collection("MatchToHighlight");
@@ -25,8 +24,7 @@ export async function addNotesToDB(notes: App.ScoutedNotes[]) {
 }
 
 export async function addPitDataToDB(scoutedData: App.ScoutedPit) {
-	await pitDataColl.insertOne(scoutedData);
-	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {hasBeenPitScouted: true} });
+	await teamsColl.updateOne({teamNumber: scoutedData.teamNumber}, {$set: {pitData: scoutedData} });
 }
 
 export async function matchDataHasBeenImported() {
@@ -348,5 +346,5 @@ export async function getTeamNotes(teamNumber: number): Promise<App.AggregatedNo
 }
 
 export async function getPitTeamData(teamNumber: number): Promise<App.ScoutedPit> {
-	return await pitDataColl.findOne({teamNumber: teamNumber});
+	return (await teamsColl.findOne({ teamNumber: teamNumber })).pitData;
 }

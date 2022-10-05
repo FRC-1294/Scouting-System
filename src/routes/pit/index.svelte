@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let listOfTeams: App.PitTeam[];
+	import Team from "../data/team/[team].svelte";
+
+	export let listOfTeams: App.Team[];
 	listOfTeams.sort((a,b) => {
 		return a.teamNumber - b.teamNumber
 	})
@@ -21,7 +23,7 @@
 				{#each listOfTeams as team}
 					<tr>
 						<td><a href="/pit/{team.teamNumber}">
-							{#if team.hasBeenPitScouted}
+							{#if team.pitData ? team.pitData.teamNumber : false }
 							<button class="done">{team.teamNumber}</button>
 							{:else}
 							<button class="need">{team.teamNumber}</button>
