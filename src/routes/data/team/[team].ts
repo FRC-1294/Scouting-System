@@ -1,14 +1,13 @@
 import { getListOfAllTeams, getPitTeamData, getTeamData, getTeamNotes } from '$lib/db';
 
 export let get = async function ({params}) {
-	let teamNumber = Number(params.team)
-	let aggData = await getTeamData(teamNumber)
+	let aggData = await getTeamData(params.team)
 			
-	let pitData = await getPitTeamData(teamNumber)
+			let pitData = await getPitTeamData(params.team)
 			
-	let notes = await getTeamNotes(teamNumber)
+			let notes = await getTeamNotes(params.team)
 
-	let finishedData: App.Team = {teamNumber: teamNumber, notes: notes, matchData: aggData, pitData: pitData}
+	let finishedData: App.Team = {teamNumber: params.team, notes: notes, matchData: aggData, pitData: pitData}
 	return {
 		body: {
 			data: finishedData
