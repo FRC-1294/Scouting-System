@@ -71,6 +71,7 @@ import { writable } from "svelte/store";
 <main>
 	<title>Next match: {$matchNumber}</title>
     <a href="/control/import">Import data</a> <br>
+	<a href="/control/csv">Export excel file</a><br>
     {#if errorMessage}
         <p>{errorMessage}</p>
     {/if}
