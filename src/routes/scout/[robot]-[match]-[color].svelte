@@ -80,50 +80,50 @@
 			<h3>AUTO</h3>
 
 			<p>Did the robot have a functioning auto?</p>
-			<Slider round bind:checked={data.auto} />
+			<Slider round bind:checked={data.auto} red={isRed} />
 		</div>
 
 		<div class="item" id="cargo">
 			<h3>Cargo</h3>
 			<p>Cargo Auto:</p>
-			<Counter bind:count={data.cargo.auto} />
+			<Counter bind:count={data.cargo.auto} red={isRed}/>
 			<br />
 			<p>Cargo Teleop:</p>
-			<Counter bind:count={data.cargo.teleop} />
+			<Counter bind:count={data.cargo.teleop} red={isRed} />
 			<br />
 			<p>Missed Cargo:</p>
-			<Counter bind:count={data.cargo.missed} />
+			<Counter bind:count={data.cargo.missed} red={isRed} />
 		</div>
 
 		<div class="item" id="hub">
 			<h3>HUB</h3>
 			<h4>Which hub(s) did the robot use?</h4>
 			<p>Upper:</p>
-			<Slider bind:checked={data.hub.upper} />
+			<Slider bind:checked={data.hub.upper} red={isRed} />
 			<br />
 			<p>Lower:</p>
-			<Slider bind:checked={data.hub.lower} />
+			<Slider bind:checked={data.hub.lower} red={isRed} />
 		</div>
 
 		<div class="item" id="climb">
 			<h3>CLIMB</h3>
 			<h4>Which bars did the robot climb to? (click all that apply)</h4>
 			<p>Low:</p>
-			<Slider bind:checked={data.climb.low} />
+			<Slider bind:checked={data.climb.low} red={isRed} />
 			<p>Mid:</p>
-			<Slider bind:checked={data.climb.mid} />
+			<Slider bind:checked={data.climb.mid} red={isRed} />
 			<p>High:</p>
-			<Slider bind:checked={data.climb.high} />
+			<Slider bind:checked={data.climb.high} red={isRed} />
 			<p>Traverse:</p>
-			<Slider bind:checked={data.climb.traverse} />
+			<Slider bind:checked={data.climb.traverse} red={isRed} />
 		</div>
 
 		<div class="item" id="other">
 			<h3>OTHER</h3>
 			<p>Did the robot break or lose connection?</p>
-			<Slider round bind:checked={data.itBroke}></Slider>
+			<Slider round bind:checked={data.itBroke} red={isRed}></Slider>
 			<p>Did the robot play defense?</p>
-			<Slider round bind:checked={data.defense}></Slider>
+			<Slider round bind:checked={data.defense} red={isRed}></Slider>
 			<br />
 			<br />
 			<label for="name">Your Name:</label>
@@ -131,7 +131,6 @@
 			<p>If a robot played defense, make sure to take notes on their defense!</p>
 			<label for="notes">Additional notes:</label>
 			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
-			<p>{JSON.stringify(data)}</p>
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">

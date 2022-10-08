@@ -38,6 +38,9 @@
 {/if}
 
 <style>
+	:not(input:checked) + .slider {		
+		background-color: #ccc;
+	}
 	/* The switch - the box around the slider */
 	.switch {
 		position: relative;
@@ -61,7 +64,6 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background-color: #ccc;
 		-webkit-transition: 0.4s;
 		transition: 0.4s;
 	}
