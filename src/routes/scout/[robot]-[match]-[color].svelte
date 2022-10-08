@@ -131,7 +131,6 @@
 			<p>If a robot played defense, make sure to take notes on their defense!</p>
 			<label for="notes">Additional notes:</label>
 			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
-			<p>{JSON.stringify(data)}</p>
 		</div>
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">
