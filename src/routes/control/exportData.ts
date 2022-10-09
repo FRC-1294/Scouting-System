@@ -23,7 +23,7 @@ export let get: RequestHandler = async function () {
             if (Object.prototype.hasOwnProperty.call(res, aTeam)) {
                 const t = res[aTeam];                
                 let notes = await getTeamNotes(t._id)
-                let string = `${t._id},${t.averageCargoAuto},${t.averageCargoTele},${t.averageMissedCargo},${t.climb.low.percent},${t.climb.mid.percent},${t.climb.high.percent},${t.climb.traverse.percent},${t.defensePercent},${t.hub.lower.percent},${t.hub.upper.percent},${t.reliablePercent},${t.stuckPercent},${notes.notes.replace(",", "  ")}\r\n`
+                let string = `${t._id},${t.averageCargoAuto},${t.averageCargoTele},${t.averageMissedCargo},${t.climb.low.percent},${t.climb.mid.percent},${t.climb.high.percent},${t.climb.traverse.percent},${t.defensePercent},${t.hub.lower.percent},${t.hub.upper.percent},${t.reliablePercent},${t.stuckPercent},${notes.notes.replace(/[,\n\r]/, "  ")}\r\n`
                 console.log(string)
                 fs.appendFileSync("./static/export/" + csvName, string)
             }
