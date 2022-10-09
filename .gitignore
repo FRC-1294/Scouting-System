@@ -13,4 +13,5 @@ node_modules
 /mongo/sammamish
 /mongo/districts
 /mongo/bonneylake
-/static/export
+/mongo/dump
+/static/export/*.csv

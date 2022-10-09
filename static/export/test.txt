@@ -1,0 +1,1 @@
+Please do not touch this file. This file exists to make sure that Git commits and uploads the exports folder. The exported CSVs shouldn't be commited, but the folder should.
