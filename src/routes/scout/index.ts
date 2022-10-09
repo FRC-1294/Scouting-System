@@ -5,7 +5,7 @@ export let get = async function () {
 	let listOfMatches: App.Match[] = []
 	const highlightedMatchNumber = await getHighlightedMatchNumber();
 	const endMatchNumber = await getEndMatchNumber();
-	listOfMatches = await getMatches(highlightedMatchNumber);
+	listOfMatches = await getMatches();
 	return {
 		body: {
 			listOfMatches: listOfMatches,
