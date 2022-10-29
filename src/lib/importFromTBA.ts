@@ -1,5 +1,5 @@
 const apiKey = '8bTwcesd937ossCd8CfaKvrLeZ8djZiCl6ghmOWKjALLZqk59IpxpfQB5kkKY2kG';
-let eventKey = '2022wagg';
+let eventKey = '2022wamc';
 
 export async function importMatchDataFromTheBlueAlliance(): Promise<App.Match[]> {
 	
