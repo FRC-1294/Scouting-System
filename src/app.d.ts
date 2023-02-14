@@ -28,26 +28,40 @@ declare namespace App {
 	interface ScoutedMatch {
 		teamNumber: number;
 		matchNumber: number;
-		auto: boolean;
-		cargo: {
-			auto: number;
-			teleop: number;
-			missed: number;
-		};
-		hub: {
-			upper: boolean;
-			lower: boolean;
-		};
-		climb: {
-			low: boolean;
-			mid: boolean;
-			high: boolean;
-			traverse: boolean;
+		auto: {
+			functioningAuto: boolean;
+			moveOutOfZone: boolean;
+			totalConesAuto: number;
+			totalCubesAuto: number;
+
 		}
-		defense: boolean;
-		itBroke: boolean;
-		name: string;
-		notes: string;
+		
+		teleopCones: {
+			upper: boolean;
+			middle: boolean;
+			bottom: boolean;
+			totalConesTeleop: number;
+			totalConesMissedTeleop: number;
+
+		}
+
+		teleopCubes: {
+			upper: boolean;
+			middle: boolean;
+			bottom: boolean;
+			totalCubesTeleop: number;
+			totalCubesMissedTeleop: number;
+
+		}
+
+		other: {
+			broke: boolean;
+			defense: boolean;
+			name: string;
+			notes: string;
+			
+		}
+
 	}
 
 	interface ScoutedNotes {
@@ -58,14 +72,28 @@ declare namespace App {
 
 	interface ScoutedPit {
 		teamNumber: number;
-		auto: boolean;
-		cargoAuto: number;
-		hub: {
+		
+		auto: {
+			auto: boolean;
+			conesAuto: number;
+			cubesAuto: number;
+			chargeStationAuto: boolean;
+		}
+
+		teleop: {
+			conesTeleop: number;
+			cubesTeleop: number;
+			chargeStationTeleop: boolean;
+		}
+		
+		mass: number;
+		nodes: {
 			upper: boolean;
+			middle: boolean;
 			lower: boolean;
 		};
-		reliability: number;
-		climb: number;
+		
+		
 		//TODO Add images?
 		strengths: string;
 		weakness: string;
@@ -81,36 +109,29 @@ declare namespace App {
 		defensePercent: number;
 		reliablePercent: number;
 		stuckPercent: number;
-		averageCargoAuto: number;
-		averageCargoTele: number;
-		averageMissedCargo: number;
-		climb: {
-			low: {
-				can: boolean;
-				percent: number;
-			}
-			mid: {
-				can: boolean;
-				percent: number;
-			}
-			high: {
-				can: boolean;
-				percent: number;
-			}
-			traverse: {
-				can: boolean;
-				percent: number;
-			}
-		}
-		hub: {
-			lower: {
-				can: boolean;
-				percent: number;
-			}			
+		averageConesAuto: number;
+		averageCubesAuto: number;
+		averageConesTeleop: number;
+		averageCubesTeleop: number;
+		
+		averageMissedConesTeleop: number;
+		averageMissedCubesTeleop: number;
+		
+		nodes: {
 			upper: {
 				can: boolean;
 				percent: number;
 			}
+			middle: {
+				can: boolean;
+				percent: number;
+			}
+			
+			lower: {
+				can: boolean;
+				percent: number;
+			}
+			
 		}
 	}
 
@@ -118,6 +139,7 @@ declare namespace App {
 		_id: number;
 		commentsArray: string[];
 		notes: string;
+		
 	}
 
 	//

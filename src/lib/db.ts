@@ -5,7 +5,7 @@ import { importMatchDataFromTheBlueAlliance, importTeamDataFromTheBlueAlliance }
 let client = new MongoClient('mongodb://localhost');
 client.connect();
 
-let compDB = client.db('BlockParty2022');
+let compDB = client.db('TestDB2023');
 let scoutedDataColl: Collection<App.ScoutedMatch> = compDB.collection('MatchData');
 let scoutedNotesColl: Collection<App.ScoutedNotes> = compDB.collection('MatchNotes');
 let matchesColl: Collection<App.Match> = compDB.collection("Matches");
@@ -126,6 +126,38 @@ export async function getEndMatchNumber(): Promise<number> {
 
 
 export async function aggregate(): Promise<App.AggregatedTeamData[]> {
+	/** 
+	let pipeline = [
+		{
+		  '$group': {
+			'_id': '$teamNumber', 
+			'averageConesAuto': {
+			  '$avg': '$auto.totalConesAuto'
+			}, 
+			'averageCubesAuto': {
+				'$avg': '$auto.totalCubesAuto'
+			  }, 
+
+			'averageConesTele': {
+			  '$avg': '$teleopCones.totalConesTeleop'
+			}, 
+			'averageCubesTele': {
+				'$avg': '$teleopCones.totalCubesTeleop'
+			  }, 
+			'averageMissedCones': {
+			  '$avg': '$teleopCones.totalConesMissedTeleop'
+			}, 
+			'averageMissedCubes': {
+				'$avg': '$teleopCones.totalCubesMissedTeleop'
+			  },
+		  } 
+			
+		}
+	  ]
+	  **/
+	
+	
+	
 	let pipeline = [
 		{
 		  '$group': {
@@ -287,8 +319,10 @@ export async function aggregate(): Promise<App.AggregatedTeamData[]> {
 		  '$unset': [
 			'canClimbLow', 'canClimbMid', 'canClimbHigh', 'canClimbTraverse', 'percentClimbLow', 'percentClimbMid', 'percentClimbHigh', 'percentClimbTraverse', 'canLowerHub', 'canUpperHub', 'percentLowerHub', 'percentLowHub', 'percentUpperHub'
 		  ]
+		  
 		}
 	  ]
+	  
 
 	  let result = await scoutedDataColl.aggregate(pipeline).toArray()
 	  return result as unknown as App.AggregatedTeamData[];

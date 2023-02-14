@@ -17,26 +17,38 @@
 	let data: App.ScoutedMatch = {
 		teamNumber: robotScouting,
 		matchNumber: matchNumber,
-		auto: true, //Scale of 0 to 2, 0: None, 1: Move, 2: Score
-		cargo: {
-			auto: 0,
-			teleop: 0,
-			missed: 0
+		auto: {
+			functioningAuto: false,
+			moveOutOfZone: false,
+			totalConesAuto: 0,
+			totalCubesAuto: 0
 		},
-		hub: {
-			upper: true,
-			lower: false
+		 //Scale of 0 to 2, 0: None, 1: Move, 2: Score
+		teleopCones: {
+			upper: false,
+			middle: false,
+			bottom: false,
+			totalConesTeleop: 0,
+			totalConesMissedTeleop: 0
+
 		},
-		climb: {
-			low: false,
-			mid: false,
-			high: false,
-			traverse: false
+
+		teleopCubes: {
+			upper: false,
+			middle: false,
+			bottom: false,
+			totalCubesTeleop: 0,
+			totalCubesMissedTeleop: 0
+
 		},
-		itBroke: false,
-		defense: false,
-		notes: '',
-		name: ''
+
+		other: {
+			broke: false,
+			defense: false,
+			notes: '',
+			name: ''
+		},
+
 	};
 
 	let errorMessage = '';
@@ -80,30 +92,76 @@
 			<h3>AUTO</h3>
 
 			<p>Did the robot have a functioning auto?</p>
-			<Slider round bind:checked={data.auto} red={isRed} />
+			<Slider round bind:checked={data.auto.functioningAuto} red={isRed} />
+			<br>
+			<p>Did the robot move out of the loading zone?</p>
+			<Slider round bind:checked={data.auto.moveOutOfZone} red={isRed} />
+			<br>
+			<p>Total number of cones scored in auto:</p>
+			<Counter bind:count={data.auto.totalConesAuto} red={isRed}/>
+			<br>
+			<p>Total number of cubes scored in auto:</p>
+			<Counter bind:count={data.auto.totalCubesAuto} red={isRed}/>
+
 		</div>
 
-		<div class="item" id="cargo">
-			<h3>Cargo</h3>
-			<p>Cargo Auto:</p>
-			<Counter bind:count={data.cargo.auto} red={isRed}/>
-			<br />
-			<p>Cargo Teleop:</p>
-			<Counter bind:count={data.cargo.teleop} red={isRed} />
-			<br />
-			<p>Missed Cargo:</p>
-			<Counter bind:count={data.cargo.missed} red={isRed} />
+		<div class="item" id="teleopCones">
+			<h3>TELEOP CONES</h3>
+			<p>Upper Node?</p>
+			<Slider round bind:checked={data.teleopCones.upper} red={isRed} />
+			<br>
+			<p>Middle Node?</p>
+			<Slider round bind:checked={data.teleopCones.middle} red={isRed} />
+			<br>
+			<p>Bottom Node?</p>
+			<Slider round bind:checked={data.teleopCones.bottom} red={isRed} />
+			<br>
+			<p>Total Cones Scored:</p>
+			<Counter bind:count={data.teleopCones.totalConesTeleop} red={isRed}/>
+			<br>
+			<p>Total Cones Missed:</p>
+			<Counter bind:count={data.teleopCones.totalConesMissedTeleop} red={isRed}/>
+			
 		</div>
 
-		<div class="item" id="hub">
-			<h3>HUB</h3>
-			<h4>Which hub(s) did the robot use?</h4>
-			<p>Upper:</p>
-			<Slider bind:checked={data.hub.upper} red={isRed} />
-			<br />
-			<p>Lower:</p>
-			<Slider bind:checked={data.hub.lower} red={isRed} />
+
+		<div class="item" id="teleopCubes">
+			<h3>TELEOP CUBES</h3>
+			<p>Upper Node?</p>
+			<Slider round bind:checked={data.teleopCubes.upper} red={isRed} />
+			<br>
+			<p>Middle Node?</p>
+			<Slider round bind:checked={data.teleopCubes.middle} red={isRed} />
+			<br>
+			<p>Bottom Node?</p>
+			<Slider round bind:checked={data.teleopCubes.bottom} red={isRed} />
+			<br>
+			<p>Total Cubes Scored:</p>
+			<Counter bind:count={data.teleopCubes.totalCubesTeleop} red={isRed}/>
+			<br>
+			<p>Total Cubes Missed:</p>
+			<Counter bind:count={data.teleopCubes.totalCubesMissedTeleop} red={isRed}/>
+			
 		</div>
+
+		<div class="item" id="other">
+			<h3>OTHER</h3>
+			<p>Did the robot break or lose connection?</p>
+			<Slider round bind:checked={data.other.broke} red={isRed} />
+			<br>
+			<p>Did the robot play defense?</p>
+			<Slider round bind:checked={data.other.defense} red={isRed} />
+			<br>
+			<label for="name">Your Name:</label>
+			<input bind:value={data.other.name} id="name" />
+			<p>If a robot played defense, make sure to take notes on their defense!</p>
+			<label for="notes">Additional notes:</label>
+			<textarea bind:value={data.other.notes} rows=5 cols=40 id="notes" />
+
+
+
+		</div>
+		<!--
 
 		<div class="item" id="climb">
 			<h3>CLIMB</h3>
@@ -117,21 +175,9 @@
 			<p>Traverse:</p>
 			<Slider bind:checked={data.climb.traverse} red={isRed} />
 		</div>
+		-->
 
-		<div class="item" id="other">
-			<h3>OTHER</h3>
-			<p>Did the robot break or lose connection?</p>
-			<Slider round bind:checked={data.itBroke} red={isRed}></Slider>
-			<p>Did the robot play defense?</p>
-			<Slider round bind:checked={data.defense} red={isRed}></Slider>
-			<br />
-			<br />
-			<label for="name">Your Name:</label>
-			<input bind:value={data.name} id="name" />
-			<p>If a robot played defense, make sure to take notes on their defense!</p>
-			<label for="notes">Additional notes:</label>
-			<textarea bind:value={data.notes} rows=5 cols=40 id="notes" />
-		</div>
+		
 		<!--TODOCOMP add safety for submitting data-->
 		<div id="submit">
 			<button on:click={submit} disabled={isSubmitting}>{!isSubmitting ? "Submit data" : "Submitting..."}</button>
